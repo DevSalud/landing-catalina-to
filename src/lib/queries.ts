@@ -4,6 +4,7 @@ export const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(
   _id,
   title,
   slug,
+  body,
   excerpt,
   publishedAt,
   mainImage,

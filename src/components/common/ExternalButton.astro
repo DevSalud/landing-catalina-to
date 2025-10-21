@@ -1,13 +1,13 @@
 ---
-import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js'
 
 interface ExternalButtonProps {
-  href: string;
-  text: string;
-  icon: AstroComponentFactory;
+	href: string
+	text: string
+	icon: AstroComponentFactory
 }
 
-const { href, text, icon: Icon } = Astro.props as ExternalButtonProps;
+const { href, text, icon: Icon } = Astro.props as ExternalButtonProps
 ---
 
 <div class="flex w-full items-center justify-center">

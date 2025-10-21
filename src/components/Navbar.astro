@@ -1,8 +1,8 @@
 ---
-import { Picture } from "astro:assets";
-import Logo from "../../public/logo.webp";
+import { Picture } from 'astro:assets'
+import Logo from '../../public/logo.webp'
 
-import MenuToggle from "./MenuToggle.astro";
+import MenuToggle from './MenuToggle.astro'
 ---
 
 <header class="bg-white fixed top-0 z-50 w-full">
@@ -22,22 +22,25 @@ import MenuToggle from "./MenuToggle.astro";
 			</a>
 			<ul class="hidden lg:flex items-center gap-10 text-black font-semibold">
 				<li class="navbar-item">
-					<a href="#">Home</a>
+					<a href="/">Home</a>
 				</li>
 				<li class="navbar-item">
-					<a href="#areas">Áreas</a>
+					<a href="/#areas">Áreas</a>
 				</li>
 				<li class="navbar-item">
-					<a href="#sobre-mi">Sobre mí</a>
+					<a href="/#sobre-mi">Sobre mí</a>
 				</li>
 				<li class="navbar-item">
-					<a href="#valor">Valor</a>
+					<a href="/#valor">Valor</a>
 				</li>
 				<li class="navbar-item">
-					<a href="#donde">Dónde</a>
+					<a href="/#donde">Dónde</a>
 				</li>
 				<li class="navbar-item">
-					<a href="#contacto">Contacto</a>
+					<a href="/blog">Blog</a>
+				</li>
+				<li class="navbar-item">
+					<a href="/#contacto">Contacto</a>
 				</li>
 			</ul>
 

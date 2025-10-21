@@ -1,10 +1,10 @@
+import { ChevronUp } from 'lucide-react'
+import { useState } from 'react'
 import {
 	Collapsible,
-	CollapsibleTrigger,
 	CollapsibleContent,
+	CollapsibleTrigger,
 } from './ui/collapsible.tsx'
-import { useState } from 'react'
-import { ChevronUp } from 'lucide-react'
 
 export const AboutCollapsible = () => {
 	const [open, setOpen] = useState(false)

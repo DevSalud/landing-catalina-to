@@ -1,0 +1,175 @@
+---
+import { toPlainText } from 'astro-portabletext'
+import { BlogFilterIsland } from '../components/BlogFilterIsland.tsx'
+import Footer from '../components/Footer.astro'
+import Navbar from '../components/Navbar.astro'
+import Layout from '../layouts/Layout.astro'
+import { CATEGORIES_QUERY, POSTS_QUERY } from '../lib/queries.ts'
+import { client } from '../lib/sanity.ts'
+import { urlFor } from '../lib/sanity.ts'
+
+// Tipos mínimos para Portable Text
+type PortableTextSpan = { _type: 'span'; text: string; marks?: string[] }
+type PortableTextBlock = {
+	_type: 'block'
+	style?: string
+	children?: PortableTextSpan[]
+	markDefs?: Record<string, unknown>[]
+}
+type PortableTextNode = PortableTextBlock | Record<string, unknown>
+
+function isBlockNode(node: PortableTextNode): node is PortableTextBlock {
+	return (
+		typeof node === 'object' &&
+		node !== null &&
+		'_type' in node &&
+		(node as { _type?: string })._type === 'block'
+	)
+}
+
+// Definir tipos para los datos de Sanity
+interface SanityPost {
+	_id: string
+	title: string
+	slug: { current: string }
+	body?: PortableTextNode[]
+	excerpt?: string
+	publishedAt?: string
+	mainImage?: Parameters<typeof urlFor>[0]
+	author?: {
+		name: string
+		image?: Parameters<typeof urlFor>[0]
+	}
+	categories?: Array<{
+		title: string
+		slug: { current: string }
+	}>
+}
+
+interface SanityCategory {
+	_id: string
+	title: string
+	description?: string
+}
+
+// Obtener posts y categorías desde Sanity
+const posts: SanityPost[] = await client.fetch(POSTS_QUERY)
+const categories: SanityCategory[] = await client.fetch(CATEGORIES_QUERY)
+
+// Separador de frases (primer punto)
+const SENTENCE_SPLIT_RE = /(?<=[.!?])\s+/
+
+function firstSentenceFromBody(p: SanityPost): string {
+	const source = p?.body ?? p?.excerpt ?? ''
+	let text = ''
+	try {
+		if (Array.isArray(source)) {
+			const blocks: PortableTextBlock[] = (source as PortableTextNode[]).filter(
+				isBlockNode,
+			)
+			text = toPlainText(blocks)
+		} else {
+			text = String(source ?? '')
+		}
+	} catch {
+		text = String(p?.excerpt ?? '')
+	}
+	const [first] = text.trim().split(SENTENCE_SPLIT_RE)
+	return (first || '').trim()
+}
+---
+
+<Layout>
+  <Navbar />
+  <main class="mt-20">
+    <section class="bg-gradient-to-b from-moody-blue-50 to-white">
+      <div class="mx-auto max-w-7xl px-4 md:px-8 py-10">
+        {posts.length === 0 && (
+          <div class="mb-8">
+            <div class="bg-white rounded-2xl shadow p-6 text-center border border-moody-blue-100">
+              <p class="text-gray-700">Aún no hay publicaciones disponibles.</p>
+            </div>
+          </div>
+        )}
+        <div class="fade-in">
+          <BlogFilterIsland
+            client:load
+            posts={posts.map((p) => ({
+              title: p.title,
+              slug: p.slug.current,
+              excerpt: firstSentenceFromBody(p) || "",
+              publishedAt: p.publishedAt || "",
+              image: p.mainImage ? urlFor(p.mainImage).width(1000).height(700).url() : "",
+              categories: (p.categories || []).map((c) => c.title),
+              authorName: p.author?.name || "",
+              authorImage: p.author?.image ? urlFor(p.author.image).width(48).height(48).url() : "",
+            }))}
+            categories={categories.map((c) => ({ title: c.title }))}
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenido gestionado por BlogFilterIsland -->
+    <section class="pb-20"></section>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .fade-in {
+    opacity: 1;
+    transform: none;
+  }
+  
+  .post-card {
+    opacity: 1;
+    transform: none;
+  }
+  
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Fallback para usuarios con "reduced motion" en dispositivos móviles */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .post-card {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+
+    overflow: hidden;
+  }
+  
+  .category-filter.active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(97, 66, 233, 0.3);
+  }
+</style>
+
+<!-- Scripts eliminados: ahora el Island React gestiona datos y filtrado -->
