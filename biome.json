@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["node_modules"]
+		"ignore": ["node_modules", "dist", ".vercel", ".astro"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -29,30 +29,31 @@
 		}
 	},
 	"overrides": [
-    {
-      "include": ["*.astro"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useConst": "off",
-            "useImportType": "off"
-          },
+		{
+			"include": ["*.astro"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useConst": "off",
+						"useImportType": "off",
+						"useFilenamingConvention": "off"
+					},
 					"correctness": {
 						"noUnusedImports": "off",
 						"noUnusedVariables": "off"
 					}
-        }
-      }
-    },
+				}
+			}
+		},
 		{
 			"include": ["*.jsx", "*.tsx"],
 			"linter": {
-				"rules":{
+				"rules": {
 					"suspicious": {
 						"noReactSpecificProps": "off"
 					}
 				}
 			}
 		}
-  ]
+	]
 }
