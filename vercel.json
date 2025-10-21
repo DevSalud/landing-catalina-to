@@ -1,17 +1,17 @@
 {
-  "headers": [
-    {
-      "source": "/_vercel/insights/script.js",
-      "headers": [
-        {
-          "key": "Vercel-CDN-Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ]
+	"headers": [
+		{
+			"source": "/_vercel/insights/script.js",
+			"headers": [
+				{
+					"key": "Vercel-CDN-Cache-Control",
+					"value": "public, max-age=31536000, immutable"
+				},
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=31536000, immutable"
+				}
+			]
+		}
+	]
 }
