@@ -1,0 +1,566 @@
+---
+import { PortableText, toPlainText } from 'astro-portabletext'
+import {
+	ArrowLeft,
+	Calendar,
+	Clock,
+	Mail,
+	MessageCircle,
+	Tag,
+	User,
+} from 'lucide-react'
+import Footer from '../../components/Footer.astro'
+import Navbar from '../../components/Navbar.astro'
+import Layout from '../../layouts/Layout.astro'
+import { POSTS_QUERY, POST_QUERY } from '../../lib/queries.ts'
+import { client } from '../../lib/sanity.ts'
+import { urlFor } from '../../lib/sanity.ts'
+
+// Tipos de Portable Text desde '@portabletext/types'
+import type {
+	PortableTextBlock as ptBlock,
+	PortableTextMarkDefinition as ptMarkDef,
+	PortableTextSpan as ptSpan,
+	TypedObject as ptTypedObject,
+} from '@portabletext/types'
+
+type PortableTextSpan = ptSpan
+// Usamos la variante genérica completa para mayor compatibilidad con astro-portabletext
+type PortableTextBlock = ptBlock<ptMarkDef, ptSpan, string, string>
+type PortableTextNode = PortableTextBlock | ptTypedObject
+
+function isBlockNode(node: PortableTextNode): node is PortableTextBlock {
+	return (
+		typeof node === 'object' &&
+		node !== null &&
+		'_type' in node &&
+		(node as { _type?: string })._type === 'block'
+	)
+}
+
+interface SanityAuthor {
+	name: string
+	image?: Parameters<typeof urlFor>[0]
+	bio?: PortableTextNode[]
+}
+
+interface SanityPost {
+	_id: string
+	title: string
+	slug: { current: string }
+	body?: PortableTextNode[]
+	excerpt?: string
+	publishedAt?: string
+	mainImage?: Parameters<typeof urlFor>[0]
+	author?: SanityAuthor
+	categories?: Array<{
+		title: string
+		slug: { current: string }
+	}>
+}
+
+export async function getStaticPaths() {
+	const posts: SanityPost[] = await client.fetch(POSTS_QUERY)
+
+	return posts.map((post) => ({
+		params: { slug: post.slug.current },
+		props: { post },
+	}))
+}
+
+// Obtener el post completo con el contenido del body
+const { slug } = Astro.params
+const fullPost = await client.fetch(POST_QUERY, { slug })
+
+interface Props {
+	post: SanityPost
+}
+
+const { post }: Props = Astro.props
+
+// Usar el post completo obtenido con POST_QUERY
+const currentPost = fullPost || post
+
+// Variantes de color para etiquetas y enlaces según categoría
+type ColorVariant = 'lavender' | 'orchid' | 'mint' | 'coral' | 'sunshine'
+
+function colorForCategory(title?: string): ColorVariant {
+	const t = (title || '').toLowerCase()
+	if (t.includes('sensor') || t.includes('sensori')) {
+		return 'mint'
+	}
+	if (t.includes('psico') || t.includes('motric')) {
+		return 'sunshine'
+	}
+	if (t.includes('famil')) {
+		return 'coral'
+	}
+	if (t.includes('juego') || t.includes('lúd')) {
+		return 'sunshine'
+	}
+	if (t.includes('infantil') || t.includes('niñ') || t.includes('desarrollo')) {
+		return 'orchid'
+	}
+	return 'lavender'
+}
+
+function chipClassesFor(variant: ColorVariant): string {
+	switch (variant) {
+		case 'orchid':
+			return 'inline-flex items-center gap-1 bg-orchid-100 text-orchid-700 px-4 py-2 rounded-full text-sm font-medium'
+		case 'mint':
+			return 'inline-flex items-center gap-1 bg-mint-100 text-mint-700 px-4 py-2 rounded-full text-sm font-medium'
+		case 'coral':
+			return 'inline-flex items-center gap-1 bg-coral-100 text-coral-700 px-4 py-2 rounded-full text-sm font-medium'
+		case 'sunshine':
+			return 'inline-flex items-center gap-1 bg-sunshine-100 text-sunshine-700 px-4 py-2 rounded-full text-sm font-medium'
+		default:
+			return 'inline-flex items-center gap-1 bg-lavender-100 text-lavender-700 px-4 py-2 rounded-full text-sm font-medium'
+	}
+}
+
+function linkClassesFor(variant: ColorVariant): string {
+	switch (variant) {
+		case 'orchid':
+			return 'inline-flex items-center gap-2 text-orchid-600 hover:text-orchid-700 font-semibold transition-colors text-sm'
+		case 'mint':
+			return 'inline-flex items-center gap-2 text-mint-600 hover:text-mint-700 font-semibold transition-colors text-sm'
+		case 'coral':
+			return 'inline-flex items-center gap-2 text-coral-600 hover:text-coral-700 font-semibold transition-colors text-sm'
+		case 'sunshine':
+			return 'inline-flex items-center gap-2 text-sunshine-600 hover:text-sunshine-700 font-semibold transition-colors text-sm'
+		default:
+			return 'inline-flex items-center gap-2 text-moody-blue-600 hover:text-moody-blue-700 font-semibold transition-colors text-sm'
+	}
+}
+
+// Normalizar estilos de Portable Text para compatibilidad con el mapeo por defecto
+function normalizePortableText(
+	value: PortableTextNode[] | undefined,
+): Array<PortableTextBlock | ptTypedObject> {
+	if (!Array.isArray(value)) {
+		return []
+	}
+	return value.map((node) => {
+		if (isBlockNode(node)) {
+			const style = node.style === 'quote' ? 'blockquote' : node.style
+			return { ...node, style } as PortableTextBlock
+		}
+		return node as ptTypedObject
+	})
+}
+
+// Mapeo Portable Text -> HTML/clases para el contenido del artículo
+import { portableComponents } from '../../components/portableTextComponents.tsx'
+
+// Calcular tiempo de lectura estándar basado en palabras
+function calculateReadingTimeFromPost(post: SanityPost, wpm = 180) {
+	const source = post?.body ?? post?.excerpt ?? ''
+	let text = ''
+	try {
+		if (Array.isArray(source)) {
+			const blocks: PortableTextBlock[] = (source as PortableTextNode[]).filter(
+				isBlockNode,
+			)
+			text = toPlainText(blocks)
+		} else {
+			text = String(source ?? '')
+		}
+	} catch {
+		text = String(source ?? '')
+	}
+	const words = text.trim().split(' ').filter(Boolean).length
+	if (!words) {
+		return null
+	}
+	const minutes = Math.max(1, Math.ceil(words / wpm))
+	return `${minutes} min de lectura`
+}
+
+// Verificar que el post existe
+if (!currentPost) {
+	return Astro.redirect('/blog')
+}
+
+// Función para formatear fecha
+function formatDate(dateString: string) {
+	return new Date(dateString).toLocaleDateString('es-ES', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	})
+}
+
+// Obtener posts relacionados (misma categoría) - solo si el post tiene slug
+const relatedPosts: SanityPost[] = currentPost?.slug?.current
+	? await client.fetch(
+			`
+  *[_type == "post" && defined(slug.current) && slug.current != $currentSlug && count(categories[@._ref in *[_type == "post" && slug.current == $currentSlug][0].categories[]._ref]) > 0] | order(publishedAt desc)[0...3] {
+    _id,
+    title,
+    slug,
+    excerpt,
+    publishedAt,
+    mainImage,
+    categories[]->{title}
+  }
+`,
+			{ currentSlug: currentPost.slug.current },
+		)
+	: []
+---
+
+<Layout title={`${currentPost?.title || "Post"} - Blog Catalina Herrera TO`}>
+  <Navbar />
+
+  <main
+    class="min-h-screen bg-gradient-to-br from-white via-orchid-50 to-mint-50"
+  >
+    <!-- Botón de regreso -->
+    <div class="pt-24 pb-8">
+      <div class="mx-auto max-w-7xl px-4 md:px-8">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 text-moody-blue-600 hover:text-moody-blue-700 font-semibold transition-colors group"
+        >
+          <ArrowLeft
+            size={20}
+            className="group-hover:-translate-x-1 transition-transform"
+          />
+          Volver al blog
+        </a>
+      </div>
+    </div>
+
+    <!-- Artículo principal -->
+    <article class="pb-16">
+      <div class="mx-auto max-w-7xl px-4 md:px-8">
+        <!-- Header del artículo -->
+        <header class="mb-12">
+          <!-- Categorías -->
+          {
+            currentPost?.categories && currentPost.categories.length > 0 && (
+              <div class="flex flex-wrap gap-2 mb-6">
+                {currentPost.categories.map((category: { title: string }) => (
+                  <span
+                    class={chipClassesFor(colorForCategory(category.title))}
+                    data-role="category-chip"
+                    data-category-title={category.title}
+                  >
+                    <Tag size={14} />
+                    {category.title}
+                  </span>
+                ))}
+              </div>
+            )
+          }
+
+          <!-- Título -->
+          <h1
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-moody-blue-700 mb-6 leading-tight"
+          >
+            {currentPost?.title || "Título no disponible"}
+          </h1>
+
+          <!-- Excerpt -->
+          {
+            currentPost?.excerpt && (
+              <p class="text-xl text-gray-700 mb-8 leading-relaxed">
+                {currentPost.excerpt}
+              </p>
+            )
+          }
+
+          <!-- Metadata -->
+          <div class="flex flex-wrap items-center gap-6 text-gray-600 mb-8">
+            {
+              currentPost?.publishedAt && (
+                <span class="flex items-center gap-2">
+                  <Calendar size={18} />
+                  {formatDate(currentPost.publishedAt)}
+                </span>
+              )
+            }
+            {
+              calculateReadingTimeFromPost(currentPost) && (
+                <span class="flex items-center gap-2">
+                  <Clock size={18} />
+                  {calculateReadingTimeFromPost(currentPost)}
+                </span>
+              )
+            }
+            {
+              currentPost?.author && (
+                <span class="flex items-center gap-2">
+                  <User size={18} />
+                  Por {currentPost.author.name}
+                </span>
+              )
+            }
+          </div>
+
+          <!-- Imagen principal -->
+          {
+            currentPost?.mainImage && (
+              <div
+                class="relative max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-xl mb-12"
+                style="aspect-ratio: 16 / 9;"
+              >
+                <img
+                  src={urlFor(currentPost.mainImage).width(1600).url()}
+                  alt={currentPost?.title || "Imagen del post"}
+                  class="w-full h-full object-cover object-center"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              </div>
+            )
+          }
+        </header>
+
+        <!-- Contenido del artículo -->
+        <div class="prose prose-lg max-w-none">
+          <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+            {
+              currentPost?.body && (
+                <div class="article-content text-gray-800 leading-relaxed">
+                  <PortableText
+                     value={normalizePortableText(currentPost.body)}
+                     components={portableComponents as unknown as any}
+                   />
+                </div>
+              )
+            }
+          </div>
+        </div>
+
+        <!-- Separador -->
+        <div class="border-t border-mint-600 w-full mt-12"></div>
+
+        <!-- Información del autor -->
+        {
+          currentPost?.author && (
+            <div class="mt-12">
+              <div class="rounded-2xl border border-moody-blue-100 bg-white/90 shadow-xl p-8 md:p-10">
+                <div class="flex items-start gap-6">
+                  {currentPost.author.image && (
+                    <img
+                      src={urlFor(currentPost.author.image)
+                        .width(84)
+                        .height(84)
+                        .url()}
+                      alt={currentPost.author.name}
+                      class="w-20 h-20 rounded-full object-cover shadow-lg ring-2 ring-orchid-200"
+                    />
+                  )}
+                  <div class="flex-1">
+                    <h3 class="text-xl font-bold text-moody-blue-700 mb-1">
+                      Sobre {currentPost.author.name}
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-4">
+                      Autora del artículo
+                    </p>
+                    {currentPost.author.bio && (
+                      <div class="prose prose-sm text-gray-700 leading-relaxed">
+                        <PortableText value={currentPost.author.bio} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        }
+
+        <!-- CTA: ¿Te pareció útil este artículo? -->
+        <section
+          class="mt-12 rounded-2xl border border-mint-200 bg-gradient-to-r from-orchid-50 to-mint-50 p-8 md:p-10 shadow-lg"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+          >
+            <div>
+              <h3 class="text-2xl font-bold text-moody-blue-700">
+                ¿Te pareció útil este artículo?
+              </h3>
+              <p class="text-gray-700 mt-2">
+                Si tienes dudas o necesitas orientación, estaré encantada de
+                ayudarte.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="/#contacto"
+                class="inline-flex items-center gap-2 bg-mint-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-mint-700 transition-colors"
+              >
+                <MessageCircle size={18} />
+                Contactar
+              </a>
+              <a
+                href="/blog"
+                class="inline-flex items-center gap-2 bg-orchid-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-orchid-700 transition-colors"
+              >
+                <ArrowLeft size={18} className="rotate-180" />
+                Ver más artículos
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <!-- Posts relacionados -->
+    {
+      relatedPosts.length > 0 && (
+        <section class="pb-20 bg-gradient-to-b from-transparent to-moody-blue-50/30">
+          <div class="mx-auto max-w-7xl px-4 md:px-8">
+            <h2 class="text-3xl font-bold text-moody-blue-700 text-center mb-12">
+              Artículos relacionados
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {relatedPosts.map((relatedPost: SanityPost) => (
+                <article class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                  {relatedPost.mainImage && (
+                    <div class="relative overflow-hidden h-48">
+                      <img
+                        src={urlFor(relatedPost.mainImage)
+                          .width(400)
+                          .height(200)
+                          .url()}
+                        alt={relatedPost.title}
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+
+                  <div class="p-6">
+                    {relatedPost.categories &&
+                      relatedPost.categories.length > 0 && (
+                        <div class="flex flex-wrap gap-2 mb-3">
+                          {relatedPost.categories
+                            ?.slice(0, 1)
+                            .map((category) => (
+                              <span
+                                class={chipClassesFor(
+                                  colorForCategory(category.title)
+                                )}
+                                data-role="category-chip"
+                                data-category-title={category.title}
+                              >
+                                <Tag size={12} />
+                                {category.title}
+                              </span>
+                            ))}
+                        </div>
+                      )}
+
+                    <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-moody-blue-700 transition-colors line-clamp-2">
+                      {relatedPost.title}
+                    </h3>
+
+                    {relatedPost.excerpt && (
+                      <p class="text-gray-600 mb-4 line-clamp-2 text-sm">
+                        {relatedPost.excerpt}
+                      </p>
+                    )}
+
+                    <a
+                      href={`/blog/${relatedPost.slug.current}`}
+                      class={linkClassesFor(
+                        colorForCategory(relatedPost.categories?.[0]?.title)
+                      )}
+                    >
+                      Leer más
+                      <ArrowLeft size={14} className="rotate-180" />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .prose {
+    color: inherit;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    color: #5434ce;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose h1 {
+    font-size: 2rem;
+  }
+  .prose h2 {
+    font-size: 1.75rem;
+  }
+  .prose h3 {
+    font-size: 1.5rem;
+  }
+  .prose h4 {
+    font-size: 1.25rem;
+  }
+
+  .prose p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+  }
+
+  .prose ul,
+  .prose ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+  }
+
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose blockquote {
+    border-left: 4px solid #6142e9;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    background: #f8f9ff;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .prose a {
+    color: #6142e9;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .prose a:hover {
+    color: #5434ce;
+  }
+
+  .prose strong {
+    font-weight: 700;
+    color: #5434ce;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

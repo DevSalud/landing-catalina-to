@@ -1,8 +1,7 @@
+import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
-import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './src/sanity/schemas/index.ts'
-
 
 // biome-ignore lint/style/noDefaultExport: Sanity requires default export
 export default defineConfig({
