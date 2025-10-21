@@ -1,9 +1,9 @@
+import tailwindcss from '@tailwindcss/vite'
 // @ts-check
 import { defineConfig } from 'astro/config'
-import tailwindcss from '@tailwindcss/vite'
 
-import vercel from '@astrojs/vercel'
 import sitemap from '@astrojs/sitemap'
+import vercel from '@astrojs/vercel'
 
 import react from '@astrojs/react'
 import sanity from '@sanity/astro'
