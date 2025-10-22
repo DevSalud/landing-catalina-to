@@ -41,6 +41,8 @@ export default defineConfig({
 		maxDuration: 60,
 	}),
 
+	prefetch: true,
+
 	site: 'https://www.cataterapias.cl',
 
 	integrations: [
