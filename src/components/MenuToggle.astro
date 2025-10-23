@@ -33,22 +33,25 @@ import { Menu, X } from 'lucide-react'
     class="flex flex-col items-end gap-10 text-black font-semibold pt-20 px-4 md:px-8"
   >
     <li class="navbar-item">
-      <a href="#">Home</a>
+      <a href="/#">Home</a>
     </li>
     <li class="navbar-item">
-      <a href="#areas">Áreas</a>
+      <a href="/#areas">Áreas</a>
     </li>
     <li class="navbar-item">
-      <a href="#sobre-mi">Sobre mí</a>
+      <a href="/#sobre-mi">Sobre mí</a>
     </li>
     <li class="navbar-item">
-      <a href="#valor">Valor</a>
+      <a href="/#valor">Valor</a>
     </li>
     <li class="navbar-item">
-      <a href="#donde">Dónde</a>
+      <a href="/#donde">Dónde</a>
     </li>
     <li class="navbar-item">
-      <a href="#contacto">Contacto</a>
+      <a href="/#contacto">Contacto</a>
+    </li>
+    <li class="navbar-item">
+      <a href="/blog" data-astro-prefetch="tap">Blog</a>
     </li>
   </ul>
 </div>
@@ -56,13 +59,13 @@ import { Menu, X } from 'lucide-react'
 <script>
   const menu = document.getElementById("menu") as HTMLDivElement;
   const openMenuButton = document.getElementById(
-    "open-menu",
+    "open-menu"
   ) as HTMLButtonElement;
   const closeMenuButton = document.getElementById(
-    "close-menu",
+    "close-menu"
   ) as HTMLButtonElement;
   const navbarItems = document.getElementsByClassName(
-    "navbar-item",
+    "navbar-item"
   ) as HTMLCollectionOf<HTMLAnchorElement>;
 
   const openMenu = () => {

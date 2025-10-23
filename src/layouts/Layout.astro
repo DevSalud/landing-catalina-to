@@ -1,104 +1,152 @@
 ---
 import SpeedInsights from '@vercel/speed-insights/astro'
-import { Toaster } from 'sonner'
 import '../styles/global.css'
+import { createPersonSchema } from '../lib/seoSchemas.ts'
+
+interface LayoutProps {
+	title?: string
+	description?: string
+	canonical?: string
+	ogTitle?: string
+	ogDescription?: string
+	ogImage?: string
+	ogImageAlt?: string
+	ogUrl?: string
+	ogType?: string
+	schema?: Record<string, unknown> | Record<string, unknown>[]
+	articlePublishedTime?: string | Date
+	articleTags?: string[]
+}
+
+const {
+	title,
+	description,
+	canonical,
+	ogTitle,
+	ogDescription,
+	ogImage,
+	ogImageAlt,
+	ogUrl,
+	ogType,
+	schema,
+	articlePublishedTime,
+	articleTags,
+} = Astro.props as LayoutProps
+
+// URL del sitio desde la config de Astro con fallback
+const SITE_URL = (
+	Astro.site ? Astro.site.toString() : 'https://cataterapias.cl'
+).replace(/\/$/, '')
+const siteName = 'Catalina Herrera'
+
+function toAbsolute(url: string | undefined, base: string): string | undefined {
+	if (!url) {
+		return undefined
+	}
+	return url.startsWith('http') ? url : `${base}${url}`
+}
+
+// Valores por defecto (como estaban antes)
+const defaultTitle =
+	'Catalina Herrera | Terapia Ocupacional para Niños en Maipú'
+const defaultDescription =
+	'Terapia Ocupacional orientada a niños y adolescentes en Maipú, Santiago. Ayudo a tu pequeño con sesiones personalizadas y actividades significativas. ¡Agenda hoy!'
+const defaultImage = '/images/Catalina.webp'
+const defaultImageAlt = 'Foto de Catalina Herrera sonriendo'
+const defaultType = 'website'
+
+// Resolución final
+const pageTitle = title ?? defaultTitle
+const pageDescription = description ?? defaultDescription
+const canonicalFinalRaw = canonical ?? ogUrl ?? SITE_URL
+const canonicalFinal = canonicalFinalRaw.startsWith('http')
+	? canonicalFinalRaw
+	: `${SITE_URL}${canonicalFinalRaw}`
+const ogTitleFinal = ogTitle ?? pageTitle
+const ogDescriptionFinal = ogDescription ?? pageDescription
+// Asegurar URLs absolutas para imágenes
+const ogImageFinal =
+	toAbsolute(ogImage, SITE_URL) ?? `${SITE_URL}${defaultImage}`
+const ogImageAltFinal = ogImageAlt ?? defaultImageAlt
+const ogUrlFinal = ogUrl ?? canonicalFinal
+const ogTypeFinal = ogType ?? defaultType
+
+const isArticle = ogTypeFinal === 'article'
+const schemaFallback = createPersonSchema(SITE_URL, {
+	includeOfferCatalog: true,
+})
+const schemaFinal = Array.isArray(schema)
+	? schema
+	: schema
+		? [schema]
+		: [schemaFallback]
+const schemaJson = JSON.stringify(schemaFinal)
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>Catalina Herrera | Terapia Ocupacional para Niños en Maipú</title>
-    <meta
-      name="description"
-      content="Terapia Ocupacional orientada a niños y adolescentes en Maipú, Santiago. Ayudo a tu pequeño con sesiones personalizadas y actividades significativas. ¡Agenda hoy!"
-    />
-    <meta
-      name="keywords"
-      content="terapia ocupacional, terapia ocupacional niños, terapia ocupacional adolescentes, terapia ocupacional maipú, terapeuta ocupacional maipú, terapia ocupacional santiago, terapeuta ocupacional santiago, terapia ocupacional presencial, TEA, habilidades sociales, habilidades motoras, habilidades cognitivas, habilidades de juego, habilidades de vida diaria, terapia ocupacional infantil, terapia ocupacional pediátrica, TDA, transtorno por déficit atencional, trastorno por déficit atencional con hiperactividad, TDAH, terapia ocupacional TDAH, terapia ocupacional TEA, terapia ocupacional TDA, terapia ocupacional habilidades sociales, terapia ocupacional habilidades motoras, terapia ocupacional habilidades cognitivas, terapia ocupacional habilidades de juego, terapia ocupacional habilidades de vida diaria"
-    />
 
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#ffffff" />
+
+    
+
+    <link rel="dns-prefetch" href="https://api.whatsapp.com">
 
     <!-- Open Graph -->
-    <meta property="og:site_name" content="Cataterapias" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="es_CL" />
-    <meta
-      property="og:title"
-      content="Terapia Ocupacional para Niños y Adolescentes en Maipú"
-    />
-    <meta
-      property="og:description"
-      content="Ayudo a tu pequeño a desarrollar su máximo potencial a través del juego y actividades significativas."
-    />
-    <meta property="og:image" content="/images/Catalina.webp" />
-    <meta property="og:url" content="https://cataterapias.cl" />
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitleFinal} />
+    <meta property="og:description" content={ogDescriptionFinal} />
+    <meta property="og:image" content={ogImageFinal} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <meta property="og:image:alt" content={ogImageAltFinal} />
+    <meta property="og:url" content={ogUrlFinal} />
+    <meta property="og:type" content={ogTypeFinal} />
+
+    {isArticle && articlePublishedTime && (
+      <meta
+        property="article:published_time"
+        content={new Date(articlePublishedTime).toISOString()}
+      />
+    )}
+
+    {isArticle && Array.isArray(articleTags) && (
+      <Fragment>
+        {articleTags.map((tag: string) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </Fragment>
+    )}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Terapia Ocupacional para Niños y Adolescentes en Maipú"
-    />
-    <meta
-      name="twitter:description"
-      content="Ayudo a tu pequeño a desarrollar su máximo potencial a través del juego y actividades significativas."
-    />
-    <meta name="twitter:image" content="/images/Catalina.webp" />
-    <meta name="twitter:url" content="https://cataterapias.cl" />
-    <meta
-      name="twitter:image:alt"
-      content="Foto de Catalina Herrera sonriendo"
-    />
-    <meta name="twitter:label1" content="Visitas" />
-    <meta
-      name="twitter:data1"
-      content="¡Hola! Soy Catalina Herrera, Terapeuta Ocupacional orientada a niños y adolescentes."
-    />
-    <meta name="twitter:label2" content="Ubicación" />
-    <meta
-      name="twitter:data2"
-      content="Av. Los Pajaritos 666, Maipú, Santiago"
-    />
-    <meta name="twitter:label3" content="Teléfono" />
-    <meta name="twitter:data3" content="+569 9219 4020" />
-    <meta name="twitter:label4" content="WhatsApp" />
-    <meta
-      name="twitter:data4"
-      content="https://api.whatsapp.com/send?phone=56992194020"
-    />
-    <meta name="twitter:label5" content="Agendar consulta" />
-    <meta
-      name="twitter:data5"
-      content="https://centroinclusionsana.site.agendapro.com/cl/sucursal/340116/profesional/569175"
-    />
+    <meta name="twitter:title" content={ogTitleFinal} />
+    <meta name="twitter:description" content={ogDescriptionFinal} />
+    <meta name="twitter:image" content={ogImageFinal} />
+    <meta name="twitter:url" content={ogUrlFinal} />
+    <meta name="twitter:image:alt" content={ogImageAltFinal} />
 
-    <link rel="canonical" href="https://cataterapias.cl" />
-    <meta property="og:url" content="https://cataterapias.cl" />
+    <link rel="canonical" href={canonicalFinal} />
 
-    <script is:inline type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Cataterapias",
-        "alternateName": ["Catalina Herrera", "Cata Terapias", "Catalina TO"],
-        "url": "https://cataterapias.cl/",
-        "description": "Terapia Ocupacional orientada a niños y adolescentes en Maipú, Santiago",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://cataterapias.cl/?s={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }
-    </script>
+    {
+      schemaJson && (
+        <script is:inline type="application/ld+json" set:html={schemaJson}>
+        </script>
+      )
+    }
   </head>
   <body>
     <slot />
-    <Toaster richColors position="bottom-right" client:idle />
     <SpeedInsights />
   </body>
 </html>
