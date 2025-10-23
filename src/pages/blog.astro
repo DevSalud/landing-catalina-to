@@ -7,6 +7,11 @@ import Layout from '../layouts/Layout.astro'
 import { CATEGORIES_QUERY, POSTS_QUERY } from '../lib/queries.ts'
 import { client } from '../lib/sanity.ts'
 import { urlFor } from '../lib/sanity.ts'
+import {
+	createBlogSchema,
+	createBreadcrumbListSchema,
+	createPersonSchema,
+} from '../lib/seoSchemas.ts'
 
 // Tipos mínimos para Portable Text
 type PortableTextSpan = { _type: 'span'; text: string; marks?: string[] }
@@ -77,20 +82,60 @@ function firstSentenceFromBody(p: SanityPost): string {
 	const [first] = text.trim().split(SENTENCE_SPLIT_RE)
 	return (first || '').trim()
 }
+// SEO específico para la grilla del blog
+const siteBase = Astro.site
+	? Astro.site.toString().replace(/\/$/, '')
+	: 'https://cataterapias.cl'
+const metaTitle = 'Blog de Terapia Ocupacional | Cataterapias'
+const metaDescription =
+	'Artículos y recursos sobre Terapia Ocupacional infantil y adolescente en Maipú. Consejos prácticos, actividades y guías para familias.'
+const canonicalUrl = `${siteBase}/blog`
+const defaultImage = '/images/Catalina.webp'
+const defaultImageAlt = 'Foto de Catalina Herrera sonriendo'
+const ogImage = defaultImage.startsWith('http')
+	? defaultImage
+	: `${siteBase}${defaultImage}`
+
+const ogImageAlt = defaultImageAlt
+
+// Schema array: Person + BreadcrumbList + Blog
+const schema = [
+	createPersonSchema(siteBase, { includeOfferCatalog: true }),
+	createBreadcrumbListSchema([
+		{ name: 'Inicio', item: `${siteBase}/` },
+		{ name: 'Blog', item: canonicalUrl },
+	]),
+	createBlogSchema({ canonicalUrl, description: metaDescription }),
+]
 ---
 
-<Layout>
+<Layout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogTitle={metaTitle}
+  ogDescription={metaDescription}
+  ogImage={ogImage}
+  ogUrl={canonicalUrl}
+  ogImageAlt={ogImageAlt}
+  ogType="website"
+  schema={schema}
+>
   <Navbar />
   <main class="mt-20">
     <section class="bg-gradient-to-b from-moody-blue-50 to-white">
       <div class="mx-auto max-w-7xl px-4 md:px-8 py-10">
-        {posts.length === 0 && (
-          <div class="mb-8">
-            <div class="bg-white rounded-2xl shadow p-6 text-center border border-moody-blue-100">
-              <p class="text-gray-700">Aún no hay publicaciones disponibles.</p>
+        {
+          posts.length === 0 && (
+            <div class="mb-8">
+              <div class="bg-white rounded-2xl shadow p-6 text-center border border-moody-blue-100">
+                <p class="text-gray-700">
+                  Aún no hay publicaciones disponibles.
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
         <div class="fade-in">
           <BlogFilterIsland
             client:load
@@ -99,10 +144,14 @@ function firstSentenceFromBody(p: SanityPost): string {
               slug: p.slug.current,
               excerpt: firstSentenceFromBody(p) || "",
               publishedAt: p.publishedAt || "",
-              image: p.mainImage ? urlFor(p.mainImage).width(1000).height(700).url() : "",
+              image: p.mainImage
+                ? urlFor(p.mainImage).width(1000).height(700).url()
+                : "",
               categories: (p.categories || []).map((c) => c.title),
               authorName: p.author?.name || "",
-              authorImage: p.author?.image ? urlFor(p.author.image).width(48).height(48).url() : "",
+              authorImage: p.author?.image
+                ? urlFor(p.author.image).width(48).height(48).url()
+                : "",
             }))}
             categories={categories.map((c) => ({ title: c.title }))}
           />
@@ -113,7 +162,7 @@ function firstSentenceFromBody(p: SanityPost): string {
     <!-- Contenido gestionado por BlogFilterIsland -->
     <section class="pb-20"></section>
   </main>
-  
+
   <Footer />
 </Layout>
 
@@ -122,19 +171,19 @@ function firstSentenceFromBody(p: SanityPost): string {
     opacity: 1;
     transform: none;
   }
-  
+
   .post-card {
     opacity: 1;
     transform: none;
   }
-  
+
   @keyframes fadeIn {
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   @keyframes slideUp {
     to {
       opacity: 1;
@@ -151,21 +200,21 @@ function firstSentenceFromBody(p: SanityPost): string {
       transform: none;
     }
   }
-  
+
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
 
     overflow: hidden;
   }
-  
+
   .category-filter.active {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(97, 66, 233, 0.3);

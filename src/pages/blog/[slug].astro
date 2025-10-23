@@ -4,7 +4,6 @@ import {
 	ArrowLeft,
 	Calendar,
 	Clock,
-	Mail,
 	MessageCircle,
 	Tag,
 	User,
@@ -15,6 +14,11 @@ import Layout from '../../layouts/Layout.astro'
 import { POSTS_QUERY, POST_QUERY } from '../../lib/queries.ts'
 import { client } from '../../lib/sanity.ts'
 import { urlFor } from '../../lib/sanity.ts'
+import {
+	createBlogPostingSchema,
+	createBreadcrumbListSchema,
+	createPersonSchema,
+} from '../../lib/seoSchemas.ts'
 
 // Tipos de Portable Text desde '@portabletext/types'
 import type {
@@ -24,7 +28,6 @@ import type {
 	TypedObject as ptTypedObject,
 } from '@portabletext/types'
 
-type PortableTextSpan = ptSpan
 // Usamos la variante genérica completa para mayor compatibilidad con astro-portabletext
 type PortableTextBlock = ptBlock<ptMarkDef, ptSpan, string, string>
 type PortableTextNode = PortableTextBlock | ptTypedObject
@@ -208,9 +211,62 @@ const relatedPosts: SanityPost[] = currentPost?.slug?.current
 			{ currentSlug: currentPost.slug.current },
 		)
 	: []
+
+// SEO dinámico para el post
+const metaTitle = `${currentPost?.title || 'Post'} - Blog Catalina Herrera TO`
+const plainBody = Array.isArray(currentPost?.body)
+	? toPlainText(
+			(currentPost.body as PortableTextNode[]).filter(
+				isBlockNode,
+			) as PortableTextBlock[],
+		)
+	: String(currentPost?.excerpt ?? '')
+const metaDescription = (currentPost?.excerpt || plainBody)
+	.toString()
+	.trim()
+	.replace(/\s+/g, ' ')
+	.slice(0, 160)
+const siteBase = Astro.site
+	? Astro.site.toString().replace(/\/$/, '')
+	: 'https://cataterapias.cl'
+const imageUrlRaw = currentPost?.mainImage
+	? urlFor(currentPost.mainImage).width(1200).url()
+	: '/images/Catalina.webp'
+const imageUrl = imageUrlRaw?.startsWith('http')
+	? imageUrlRaw
+	: `${siteBase}${imageUrlRaw}`
+const canonicalUrl = `${siteBase}/blog/${currentPost?.slug?.current ?? ''}`
+
+// Schema array: Person + BreadcrumbList + BlogPosting
+const articleKeywords = (currentPost?.categories ?? []).map(
+	(c: { title: string }) => c.title,
+)
+
+const schema = [
+	createPersonSchema(siteBase),
+	createBreadcrumbListSchema([
+		{ name: 'Inicio', item: `${siteBase}/` },
+		{ name: 'Blog', item: `${siteBase}/blog` },
+		{ name: currentPost?.title ?? 'Artículo', item: canonicalUrl },
+	]),
+	createBlogPostingSchema({
+		siteBase,
+		canonicalUrl,
+		headline: currentPost?.title ?? 'Artículo del blog',
+		description: metaDescription,
+		image: imageUrl,
+		authorName: currentPost?.author?.name ?? 'Catalina Herrera',
+		datePublished: currentPost?.publishedAt
+			? new Date(currentPost.publishedAt).toISOString()
+			: undefined,
+		articleSection: articleKeywords[0] ?? undefined,
+		keywords:
+			articleKeywords.length > 0 ? articleKeywords.join(', ') : undefined,
+	}),
+]
 ---
 
-<Layout title={`${currentPost?.title || "Post"} - Blog Catalina Herrera TO`}>
+<Layout title={metaTitle} description={metaDescription} canonical={canonicalUrl} ogTitle={metaTitle} ogDescription={metaDescription} ogImage={imageUrl} ogUrl={canonicalUrl} ogType="article" schema={schema} articlePublishedTime={currentPost?.publishedAt} articleTags={(currentPost?.categories ?? []).map((c: { title: string }) => c.title)}>
   <Navbar />
 
   <main
@@ -260,7 +316,8 @@ const relatedPosts: SanityPost[] = currentPost?.slug?.current
             class="text-3xl md:text-4xl lg:text-5xl font-bold text-moody-blue-700 mb-6 leading-tight"
           >
             {currentPost?.title || "Título no disponible"}
-          </h1>
+          </h1
+          >
 
           <!-- Excerpt -->
           {
