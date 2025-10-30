@@ -17,7 +17,7 @@ export function createPersonSchema(
 		url: siteBase,
 		sameAs: [
 			'https://api.whatsapp.com/send?phone=56992194020',
-			'https://centroinclusionsana.site.agendapro.com/cl/sucursal/340116/profesional/569175',
+			'https://cal.com/catalina-herrera-ygpr9v',
 		],
 		worksFor: {
 			'@type': 'LocalBusiness',
