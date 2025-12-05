@@ -1,7 +1,7 @@
 ---
 import SpeedInsights from '@vercel/speed-insights/astro'
 import '../styles/global.css'
-import { createPersonSchema } from '../lib/seoSchemas.ts'
+import { createPersonSchema, createWebSiteSchema } from '../lib/seoSchemas.ts'
 
 interface LayoutProps {
 	title?: string
@@ -13,7 +13,7 @@ interface LayoutProps {
 	ogImageAlt?: string
 	ogUrl?: string
 	ogType?: string
-	schema?: Record<string, unknown> | Record<string, unknown>[]
+	schema?: object | object[]
 	articlePublishedTime?: string | Date
 	articleTags?: string[]
 }
@@ -72,14 +72,24 @@ const ogUrlFinal = ogUrl ?? canonicalFinal
 const ogTypeFinal = ogType ?? defaultType
 
 const isArticle = ogTypeFinal === 'article'
+
 const schemaFallback = createPersonSchema(SITE_URL, {
 	includeOfferCatalog: true,
 })
-const schemaFinal = Array.isArray(schema)
-	? schema
-	: schema
-		? [schema]
-		: [schemaFallback]
+
+const schemaProp = schema
+	? Array.isArray(schema)
+		? schema
+		: [schema]
+	: schemaFallback
+
+const graphNodes = [...schemaProp.flat(), createWebSiteSchema(SITE_URL)]
+
+const schemaFinal = {
+	'@context': 'https://schema.org',
+	'@graph': graphNodes,
+}
+
 const schemaJson = JSON.stringify(schemaFinal)
 ---
 

@@ -3,7 +3,6 @@ export function createPersonSchema(
 	options?: { includeOfferCatalog?: boolean },
 ) {
 	const base = {
-		'@context': 'https://schema.org',
 		'@type': 'Person',
 		'@id': `${siteBase}/#catalina`,
 		name: 'Catalina Herrera',
@@ -47,32 +46,6 @@ export function createPersonSchema(
 	} as const
 
 	if (options?.includeOfferCatalog) {
-		const itemOffered = {
-			'@type': 'Service',
-			name: 'Sesión Terapéutica',
-			areaServed: 'Maipú',
-			availableChannel: {
-				'@type': 'ServiceChannel',
-				serviceLocation: {
-					'@type': 'Place',
-					address: {
-						'@type': 'PostalAddress',
-						streetAddress: 'Av. Los Pajaritos 666',
-						addressLocality: 'Maipú',
-						addressRegion: 'RM',
-						postalCode: '9252853',
-						addressCountry: 'CL',
-					},
-				},
-			},
-			hoursAvailable: {
-				'@type': 'OpeningHoursSpecification',
-				dayOfWeek: ['Monday', 'Wednesday', 'Friday', 'Saturday'],
-				opens: '10:00',
-				closes: '18:00',
-			},
-		}
-
 		const makesOffer = [
 			{
 				'@type': 'Offer',
@@ -80,8 +53,15 @@ export function createPersonSchema(
 				priceCurrency: 'CLP',
 				price: '21990',
 				availability: 'https://schema.org/InStock',
-				seller: { '@id': `${siteBase}/#catalina` },
-				itemOffered,
+				seller: {
+					'@type': 'Person',
+					'@id': `${siteBase}/#catalina`,
+				},
+				itemOffered: {
+					'@type': 'Service',
+					name: 'Sesión Terapéutica Particular',
+					areaServed: 'Maipú, Santiago de Chile',
+				},
 			},
 			{
 				'@type': 'Offer',
@@ -89,20 +69,45 @@ export function createPersonSchema(
 				priceCurrency: 'CLP',
 				price: '15000',
 				availability: 'https://schema.org/InStock',
-				seller: { '@id': `${siteBase}/#catalina` },
-				itemOffered,
+				seller: {
+					'@type': 'Person',
+					'@id': `${siteBase}/#catalina`,
+				},
+				itemOffered: {
+					'@type': 'Service',
+					name: 'Sesión Terapéutica Fonasa',
+					areaServed: 'Maipú, Santiago de Chile',
+				},
 			},
 		]
-		return { ...base, makesOffer }
+		return [
+			{
+				...base,
+				makesOffer,
+			},
+		]
 	}
-	return base
+	return [
+		{
+			...base,
+		},
+	]
+}
+
+export function createWebSiteSchema(siteBase: string) {
+	return {
+		'@type': 'WebSite',
+		'@id': `${siteBase}/#website`,
+		name: 'Catalina Herrera',
+		alternateName: ['Cataterapias', 'Catalina TO'],
+		url: siteBase,
+	}
 }
 
 export function createBreadcrumbListSchema(
 	items: Array<{ name: string; item: string }>,
 ) {
 	return {
-		'@context': 'https://schema.org',
 		'@type': 'BreadcrumbList',
 		itemListElement: items.map((it, idx) => ({
 			'@type': 'ListItem',
@@ -124,7 +129,6 @@ export function createBlogSchema(params: {
 		name = 'Blog de Terapia Ocupacional',
 	} = params
 	return {
-		'@context': 'https://schema.org',
 		'@type': 'Blog',
 		name,
 		url: canonicalUrl,
@@ -156,7 +160,6 @@ export function createBlogPostingSchema(params: {
 	} = params
 
 	return {
-		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline,
 		description,
