@@ -97,17 +97,17 @@ import WhatsappButton from './common/WhatsappButton.astro'
     const EMAIL_REGEX = /^[a-zA-Z0-9._%±-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
     const form = document.getElementById("contacto-form") as HTMLFormElement;
     const submitter = document.querySelector(
-      "button[type='submit']",
+      "button[type='submit']"
     ) as HTMLButtonElement;
 
     const nombreError = document.getElementById(
-      "nombre-error",
+      "nombre-error"
     ) as HTMLSpanElement;
     const emailError = document.getElementById(
-      "email-error",
+      "email-error"
     ) as HTMLSpanElement;
     const mensajeError = document.getElementById(
-      "mensaje-error",
+      "mensaje-error"
     ) as HTMLSpanElement;
 
     form.addEventListener("submit", async (e) => {
@@ -167,7 +167,7 @@ import WhatsappButton from './common/WhatsappButton.astro'
       } catch (error) {
         console.error(error);
         toast.error(
-          "Ocurrió un error al enviar el mensaje. Por favor, inténtalo de nuevo.",
+          "Ocurrió un error al enviar el mensaje. Por favor, inténtalo de nuevo."
         );
       } finally {
         submitter.disabled = false;
@@ -191,7 +191,7 @@ import WhatsappButton from './common/WhatsappButton.astro'
     },
     {
       rootMargin: "100px", // Cargar 100px antes de que sea visible
-    },
+    }
   );
 
   if (contactSection) {
@@ -200,7 +200,7 @@ import WhatsappButton from './common/WhatsappButton.astro'
 
   // También cargar si el usuario hace focus en algún input (fallback)
   const inputs = document.querySelectorAll(
-    "#contacto-form input, #contacto-form textarea",
+    "#contacto-form input, #contacto-form textarea"
   );
   inputs.forEach((input) => {
     input.addEventListener("focus", loadContactScript, { once: true });
