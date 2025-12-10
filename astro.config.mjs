@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 // @ts-check
-import { defineConfig } from 'astro/config'
+import { defineConfig, passthroughImageService } from 'astro/config'
 
 import cloudflare from '@astrojs/cloudflare'
 import sitemap from '@astrojs/sitemap'
@@ -36,8 +36,15 @@ export default defineConfig({
 
 	output: 'server',
 
+	image: {
+		service: passthroughImageService(),
+	},
+
 	adapter: cloudflare({
-		imageService: 'compile',
+		imageService: 'passthrough',
+		platformProxy: {
+			enabled: true,
+		},
 	}),
 
 	prefetch: true,
