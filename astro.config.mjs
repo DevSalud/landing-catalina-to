@@ -2,8 +2,8 @@ import tailwindcss from '@tailwindcss/vite'
 // @ts-check
 import { defineConfig } from 'astro/config'
 
+import cloudflare from '@astrojs/cloudflare'
 import sitemap from '@astrojs/sitemap'
-import vercel from '@astrojs/vercel'
 
 import react from '@astrojs/react'
 import sanity from '@sanity/astro'
@@ -36,10 +36,7 @@ export default defineConfig({
 
 	output: 'server',
 
-	adapter: vercel({
-		webAnalytics: { enabled: true },
-		maxDuration: 60,
-	}),
+	adapter: cloudflare(),
 
 	prefetch: true,
 
