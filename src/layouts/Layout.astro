@@ -1,5 +1,4 @@
 ---
-import SpeedInsights from '@vercel/speed-insights/astro'
 import '../styles/global.css'
 import { createPersonSchema, createWebSiteSchema } from '../lib/seoSchemas.ts'
 
@@ -157,7 +156,6 @@ const schemaJson = JSON.stringify(schemaFinal)
   </head>
   <body>
     <slot />
-    <SpeedInsights />
   </body>
 </html>
 
