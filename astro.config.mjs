@@ -1,55 +1,57 @@
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from "@tailwindcss/vite";
 // @ts-check
-import { defineConfig } from 'astro/config'
+import { defineConfig } from "astro/config";
 
-import cloudflare from '@astrojs/cloudflare'
-import sitemap from '@astrojs/sitemap'
+import cloudflare from "@astrojs/cloudflare";
+import sitemap from "@astrojs/sitemap";
 
-import react from '@astrojs/react'
-import sanity from '@sanity/astro'
+import react from "@astrojs/react";
+import sanity from "@sanity/astro";
 
 // https://astro.build/config
 // biome-ignore lint/style/noDefaultExport: Astro requires default export
 export default defineConfig({
-	vite: {
-		plugins: [tailwindcss()],
-		optimizeDeps: {
-			include: [
-				'sanity',
-				'sanity/structure',
-				'@sanity/vision',
-				'@sanity/client',
-				'react',
-				'react-dom',
-				'react-dom/client',
-				'styled-components',
-			],
-		},
-		ssr: {
-			noExternal: ['sanity', '@sanity/client'],
-		},
-	},
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: [
+        "sanity",
+        "sanity/structure",
+        "@sanity/vision",
+        "@sanity/client",
+        "react",
+        "react-dom",
+        "react-dom/client",
+        "styled-components",
+      ],
+    },
+    ssr: {
+      noExternal: ["sanity", "@sanity/client"],
+    },
+  },
 
-	build: {
-		inlineStylesheets: 'always',
-	},
+  build: {
+    inlineStylesheets: "always",
+  },
 
-	output: 'server',
+  output: "server",
 
-	adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: "compile",
+  }),
 
-	prefetch: true,
+  prefetch: true,
 
-	site: 'https://www.cataterapias.cl',
+  site: "https://www.cataterapias.cl",
 
-	integrations: [
-		react(),
-		sanity({
-			projectId: '4tqm6mvt',
-			dataset: 'production',
-			useCdn: false,
-			studioBasePath: '/admin',
-		}),
-		sitemap(),
-	],
-})
+  integrations: [
+    react(),
+    sanity({
+      projectId: "4tqm6mvt",
+      dataset: "production",
+      useCdn: false,
+      studioBasePath: "/admin",
+    }),
+    sitemap(),
+  ],
+});
