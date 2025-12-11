@@ -4,9 +4,15 @@ import { Resend } from 'resend'
 export const server = {
 	send: defineAction({
 		accept: 'form',
-		handler: async (form) => {
+		handler: async (form, context) => {
+			const runtime = context.locals.runtime
+			const env = runtime?.env || {}
+
 			const apiKey =
-				import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY
+				import.meta.env.RESEND_API_KEY ||
+				process.env.RESEND_API_KEY ||
+				env.RESEND_API_KEY
+
 			if (!apiKey) {
 				throw new ActionError({
 					code: 'INTERNAL_SERVER_ERROR',
