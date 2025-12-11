@@ -160,7 +160,11 @@ import WhatsappButton from './common/WhatsappButton.astro'
       formData.append("mensaje", mensaje);
 
       try {
-        await actions.send(formData);
+        const { error } = await actions.send(formData);
+
+        if (error) {
+          throw error;
+        }
 
         toast.success("Mensaje enviado exitosamente");
         form.reset();
