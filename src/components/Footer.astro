@@ -1,35 +1,156 @@
 ---
 const year = new Date().getFullYear()
 import { Picture } from 'astro:assets'
+import { Building2, Mail, MapPin, Phone } from 'lucide-react'
 import Logo from '../../public/logo.webp'
 ---
 
-<footer class="bg-moody-blue-950">
-  <div
-    class="flex flex-col items-center justify-center gap-8 max-w-7xl px-4 md:px-8 mx-auto py-20"
-  >
-    <div class="flex flex-col gap-4">
-      <div class="flex gap-2 items-center justify-center">
-        <Picture
-          src={Logo}
-          alt="Logo de Catalina"
-          widths={[32, 36, 72, 108]}
-          sizes="(max-width: 640px) 32px, (max-width: 1024px) 36px"
-          width={36}
-          height={27}
-          loading="eager"
-        />
-        <span class="text-lg font-bold text-white">Catalina Herrera</span>
+<footer class="bg-moody-blue-950 text-gray-200">
+  <div class="max-w-7xl px-4 md:px-8 mx-auto pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <!-- Columna 1: Identidad -->
+      <div class="flex flex-col gap-4">
+        <div class="flex gap-3 items-center">
+          <Picture
+            src={Logo}
+            alt="Logo de Catalina"
+            widths={[40, 80]}
+            sizes="40px"
+            width={40}
+            height={30}
+            loading="lazy"
+            class="object-contain"
+          />
+          <span class="text-xl font-bold text-white">Catalina Herrera</span>
+        </div>
+        <p class="text-sm leading-relaxed text-gray-300">
+          Terapia Ocupacional dedicada al desarrollo integral de niños y
+          adolescentes, en un ambiente acogedor y profesional.
+        </p>
+        <div class="flex flex-col gap-3 text-sm mt-2">
+          <div class="flex gap-2 items-center text-white font-medium">
+            <Building2 className="w-4 h-4 text-mint-400" />
+            <span>Centro Inclusión SANA</span>
+          </div>
+          <div class="flex gap-2 items-start text-gray-300">
+            <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-mint-400" />
+            <div class="flex flex-col">
+              <span>Av. Los Pajaritos 666</span>
+              <span>Maipú, Santiago</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="flex flex-col items-center justify-center">
-        <span class="text-gray-200 text-sm">Av. Los Pajaritos 666</span>
-        <span class="text-gray-200 text-sm">Maipú, Santiago</span>
+
+      <!-- Columna 2: Navegación -->
+      <div class="flex flex-col gap-4">
+        <h3 class="text-white font-bold text-lg">Navegación</h3>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="/"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Inicio</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#sobre-mi"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Sobre Mí</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#areas"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Áreas de Intervención</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#donde"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Ubicación</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Pacientes -->
+      <div class="flex flex-col gap-4">
+        <h3 class="text-white font-bold text-lg">Pacientes</h3>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="/blog"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Blog y Artículos</a
+            >
+          </li>
+          <li>
+            <a
+              href="/normativas"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Normativas de Atención</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://cal.com/catalina-herrera-ygpr9v"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block items-center gap-2"
+            >
+              Agendar Hora
+              <span
+                class="text-xs bg-mint-500/20 text-mint-300 px-2 py-0.5 rounded-full"
+                >Online</span
+              >
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Contacto -->
+      <div class="flex flex-col gap-4">
+        <h3 class="text-white font-bold text-lg">Contacto</h3>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="mailto:catalina.herrera.to@gmail.com"
+              class="hover:text-white transition-colors break-words flex items-center gap-2 group"
+            >
+              <Mail
+                className="w-4 h-4 text-mint-400 group-hover:text-white transition-colors"
+              />
+              catalina.herrera.to@gmail.com
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://api.whatsapp.com/send?phone=56992194020"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors flex items-center gap-2 group"
+            >
+              <Phone
+                className="w-4 h-4 text-mint-400 group-hover:text-white transition-colors"
+              />
+              +56 9 9219 4020
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="border-t border-gray-500 w-full"></div>
 
-    <span class="text-gray-200 text-xs text-center">
-      © {year} Catalina Herrera. Todos los derechos reservados
-    </span>
+    <!-- Barra inferior -->
+    <div
+      class="border-t border-moody-blue-800 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-xs text-gray-300"
+    >
+      <span>
+        © {year} Catalina Herrera. Todos los derechos reservados.
+      </span>
+    </div>
   </div>
 </footer>
