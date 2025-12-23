@@ -228,7 +228,7 @@ const metaDescription = (currentPost?.excerpt || plainBody)
 	.slice(0, 160)
 const siteBase = Astro.site
 	? Astro.site.toString().replace(/\/$/, '')
-	: 'https://cataterapias.cl'
+	: 'https://www.cataterapias.cl'
 const imageUrlRaw = currentPost?.mainImage
 	? urlFor(currentPost.mainImage).width(1200).url()
 	: '/images/Catalina.webp'
@@ -266,7 +266,21 @@ const schema = [
 ]
 ---
 
-<Layout title={metaTitle} description={metaDescription} canonical={canonicalUrl} ogTitle={metaTitle} ogDescription={metaDescription} ogImage={imageUrl} ogUrl={canonicalUrl} ogType="article" schema={schema} articlePublishedTime={currentPost?.publishedAt} articleTags={(currentPost?.categories ?? []).map((c: { title: string }) => c.title)}>
+<Layout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogTitle={metaTitle}
+  ogDescription={metaDescription}
+  ogImage={imageUrl}
+  ogUrl={canonicalUrl}
+  ogType="article"
+  schema={schema}
+  articlePublishedTime={currentPost?.publishedAt}
+  articleTags={(currentPost?.categories ?? []).map(
+    (c: { title: string }) => c.title
+  )}
+>
   <Navbar />
 
   <main
@@ -316,8 +330,7 @@ const schema = [
             class="text-3xl md:text-4xl lg:text-5xl font-bold text-moody-blue-700 mb-6 leading-tight"
           >
             {currentPost?.title || "Título no disponible"}
-          </h1
-          >
+          </h1>
 
           <!-- Excerpt -->
           {
@@ -382,9 +395,9 @@ const schema = [
               currentPost?.body && (
                 <div class="article-content text-gray-800 leading-relaxed">
                   <PortableText
-                     value={normalizePortableText(currentPost.body)}
-                     components={portableComponents as unknown as any}
-                   />
+                    value={normalizePortableText(currentPost.body)}
+                    components={portableComponents as unknown as any}
+                  />
                 </div>
               )
             }
