@@ -6,54 +6,54 @@ import MenuToggle from './MenuToggle.astro'
 ---
 
 <header class="bg-white fixed top-0 z-50 w-full">
-	<nav class="mx-auto max-w-7xl px-4 md:px-8">
-		<div class="flex justify-between items-center py-4 h-20">
-			<a href="#" class="flex gap-2 items-center">
-				<Picture
-					src={Logo}
-					alt="Logo de Catalina"
-					widths={[32, 36, 72, 108]}
-					sizes="(max-width: 640px) 32px, (max-width: 1024px) 36px"
-					width={36}
-					height={27}
-					loading="eager"
-				/>
-				<span class="text-moody-blue-400 text-xl font-bold">Catalina</span>
-			</a>
-			<ul class="hidden lg:flex items-center gap-10 text-black font-semibold">
-				<li class="navbar-item">
-					<a href="/#">Home</a>
-				</li>
-				<li class="navbar-item">
-					<a href="/#areas">Áreas</a>
-				</li>
-				<li class="navbar-item">
-					<a href="/#sobre-mi">Sobre mí</a>
-				</li>
-				<li class="navbar-item">
-					<a href="/#valor">Valor</a>
-				</li>
-				<li class="navbar-item">
-					<a href="/#donde">Dónde</a>
-				</li>
-				<li class="navbar-item">
-					<a href="/#contacto">Contacto</a>
-				</li>
-				<li class="navbar-item">
-					<a href="/blog" data-astro-prefetch="tap">Blog</a>
-				</li>
-			</ul>
+  <nav class="mx-auto max-w-7xl px-4 md:px-8">
+    <div class="flex justify-between items-center py-4 h-20">
+      <a href="/#" class="flex gap-2 items-center">
+        <Picture
+          src={Logo}
+          alt="Logo de Catalina"
+          widths={[32, 36, 72, 108]}
+          sizes="(max-width: 640px) 32px, (max-width: 1024px) 36px"
+          width={36}
+          height={27}
+          loading="eager"
+        />
+        <span class="text-moody-blue-400 text-xl font-bold">Catalina</span>
+      </a>
+      <ul class="hidden lg:flex items-center gap-10 text-black font-semibold">
+        <li class="navbar-item">
+          <a href="/#">Home</a>
+        </li>
+        <li class="navbar-item">
+          <a href="/#areas">Áreas</a>
+        </li>
+        <li class="navbar-item">
+          <a href="/#sobre-mi">Sobre mí</a>
+        </li>
+        <li class="navbar-item">
+          <a href="/#valor">Valor</a>
+        </li>
+        <li class="navbar-item">
+          <a href="/#donde">Dónde</a>
+        </li>
+        <li class="navbar-item">
+          <a href="/#contacto">Contacto</a>
+        </li>
+        <li class="navbar-item">
+          <a href="/blog" data-astro-prefetch="tap">Blog</a>
+        </li>
+      </ul>
 
-			<MenuToggle />
-		</div>
-	</nav>
+      <MenuToggle />
+    </div>
+  </nav>
 </header>
 
 <style>
-	.navbar-item:hover {
-		color: var(--color-moody-blue-700);
-		transition: color 0.2s;
-		cursor: pointer;
-		transform: scale(1.1);
-	}
+  .navbar-item:hover {
+    color: var(--color-moody-blue-700);
+    transition: color 0.2s;
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 </style>
