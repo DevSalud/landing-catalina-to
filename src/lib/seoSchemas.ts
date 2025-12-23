@@ -51,7 +51,7 @@ export function createPersonSchema(
 				'@type': 'Offer',
 				name: 'Sesión terapéutica particular',
 				priceCurrency: 'CLP',
-				price: '21990',
+				price: '25000',
 				availability: 'https://schema.org/InStock',
 				seller: {
 					'@type': 'Person',
@@ -67,7 +67,7 @@ export function createPersonSchema(
 				'@type': 'Offer',
 				name: 'Sesión terapéutica con descuento Fonasa',
 				priceCurrency: 'CLP',
-				price: '15000',
+				price: '20000',
 				availability: 'https://schema.org/InStock',
 				seller: {
 					'@type': 'Person',
