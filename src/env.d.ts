@@ -7,6 +7,10 @@ interface Env {
 	RESEND_API_KEY: string
 	// biome-ignore lint/style/useNamingConvention: <explanation>
 	PUBLIC_MAPS_API_KEY: string
+	// biome-ignore lint/style/useNamingConvention: <explanation>
+	EMAIL_REMINDER_FUNCTION_URL: string
+	// biome-ignore lint/style/useNamingConvention: <explanation>
+	SUPABASE_PUBLIC_KEY: string
 }
 
 type Runtime = import('@astrojs/cloudflare').Runtime<Env>
