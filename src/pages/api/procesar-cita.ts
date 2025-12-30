@@ -5,7 +5,8 @@ export const POST: APIRoute = async ({ request }) => {
 		const body = await request.json()
 		const { id, action } = body
 
-		const emailReminderFunctionUrl = import.meta.env.EMAIL_REMINDER_FUNCTION_URL
+		const updateAppointmentStatusFunctionUrl = import.meta.env
+			.UPDATE_APPOINTMENT_STATUS_FUNCTION_URL
 		const authHeader = import.meta.env.SUPABASE_PUBLIC_KEY || null
 
 		if (!(id && action)) {
@@ -18,7 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
 			)
 		}
 
-		const response = await fetch(emailReminderFunctionUrl, {
+		const response = await fetch(updateAppointmentStatusFunctionUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
