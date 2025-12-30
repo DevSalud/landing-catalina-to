@@ -1,0 +1,23 @@
+---
+import { CitaProcessor } from '../components/CitaProcessor.tsx'
+import Footer from '../components/Footer.astro'
+import Navbar from '../components/Navbar.astro'
+import Layout from '../layouts/Layout.astro'
+
+export const prerender = false
+---
+
+<Layout
+  title="Procesando Solicitud | Catalina Herrera"
+  description="Página de procesamiento de citas"
+>
+  <Navbar />
+
+  <main
+    class="min-h-screen flex items-center justify-center bg-moody-blue-50 px-4"
+  >
+    <CitaProcessor client:only="react" />
+  </main>
+
+  <Footer />
+</Layout>
