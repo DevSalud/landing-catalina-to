@@ -1,13 +1,21 @@
 import type { APIRoute } from 'astro'
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
 	try {
+		// Accedemos al entorno de ejecución (Cloudflare)
+		// biome-ignore lint/suspicious/noExplicitAny: accessing runtime env dynamically
+		const runtime = (locals as any).runtime
+		// biome-ignore lint/suspicious/noExplicitAny: accessing runtime env dynamically
+		const env = runtime?.env || (locals as any).env || {}
+
 		const body = await request.json()
 		const { id, action } = body
 
-		const updateAppointmentStatusFunctionUrl = import.meta.env
-			.UPDATE_APPOINTMENT_STATUS_FUNCTION_URL
-		const authHeader = import.meta.env.SUPABASE_PUBLIC_KEY || null
+		const updateAppointmentStatusFunctionUrl =
+			env.UPDATE_APPOINTMENT_STATUS_FUNCTION_URL ||
+			import.meta.env.UPDATE_APPOINTMENT_STATUS_FUNCTION_URL
+		const authHeader =
+			env.SUPABASE_PUBLIC_KEY || import.meta.env.SUPABASE_PUBLIC_KEY || null
 
 		if (!(id && action)) {
 			return new Response(
