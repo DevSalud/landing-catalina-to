@@ -19,6 +19,17 @@ export const POST: APIRoute = async ({ request }) => {
 			)
 		}
 
+		if (!(updateAppointmentStatusFunctionUrl && authHeader)) {
+			return new Response(
+				JSON.stringify({
+					success: false,
+					message:
+						'No es posible procesar la solicitud debido a un error en la configuración',
+				}),
+				{ status: 400 },
+			)
+		}
+
 		const response = await fetch(updateAppointmentStatusFunctionUrl, {
 			method: 'POST',
 			headers: {
