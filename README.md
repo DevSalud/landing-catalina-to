@@ -1,3 +1,5 @@
+[![CI](https://github.com/DevSalud/landing-catalina-to/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/DevSalud/landing-catalina-to/actions/workflows/ci.yml)
+
 # Landing Page - Catalina Herrera (Terapeuta Ocupacional)
 
 Este repositorio contiene el código fuente del sitio web profesional de **Catalina Herrera**, Terapeuta Ocupacional especializada en atención infanto-juvenil. El proyecto es una landing page moderna, rápida y optimizada para SEO, construida con las últimas tecnologías web.
