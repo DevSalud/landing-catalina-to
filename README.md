@@ -1,48 +1,115 @@
-# Astro Starter Kit: Basics
+# Landing Page - Catalina Herrera (Terapeuta Ocupacional)
 
-```sh
-bun create astro@latest -- --template basics
-```
+Este repositorio contiene el código fuente del sitio web profesional de **Catalina Herrera**, Terapeuta Ocupacional especializada en atención infanto-juvenil. El proyecto es una landing page moderna, rápida y optimizada para SEO, construida con las últimas tecnologías web.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## 🚀 Tecnologías Utilizadas
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+El proyecto está construido sobre un stack moderno enfocado en el rendimiento y la experiencia de desarrollo:
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+- **Framework:** [Astro 5](https://astro.build/) (Server-side Rendering con adaptador Cloudflare).
+- **UI Library:** [React 19](https://react.dev/) (Componentes interactivos).
+- **Estilos:** [Tailwind CSS 4](https://tailwindcss.com/) (Vite Plugin).
+- **CMS:** [Sanity](https://www.sanity.io/) (Gestión de contenido para el Blog).
+- **Iconos:** [Lucide React](https://lucide.dev/).
+- **Componentes UI:** [Radix UI](https://www.radix-ui.com/) (Accesibilidad y primitivas sin estilo).
+- **Backend/Integraciones:**
+  - **Cloudflare Pages:** Hosting y Serverless functions (SSR).
+  - **Supabase:** Edge Functions para lógica de negocio (recordatorios de citas).
+  - **Resend:** Servicio de envío de correos transaccionales.
+- **Calidad de Código:** [Biome](https://biomejs.dev/) (Linter y Formatter).
 
-## 🚀 Project Structure
+## ✨ Características Principales
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Inicio Informativo:** Secciones claras sobre servicios, precios, ubicación y perfil profesional.
+- **Blog Integrado:** Sistema de blog gestionado con Sanity, incluyendo filtrado por categorías y renderizado de texto enriquecido (Portable Text).
+- **Procesamiento de Citas:** Módulo para confirmar o rechazar citas (`/procesar-cita`) que interactúa con funciones serverless externas.
+- **SEO Optimizado:** Implementación de Schema.org, sitemap automático y metadatos dinámicos.
+- **Diseño Responsivo:** Adaptado a dispositivos móviles y escritorio con animaciones suaves (`tw-animate-css`).
+
+## �️ Instalación y Configuración
+
+### Prerrequisitos
+
+- Node.js (v18 o superior)
+- npm, pnpm o bun
+
+### Pasos
+
+1.  **Clonar el repositorio:**
+
+    ```bash
+    git clone https://github.com/tu-usuario/landing-catalina-to.git
+    cd landing-catalina-to
+    ```
+
+2.  **Instalar dependencias:**
+
+    ```bash
+    npm install
+    # o
+    bun install
+    ```
+
+3.  **Configurar Variables de Entorno:**
+
+    Crea un archivo `.env` en la raíz del proyecto basándote en el siguiente esquema:
+
+    ```env
+    # Google Maps Embed API
+    PUBLIC_MAPS_API_KEY=tu_api_key_google_maps
+
+    # Resend (Email Service)
+    RESEND_API_KEY=re_tu_api_key_resend
+
+    # Supabase Edge Functions
+    EMAIL_REMINDER_FUNCTION_URL=https://tu-proyecto.supabase.co/functions/v1/update-appointment-status
+    SUPABASE_PUBLIC_KEY=tu_supabase_anon_key
+    ```
+
+4.  **Iniciar el servidor de desarrollo:**
+
+    ```bash
+    npm run dev
+    ```
+
+    El sitio estará disponible en `http://localhost:4321`.
+
+## 📜 Scripts Disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo local.
+- `npm run build`: Construye el sitio para producción (SSR).
+- `npm run preview`: Previsualiza la build de producción localmente.
+- `npm run typecheck`: Verifica los tipos de TypeScript.
+- `npm run biome:check`: Ejecuta el linter Biome.
+- `npm run biome:format`: Formatea el código automáticamente con Biome.
+
+## 📂 Estructura del Proyecto
 
 ```text
 /
-├── public/
-│   └── favicon.svg
+├── public/             # Archivos estáticos (imágenes, fuentes, iconos)
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/     # Componentes Astro y React (.astro, .tsx)
+│   ├── layouts/        # Layouts principales (Layout.astro, Main.astro)
+│   ├── lib/            # Utilidades, consultas a Sanity y Schemas SEO
+│   ├── pages/          # Rutas del sitio (incluye API routes en /api)
+│   ├── sanity/         # Configuración y esquemas del CMS Sanity
+│   ├── styles/         # Estilos globales CSS
+│   └── env.d.ts        # Definiciones de tipos para variables de entorno
+├── astro.config.mjs    # Configuración de Astro
+├── biome.json          # Configuración de Biome
+└── package.json        # Dependencias y scripts
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## � Despliegue
 
-## 🧞 Commands
+Este proyecto está configurado para desplegarse en **Cloudflare Pages**.
 
-All commands are run from the root of the project, from a terminal:
+1.  Conecta tu repositorio a Cloudflare Pages.
+2.  Selecciona el framework **Astro**.
+3.  Configura las variables de entorno en el panel de Cloudflare.
+4.  El comando de build es `npm run build` y el directorio de salida es `dist` (o el predeterminado de Astro/Cloudflare).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Desarrollado con ❤️ por Paolo Herrera - DevSalud para Catalina Herrera.
