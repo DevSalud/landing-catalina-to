@@ -1,7 +1,16 @@
 {
 	"name": "landing-catalina-to",
 	"type": "module",
-	"version": "0.9.0",
+	"version": "1.0.0",
+	"description": "Landing page for Catalina Herrera, Terapia Ocupacional en Maipú",
+	"keywords": [
+		"terapia ocupacional",
+		"niños",
+		"adolescentes",
+		"maipú",
+		"santiago"
+	],
+	"author": "Paolo Herrera",
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
