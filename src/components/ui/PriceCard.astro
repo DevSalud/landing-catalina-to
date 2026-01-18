@@ -1,33 +1,26 @@
 ---
-const {
-  price,
-  salePrice,
-  disponibility,
-  hours,
-  payment,
-  title,
-  badge,
-} = Astro.props;
-import { ArrowRight, CalendarDays, Clock, CreditCard } from "lucide-react";
-import ExternalButton from "../common/ExternalButton.astro";
+const { price, salePrice, disponibility, hours, payment, title, badge } =
+	Astro.props
+import { ArrowRight, CalendarDays, Clock, CreditCard } from 'lucide-react'
+import ExternalButton from '../common/ExternalButton.astro'
 
 const formattedToClp = (value: number) => {
-  return new Intl.NumberFormat("es-CL", {
-    style: "currency",
-    currency: "CLP",
-    minimumFractionDigits: 0,
-  })
-    .format(value)
-    .replace("CLP", "")
-    .trim();
-};
+	return new Intl.NumberFormat('es-CL', {
+		style: 'currency',
+		currency: 'CLP',
+		minimumFractionDigits: 0,
+	})
+		.format(value)
+		.replace('CLP', '')
+		.trim()
+}
 
-const formattedPrice = formattedToClp(price);
-const formattedSalePrice = salePrice ? formattedToClp(salePrice) : null;
+const formattedPrice = formattedToClp(price)
+const formattedSalePrice = salePrice ? formattedToClp(salePrice) : null
 
-const hasDiscount = salePrice && price > salePrice;
-const totalDiscount = hasDiscount ? price - salePrice : 0;
-const formattedTotalDiscount = formattedToClp(totalDiscount);
+const hasDiscount = salePrice && price > salePrice
+const totalDiscount = hasDiscount ? price - salePrice : 0
+const formattedTotalDiscount = formattedToClp(totalDiscount)
 ---
 
 <article
