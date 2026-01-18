@@ -51,6 +51,8 @@ export default defineConfig({
 
 	site: 'https://www.cataterapias.cl',
 
+	trailingSlash: 'never',
+
 	integrations: [
 		react(),
 		sanity({
@@ -59,6 +61,8 @@ export default defineConfig({
 			useCdn: false,
 			studioBasePath: '/admin',
 		}),
-		sitemap(),
+		sitemap({
+			filter: (page) => page !== 'https://www.cataterapias.cl/procesar_cita',
+		}),
 	],
 })

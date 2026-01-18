@@ -15,6 +15,7 @@ interface LayoutProps {
 	schema?: object | object[]
 	articlePublishedTime?: string | Date
 	articleTags?: string[]
+	noindex?: boolean
 }
 
 const {
@@ -30,6 +31,7 @@ const {
 	schema,
 	articlePublishedTime,
 	articleTags,
+	noindex,
 } = Astro.props as LayoutProps
 
 // URL del sitio desde la config de Astro con fallback
@@ -96,6 +98,7 @@ const schemaJson = JSON.stringify(schemaFinal)
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
 
