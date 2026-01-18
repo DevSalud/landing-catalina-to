@@ -1,89 +1,105 @@
 ---
-const { price, salePrice, disponibility, hours, payment, duration } =
-	Astro.props
-import { ArrowRight, CalendarDays, Clock10Icon, DollarSign } from 'lucide-react'
-import ExternalButton from '../common/ExternalButton.astro'
+const {
+  price,
+  salePrice,
+  disponibility,
+  hours,
+  payment,
+  title,
+  badge,
+} = Astro.props;
+import { ArrowRight, CalendarDays, Clock, CreditCard } from "lucide-react";
+import ExternalButton from "../common/ExternalButton.astro";
 
 const formattedToClp = (value: number) => {
-	return new Intl.NumberFormat('es-CL', {
-		style: 'currency',
-		currency: 'CLP',
-		minimumFractionDigits: 0,
-	})
-		.format(value)
-		.replace('CLP', '')
-		.trim()
-}
+  return new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    minimumFractionDigits: 0,
+  })
+    .format(value)
+    .replace("CLP", "")
+    .trim();
+};
 
-const formattedPrice = formattedToClp(price)
-const formattedSalePrice = formattedToClp(salePrice)
+const formattedPrice = formattedToClp(price);
+const formattedSalePrice = salePrice ? formattedToClp(salePrice) : null;
 
-const totalDiscount = price - salePrice
-const formattedTotalDiscount = formattedToClp(totalDiscount)
+const hasDiscount = salePrice && price > salePrice;
+const totalDiscount = hasDiscount ? price - salePrice : 0;
+const formattedTotalDiscount = formattedToClp(totalDiscount);
 ---
 
 <article
-  class="py-10 lg:w-lg xl:w-xl md:w-md px-10 flex flex-col items-center rounded-xl bg-white border-2 border-moody-blue-100 hover:border-moody-blue-500"
+  class="relative flex flex-col items-center rounded-2xl p-8 transition-all duration-300 h-full w-full bg-white shadow-lg hover:shadow-xl border border-moody-blue-100 hover:scale-105"
 >
-  <header class="flex flex-col gap-10 w-full">
-    <h2 class="text-4xl font-bold text-moody-blue-700 text-center">
-      {formattedPrice}
-      <span class="text-black font-normal text-lg">por sesión</span>
-    </h2>
-    <div
-      class="border-2 border-green-300 rounded-lg w-full relative px-5 bg-green-50"
-    >
-      <div
-        class="bg-green-700 rounded-lg w-fit px-2 absolute -top-3 h-6 flex items-center justify-center"
-      >
-        <p class="text-white text-xs font-bold">DESCUENTO FONASA</p>
-      </div>
-      <p class="text-center flex flex-col">
-        <span class="text-gray-500 line-through font-bold text-sm"
-          >{formattedPrice}</span
-        >
-        <span class="text-3xl font-extrabold text-green-700">
-          {formattedSalePrice}
+  <header
+    class="flex flex-col gap-4 w-full mb-8 text-center border-b border-gray-100 pb-8"
+  >
+    {
+      badge && (
+        <span class="text-xs font-bold px-3 py-1 rounded-full w-fit mx-auto uppercase tracking-wider bg-moody-blue-50 text-moody-blue-700">
+          {badge}
         </span>
-      </p>
-      <p class="text-sm text-center text-green-700">
-        Ahorra {formattedTotalDiscount} siendo usuario de Fonasa
-      </p>
+      )
+    }
+
+    <h3
+      class="text-xl font-bold text-gray-900 min-h-[3rem] flex items-center justify-center"
+    >
+      {title}
+    </h3>
+
+    <div class="flex flex-col items-center justify-center min-h-[5rem]">
+      {
+        hasDiscount ? (
+          <>
+            <div class="flex items-baseline gap-2 mb-2">
+              <span class="text-4xl font-extrabold text-moody-blue-700">
+                {formattedSalePrice}
+              </span>
+              <span class="text-lg text-gray-400 line-through font-medium">
+                {formattedPrice}
+              </span>
+            </div>
+            <span class="text-gray-500 text-sm">por sesión</span>
+            <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1.5 shadow-sm border border-green-200 mt-6">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              Ahorra {formattedTotalDiscount} con Fonasa
+            </div>
+          </>
+        ) : (
+          <span class="text-4xl font-extrabold text-moody-blue-700">
+            {formattedPrice}
+          </span>
+          <span class="text-gray-500 text-sm mt-3">por sesión</span>
+        )
+      }
     </div>
   </header>
-  <div>
-    <p class="flex gap-2 items-center md:justify-left">
-      <span class="text-moody-blue-700">
-        <CalendarDays />
-      </span>
-      {disponibility}
-    </p>
 
-    <p class="flex gap-2 items-center md:justify-left">
-      <span class="text-moody-blue-700">
-        <Clock10Icon />
-      </span>
-      {hours}
-    </p>
+  <div class="flex flex-col gap-4 w-full mb-8 flex-grow">
+    <div class="flex items-center gap-3 text-gray-600">
+      <CalendarDays className="w-5 h-5 text-moody-blue-500 shrink-0 mt-0.5" />
+      <span class="text-sm leading-tight">{disponibility}</span>
+    </div>
 
-    <p class="flex gap-2 items-center justify-left">
-      <span class="text-moody-blue-700">
-        <DollarSign />
-      </span>
-      {payment}
-    </p>
+    <div class="flex items-center gap-3 text-gray-600">
+      <Clock className="w-5 h-5 text-moody-blue-500 shrink-0" />
+      <span class="text-sm">{hours}</span>
+    </div>
+
+    <div class="flex items-center gap-3 text-gray-600">
+      <CreditCard className="w-5 h-5 text-moody-blue-500 shrink-0" />
+      <span class="text-sm">{payment}</span>
+    </div>
   </div>
-  <footer class="flex flex-col md:justify-center items-center">
+
+  <footer class="w-full mt-auto">
     <ExternalButton
       href="https://cal.com/catalina-herrera-ygpr9v"
-      text="Agendar consulta"
+      text="Agendar ahora"
       icon={ArrowRight}
     />
-    <p class="text-sm text-gray-800">
-      *La duración de cada sesión es de <span
-        class="text-moody-blue-500 font-semibold"
-        >{duration} minutos
-      </span>
-    </p>
   </footer>
 </article>

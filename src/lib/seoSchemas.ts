@@ -49,7 +49,7 @@ export function createPersonSchema(
 		const makesOffer = [
 			{
 				'@type': 'Offer',
-				name: 'Sesión terapéutica particular',
+				name: 'Sesión terapéutica Online Particular',
 				priceCurrency: 'CLP',
 				price: '25000',
 				availability: 'https://schema.org/InStock',
@@ -59,13 +59,16 @@ export function createPersonSchema(
 				},
 				itemOffered: {
 					'@type': 'Service',
-					name: 'Sesión Terapéutica Particular',
-					areaServed: 'Maipú, Santiago de Chile',
+					name: 'Terapia Ocupacional Online',
+					areaServed: {
+						'@type': 'Country',
+						name: 'Chile',
+					},
 				},
 			},
 			{
 				'@type': 'Offer',
-				name: 'Sesión terapéutica con descuento Fonasa',
+				name: 'Sesión terapéutica Online Fonasa',
 				priceCurrency: 'CLP',
 				price: '20000',
 				availability: 'https://schema.org/InStock',
@@ -75,8 +78,27 @@ export function createPersonSchema(
 				},
 				itemOffered: {
 					'@type': 'Service',
-					name: 'Sesión Terapéutica Fonasa',
-					areaServed: 'Maipú, Santiago de Chile',
+					name: 'Terapia Ocupacional Online (Fonasa)',
+					areaServed: {
+						'@type': 'Country',
+						name: 'Chile',
+					},
+				},
+			},
+			{
+				'@type': 'Offer',
+				name: 'Sesión terapéutica Presencial a Domicilio',
+				priceCurrency: 'CLP',
+				price: '25000',
+				availability: 'https://schema.org/InStock',
+				seller: {
+					'@type': 'Person',
+					'@id': `${siteBase}/#catalina`,
+				},
+				itemOffered: {
+					'@type': 'Service',
+					name: 'Terapia Ocupacional a Domicilio',
+					areaServed: ['Maipú', 'Cerrillos', 'Padre Hurtado'],
 				},
 			},
 		]

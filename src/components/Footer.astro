@@ -1,8 +1,8 @@
 ---
-const year = new Date().getFullYear()
-import { Picture } from 'astro:assets'
-import { Building2, Mail, MapPin, Phone } from 'lucide-react'
-import Logo from '../../public/logo.webp'
+const year = new Date().getFullYear();
+import { Picture } from "astro:assets";
+import { Building2, Mail, MapPin, Phone, Globe2 } from "lucide-react";
+import Logo from "../../public/logo.webp";
 ---
 
 <footer class="bg-moody-blue-950 text-gray-200">
@@ -28,15 +28,29 @@ import Logo from '../../public/logo.webp'
           adolescentes, en un ambiente acogedor y profesional.
         </p>
         <div class="flex flex-col gap-3 text-sm mt-2">
-          <div class="flex gap-2 items-center text-white font-medium">
-            <Building2 className="w-4 h-4 text-mint-400" />
-            <span>Centro Inclusión SANA</span>
+          <div class="flex gap-2 items-start text-white font-medium">
+            <Building2 className="w-4 h-4 text-mint-400 mt-1 shrink-0" />
+            <div class="flex flex-col">
+              <span>Centro Inclusión SANA</span>
+              <span class="text-xs text-gray-400 font-normal"
+                >Convenio Vigente</span
+              >
+            </div>
+          </div>
+          <div class="flex gap-2 items-start text-white font-medium">
+            <Globe2 className="w-4 h-4 text-mint-400 mt-1 shrink-0" />
+            <div class="flex flex-col">
+              <span>Atención Online (Todo Chile)</span>
+              <span class="text-xs text-gray-400 font-normal"
+                >Google Meet / Zoom / Teams</span
+              >
+            </div>
           </div>
           <div class="flex gap-2 items-start text-gray-300">
-            <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-mint-400" />
+            <MapPin className="w-4 h-4 mt-1 shrink-0 text-mint-400" />
             <div class="flex flex-col">
-              <span>Av. Los Pajaritos 666</span>
-              <span>Maipú, Santiago</span>
+              <span class="text-white font-medium">Atención a Domicilio</span>
+              <span class="text-xs">Maipú, Cerrillos, Padre Hurtado</span>
             </div>
           </div>
         </div>
