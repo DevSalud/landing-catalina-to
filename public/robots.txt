@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /procesar_cita
 
 Sitemap: https://www.cataterapias.cl/sitemap-index.xml
