@@ -5,15 +5,29 @@ interface ExternalButtonProps {
 	href: string
 	text: string
 	icon: AstroComponentFactory
+	variant?: 'default' | 'success'
 }
 
-const { href, text, icon: Icon } = Astro.props as ExternalButtonProps
+const {
+	href,
+	text,
+	icon: Icon,
+	variant = 'default',
+} = Astro.props as ExternalButtonProps
+
+const bgClass =
+	variant === 'success'
+		? 'bg-mint-700 border-mint-700 hover:bg-white hover:text-mint-700'
+		: 'bg-moody-blue-700 border-moody-blue-700 hover:text-moody-blue-700 hover:bg-white'
 ---
 
 <div class="flex w-full items-center justify-center">
   <a
     href={href}
-    class="bg-moody-blue-700 border-1 border-solid text-white px-6 py-3 rounded-full w-full hover:bg-white hover:text-moody-blue-700 hover:scale-105 transition-all"
+    class:list={[
+      "border-1 border-solid text-white px-6 py-3 rounded-full w-full hover:scale-105 transition-all",
+      bgClass,
+    ]}
     target="_blank"
     rel="noopener noreferrer"
   >

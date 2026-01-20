@@ -1,72 +1,76 @@
 ---
-import Baby from '/public/icons/baby.webp'
-import Family from '/public/icons/family.webp'
-import Inspiration from '/public/icons/inspiration.webp'
-import Lifestyle from '/public/icons/lifestyle.webp'
-import Psychomotricity from '/public/icons/psychomotricity.webp'
-import Integration from '/public/icons/sensorial.webp'
-import AreasCard from './ui/AreasCard.astro'
+import { AREAS_TEXTS } from '@/data/areas'
+import Baby from '/public/images/areas/baby.webp'
+import Family from '/public/images/areas/family.webp'
+import Inspiration from '/public/images/areas/inspiration.webp'
+import Integration from '/public/images/areas/integracion.webp'
+import Lifestyle from '/public/images/areas/lifestyle.webp'
+import Psychomotricity from '/public/images/areas/psychomotricity.webp'
+import ImageCard from './ui/ImageCard.astro'
 
-const areas = [
-	{
-		title: 'Integración sensorial',
-		alt: 'Imagen de un dibujo agradable de un cerebro relajado',
-		description:
-			'Ayudo a integrar y organizar las sensaciones del cuerpo mediante el entrenamiento de los sentidos. Ideal para niños con Trastorno de Integración Sensorial, Selectividad Alimentaria, entre otros diagnósticos.',
-		icon: Integration,
-	},
-	{
-		title: 'Estimulación Cognitiva',
-		alt: 'Imagen dibujo de una niña que tiene una ampolleta en la cabeza',
-		description:
-			'Contribuyo en potenciar las funciones cerebrales que involucran la atención, memoria, habilidades de planificación.',
-		icon: Inspiration,
-	},
-	{
-		title: 'Entrenamiento de actividades de vida diaria',
-		alt: 'Imagen dibujo de una niña que tiene íconos de actividades de la vida diaria',
-		description:
-			'Influyo en habilidades necesarias para realizar actividades vitales para el desempeño ocupacional diario.',
-		icon: Lifestyle,
-	},
-	{
-		title: 'Psicomotricidad',
-		alt: 'Imagen dibujo de una niña en una mesa con juegos',
-		description:
-			'Colaboro en potenciar el desarrollo físico, cognitivo y emocional del niño principalmente mediante actividades lúdicas.',
-		icon: Psychomotricity,
-	},
-	{
-		title: 'Estimulación temprana',
-		alt: 'Imagen dibujo de un bebé',
-		description:
-			'Utilizo técnicas para lograr un óptimo desarrollo infantil desde su nacimiento, potenciando el área física, intelectual, emocional y social.',
-		icon: Baby,
-	},
-	{
-		title: 'Servicios de Psicoeducación',
-		alt: 'Imagen dibujo de una familia',
-		description:
-			'Entrego conocimientos a padres, niños, colegios, cuidadores y cualquier entidad vital para el desarrollo del niño respecto a diagnóstico, tips de manejo, entre otros.',
-		icon: Family,
-	},
+const ICONS = [
+	Integration,
+	Inspiration,
+	Lifestyle,
+	Psychomotricity,
+	Baby,
+	Family,
 ]
+
+const areas = AREAS_TEXTS.items.map((item, index) => ({
+	...item,
+	icon: ICONS[index],
+}))
 ---
 
 <section
-  class="bg-moody-blue-50 flex flex-col justify-center h-full"
+  class="bg-white flex flex-col justify-center h-full py-24 relative overflow-hidden"
   id="areas"
 >
-  <div class="max-w-7xl px-4 md:px-8 flex flex-col h-full mt-20 gap-6 mx-auto">
-    <div class="w-full">
-      <h1 class="text-3xl font-bold text-center">Áreas de Intervención</h1>
-      <p class="text-gray-800 text-center">
-        Ofrezco una variedad de servicios terapéuticos adaptados a las
-        necesidades específicas de cada niño
+  <!-- Decorative background elements -->
+  <div
+    class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none"
+  >
+    <div
+      class="absolute top-0 right-0 w-1/3 h-1/3 bg-mint-50 rounded-bl-full opacity-50"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 left-0 w-1/4 h-1/4 bg-orchid-50 rounded-tr-full opacity-50"
+    >
+    </div>
+  </div>
+
+  <div
+    class="max-w-7xl px-4 md:px-8 flex flex-col h-full gap-12 mx-auto relative z-10"
+  >
+    <div class="w-full text-center max-w-3xl mx-auto space-y-4">
+      <h2
+        class="text-moody-blue-600 font-medium tracking-wide uppercase text-sm"
+      >
+        {AREAS_TEXTS.subtitle}
+      </h2>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900">
+        {AREAS_TEXTS.title}
+      </h1>
+      <p class="text-gray-600 text-lg leading-relaxed">
+        {AREAS_TEXTS.description}
       </p>
     </div>
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-20">
-      {areas.map((area) => <AreasCard {...area} />)}
+
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        areas.map((area) => (
+          <ImageCard
+            title={area.title}
+            description={area.description}
+            image={area.icon}
+            alt={area.alt}
+            variant="mint"
+            expandableDescription={true}
+          />
+        ))
+      }
     </div>
   </div>
 </section>

@@ -1,6 +1,16 @@
 ---
-const { price, salePrice, disponibility, hours, payment, title, badge } =
-	Astro.props
+const {
+	price,
+	salePrice,
+	disponibility,
+	hours,
+	payment,
+	title,
+	isRecommended,
+	ctaText,
+	location,
+	locationIcon: LocationIcon,
+} = Astro.props
 import { ArrowRight, CalendarDays, Clock, CreditCard } from 'lucide-react'
 import ExternalButton from '../common/ExternalButton.astro'
 
@@ -19,80 +29,135 @@ const formattedPrice = formattedToClp(price)
 const formattedSalePrice = salePrice ? formattedToClp(salePrice) : null
 
 const hasDiscount = salePrice && price > salePrice
-const totalDiscount = hasDiscount ? price - salePrice : 0
-const formattedTotalDiscount = formattedToClp(totalDiscount)
 ---
 
 <article
-  class="relative flex flex-col items-center rounded-2xl p-8 transition-all duration-300 h-full w-full bg-white shadow-lg hover:shadow-xl border border-moody-blue-100 hover:scale-105"
+  class:list={[
+    "relative flex flex-col items-center rounded-2xl p-0 transition-all duration-300 h-full w-full bg-white shadow-lg hover:shadow-xl border overflow-visible hover:scale-105",
+    isRecommended
+      ? "border-mint-500 ring-4 ring-mint-500/10"
+      : "border-moody-blue-100",
+  ]}
 >
-  <header
-    class="flex flex-col gap-4 w-full mb-8 text-center border-b border-gray-100 pb-8"
+  {/* Top colored bar for personality */}
+  <div
+    class:list={[
+      "w-full h-2 rounded-t-2xl",
+      isRecommended ? "bg-mint-500" : "bg-moody-blue-500",
+    ]}
   >
-    {
-      badge && (
-        <span class="text-xs font-bold px-3 py-1 rounded-full w-fit mx-auto uppercase tracking-wider bg-moody-blue-50 text-moody-blue-700">
-          {badge}
-        </span>
-      )
-    }
+  </div>
 
-    <h3
-      class="text-xl font-bold text-gray-900 min-h-[3rem] flex items-center justify-center"
-    >
-      {title}
-    </h3>
-
-    <div class="flex flex-col items-center justify-center min-h-[5rem]">
+  <div class="p-8 w-full flex flex-col h-full items-center relative pt-4">
+    <div class="h-8 mb-4 w-full flex justify-center items-start">
       {
-        hasDiscount ? (
-          <>
-            <div class="flex items-baseline gap-2 mb-2">
-              <span class="text-4xl font-extrabold text-moody-blue-700">
-                {formattedSalePrice}
-              </span>
-              <span class="text-lg text-gray-400 line-through font-medium">
-                {formattedPrice}
-              </span>
-            </div>
-            <span class="text-gray-500 text-sm">por sesión</span>
-            <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1.5 shadow-sm border border-green-200 mt-6">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              Ahorra {formattedTotalDiscount} con Fonasa
-            </div>
-          </>
-        ) : (
-          <span class="text-4xl font-extrabold text-moody-blue-700">
-            {formattedPrice}
-          </span>
-          <span class="text-gray-500 text-sm mt-3">por sesión</span>
+        isRecommended && (
+          <div class="bg-mint-100 text-mint-700 text-[10px] font-bold px-4 py-1 rounded-b-lg uppercase tracking-wider shadow-sm border-t-0 -mt-4">
+            Mejor Valor
+          </div>
         )
       }
     </div>
-  </header>
 
-  <div class="flex flex-col gap-4 w-full mb-8 flex-grow">
-    <div class="flex items-center gap-3 text-gray-600">
-      <CalendarDays className="w-5 h-5 text-moody-blue-500 shrink-0 mt-0.5" />
-      <span class="text-sm leading-tight">{disponibility}</span>
+    <header
+      class="flex flex-col gap-4 w-full mb-8 text-center border-b border-gray-100 pb-8"
+    >
+      <h2
+        class="text-xl font-bold text-gray-900 min-h-[3rem] flex items-center justify-center"
+      >
+        {title}
+      </h2>
+
+      <div class="flex flex-col items-center justify-center min-h-[5rem]">
+        {
+          hasDiscount ? (
+            <div class="flex flex-col items-center gap-1">
+              <span class="text-gray-500 line-through font-medium">
+                {formattedPrice}
+              </span>
+              <span
+                class:list={[
+                  "text-4xl font-extrabold",
+                  isRecommended ? "text-mint-700" : "text-moody-blue-700",
+                ]}
+              >
+                {formattedSalePrice}
+              </span>
+              <span class="text-gray-500 text-sm mt-1">por sesión</span>
+            </div>
+          ) : (
+            <div class="flex flex-col items-center gap-1">
+              {/* Spacer to align with discounted cards */}
+              <span
+                class="text-lg text-transparent font-medium select-none"
+                aria-hidden="true"
+              >
+                -
+              </span>
+              <span class="text-4xl font-extrabold text-moody-blue-700">
+                {formattedPrice}
+              </span>
+              <span class="text-gray-500 text-sm mt-1">por sesión</span>
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="flex flex-col gap-4 w-full mb-8 flex-grow">
+      {
+        location && (
+          <div class="flex items-center gap-3 text-gray-600">
+            {LocationIcon && (
+              <LocationIcon
+                className={
+                  isRecommended
+                    ? "w-5 h-5 shrink-0 mt-0.5 text-mint-700"
+                    : "w-5 h-5 shrink-0 mt-0.5 text-moody-blue-500"
+                }
+              />
+            )}
+            <span class="text-sm leading-tight font-medium">{location}</span>
+          </div>
+        )
+      }
+
+      <div class="flex items-center gap-3 text-gray-600">
+        <CalendarDays
+          className={isRecommended
+            ? "w-5 h-5 shrink-0 mt-0.5 text-mint-700"
+            : "w-5 h-5 shrink-0 mt-0.5 text-moody-blue-500"}
+        />
+        <span class="text-sm leading-tight">{disponibility}</span>
+      </div>
+
+      <div class="flex items-center gap-3 text-gray-600">
+        <Clock
+          className={isRecommended
+            ? "w-5 h-5 shrink-0 text-mint-700"
+            : "w-5 h-5 shrink-0 text-moody-blue-500"}
+        />
+        <span class="text-sm">{hours}</span>
+      </div>
+
+      <div class="flex items-center gap-3 text-gray-600">
+        <CreditCard
+          className={isRecommended
+            ? "w-5 h-5 shrink-0 text-mint-700"
+            : "w-5 h-5 shrink-0 text-moody-blue-500"}
+        />
+        <span class="text-sm">{payment}</span>
+      </div>
     </div>
 
-    <div class="flex items-center gap-3 text-gray-600">
-      <Clock className="w-5 h-5 text-moody-blue-500 shrink-0" />
-      <span class="text-sm">{hours}</span>
-    </div>
-
-    <div class="flex items-center gap-3 text-gray-600">
-      <CreditCard className="w-5 h-5 text-moody-blue-500 shrink-0" />
-      <span class="text-sm">{payment}</span>
-    </div>
+    <footer class="w-full mt-auto">
+      <ExternalButton
+        href="https://cal.com/catalina-herrera-ygpr9v"
+        text={ctaText ||
+          (isRecommended ? "Agendar con Descuento" : "Agendar ahora")}
+        icon={ArrowRight}
+        variant={isRecommended ? "success" : "default"}
+      />
+    </footer>
   </div>
-
-  <footer class="w-full mt-auto">
-    <ExternalButton
-      href="https://cal.com/catalina-herrera-ygpr9v"
-      text="Agendar ahora"
-      icon={ArrowRight}
-    />
-  </footer>
 </article>

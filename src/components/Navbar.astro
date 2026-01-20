@@ -2,6 +2,7 @@
 import { Picture } from 'astro:assets'
 import Logo from '../../public/logo.webp'
 
+import { NAVBAR_TEXTS } from '@/data/navbar'
 import MenuToggle from './MenuToggle.astro'
 ---
 
@@ -11,37 +12,30 @@ import MenuToggle from './MenuToggle.astro'
       <a href="/#" class="flex gap-2 items-center">
         <Picture
           src={Logo}
-          alt="Logo de Catalina"
+          alt={NAVBAR_TEXTS.logoAlt}
           widths={[32, 36, 72, 108]}
           sizes="(max-width: 640px) 32px, (max-width: 1024px) 36px"
           width={36}
           height={27}
           loading="eager"
         />
-        <span class="text-moody-blue-400 text-xl font-bold">Catalina</span>
+        <span class="text-moody-blue-400 text-xl font-bold"
+          >{NAVBAR_TEXTS.brand}</span
+        >
       </a>
       <ul class="hidden lg:flex items-center gap-10 text-black font-semibold">
-        <li class="navbar-item">
-          <a href="/#">Home</a>
-        </li>
-        <li class="navbar-item">
-          <a href="/#areas">Áreas</a>
-        </li>
-        <li class="navbar-item">
-          <a href="/#sobre-mi">Sobre mí</a>
-        </li>
-        <li class="navbar-item">
-          <a href="/#valor">Valor</a>
-        </li>
-        <li class="navbar-item">
-          <a href="/#donde">Dónde</a>
-        </li>
-        <li class="navbar-item">
-          <a href="/#contacto">Contacto</a>
-        </li>
-        <li class="navbar-item">
-          <a href="/blog" data-astro-prefetch="tap">Blog</a>
-        </li>
+        {
+          NAVBAR_TEXTS.links.map((link) => (
+            <li class="navbar-item">
+              <a
+                href={link.href}
+                data-astro-prefetch={link.href === "/blog" ? "tap" : undefined}
+              >
+                {link.text}
+              </a>
+            </li>
+          ))
+        }
       </ul>
 
       <MenuToggle />

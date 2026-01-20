@@ -3,6 +3,7 @@ const year = new Date().getFullYear()
 import { Picture } from 'astro:assets'
 import { Building2, Globe2, Mail, MapPin, Phone } from 'lucide-react'
 import Logo from '../../public/logo.webp'
+import { FOOTER_TEXTS } from '../data/footer.ts'
 ---
 
 <footer class="bg-moody-blue-950 text-gray-200">
@@ -13,7 +14,7 @@ import Logo from '../../public/logo.webp'
         <div class="flex gap-3 items-center">
           <Picture
             src={Logo}
-            alt="Logo de Catalina"
+            alt={`${FOOTER_TEXTS.identity.logoAlt} ${FOOTER_TEXTS.identity.name}`}
             widths={[40, 80]}
             sizes="40px"
             width={40}
@@ -21,36 +22,39 @@ import Logo from '../../public/logo.webp'
             loading="lazy"
             class="object-contain"
           />
-          <h2 class="text-xl font-bold text-white">Catalina Herrera</h2>
+          <h2 class="text-xl font-bold text-white">
+            {FOOTER_TEXTS.identity.name}
+          </h2>
         </div>
         <p class="text-sm leading-relaxed text-gray-300">
-          Terapia Ocupacional dedicada al desarrollo integral de niños y
-          adolescentes, en un ambiente acogedor y profesional.
+          {FOOTER_TEXTS.identity.description}
         </p>
         <div class="flex flex-col gap-3 text-sm mt-2">
           <div class="flex gap-2 items-start text-white font-medium">
             <Building2 className="w-4 h-4 text-mint-400 mt-1 shrink-0" />
             <div class="flex flex-col">
-              <span>Centro Inclusión SANA</span>
-              <span class="text-xs text-gray-400 font-normal"
-                >Convenio Vigente</span
-              >
+              <span>{FOOTER_TEXTS.identity.sana.name}</span>
+              <span class="text-xs text-gray-400 font-normal">
+                {FOOTER_TEXTS.identity.sana.agreement}
+              </span>
             </div>
           </div>
           <div class="flex gap-2 items-start text-white font-medium">
             <Globe2 className="w-4 h-4 text-mint-400 mt-1 shrink-0" />
             <div class="flex flex-col">
-              <span>Atención Online (Todo Chile)</span>
-              <span class="text-xs text-gray-400 font-normal"
-                >Google Meet / Zoom / Teams</span
-              >
+              <span>{FOOTER_TEXTS.identity.online.text}</span>
+              <span class="text-xs text-gray-400 font-normal">
+                {FOOTER_TEXTS.identity.online.platforms}
+              </span>
             </div>
           </div>
           <div class="flex gap-2 items-start text-gray-300">
             <MapPin className="w-4 h-4 mt-1 shrink-0 text-mint-400" />
             <div class="flex flex-col">
-              <span class="text-white font-medium">Atención a Domicilio</span>
-              <span class="text-xs">Maipú, Cerrillos, Padre Hurtado</span>
+              <span class="text-white font-medium">
+                {FOOTER_TEXTS.identity.home.text}
+              </span>
+              <span class="text-xs">{FOOTER_TEXTS.identity.home.communes}</span>
             </div>
           </div>
         </div>
@@ -58,69 +62,52 @@ import Logo from '../../public/logo.webp'
 
       <!-- Columna 2: Navegación -->
       <div class="flex flex-col gap-4">
-        <h3 class="text-white font-bold text-lg">Navegación</h3>
+        <h3 class="text-white font-bold text-lg">
+          {FOOTER_TEXTS.navigation.title}
+        </h3>
         <ul class="flex flex-col gap-3 text-sm">
-          <li>
-            <a
-              href="/"
-              class="hover:text-white hover:translate-x-1 transition-all inline-block"
-              >Inicio</a
-            >
-          </li>
-          <li>
-            <a
-              href="/#sobre-mi"
-              class="hover:text-white hover:translate-x-1 transition-all inline-block"
-              >Sobre Mí</a
-            >
-          </li>
-          <li>
-            <a
-              href="/#areas"
-              class="hover:text-white hover:translate-x-1 transition-all inline-block"
-              >Áreas de Intervención</a
-            >
-          </li>
-          <li>
-            <a
-              href="/#donde"
-              class="hover:text-white hover:translate-x-1 transition-all inline-block"
-              >Ubicación</a
-            >
-          </li>
+          {
+            FOOTER_TEXTS.navigation.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <!-- Columna 3: Pacientes -->
       <div class="flex flex-col gap-4">
-        <h3 class="text-white font-bold text-lg">Pacientes</h3>
+        <h3 class="text-white font-bold text-lg">
+          {FOOTER_TEXTS.patients.title}
+        </h3>
         <ul class="flex flex-col gap-3 text-sm">
           <li>
             <a
-              href="/blog"
+              href={FOOTER_TEXTS.patients.regulations.href}
               class="hover:text-white hover:translate-x-1 transition-all inline-block"
-              >Blog y Artículos</a
             >
+              {FOOTER_TEXTS.patients.regulations.text}
+            </a>
           </li>
           <li>
             <a
-              href="/normativas"
-              class="hover:text-white hover:translate-x-1 transition-all inline-block"
-              >Normativas de Atención</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://cal.com/catalina-herrera-ygpr9v"
+              href={FOOTER_TEXTS.patients.schedule.href}
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-white hover:translate-x-1 transition-all inline-block items-center gap-2"
             >
-              Agendar Hora
+              {FOOTER_TEXTS.patients.schedule.text}
               <span
                 class="text-xs bg-mint-500/20 text-mint-300 px-2 py-0.5 rounded-full"
-                >Online</span
               >
+                {FOOTER_TEXTS.patients.schedule.badge}
+              </span>
             </a>
           </li>
         </ul>
@@ -128,22 +115,24 @@ import Logo from '../../public/logo.webp'
 
       <!-- Columna 4: Contacto -->
       <div class="flex flex-col gap-4">
-        <h3 class="text-white font-bold text-lg">Contacto</h3>
+        <h3 class="text-white font-bold text-lg">
+          {FOOTER_TEXTS.contact.title}
+        </h3>
         <ul class="flex flex-col gap-3 text-sm">
           <li>
             <a
-              href="mailto:catalina.herrera.to@gmail.com"
+              href={`mailto:${FOOTER_TEXTS.contact.email}`}
               class="hover:text-white transition-colors break-words flex items-center gap-2 group"
             >
               <Mail
                 className="w-4 h-4 text-mint-400 group-hover:text-white transition-colors"
               />
-              catalina.herrera.to@gmail.com
+              {FOOTER_TEXTS.contact.email}
             </a>
           </li>
           <li>
             <a
-              href="https://api.whatsapp.com/send?phone=56992194020"
+              href={FOOTER_TEXTS.contact.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-white transition-colors flex items-center gap-2 group"
@@ -151,7 +140,7 @@ import Logo from '../../public/logo.webp'
               <Phone
                 className="w-4 h-4 text-mint-400 group-hover:text-white transition-colors"
               />
-              +56 9 9219 4020
+              {FOOTER_TEXTS.contact.phone}
             </a>
           </li>
         </ul>
@@ -163,7 +152,8 @@ import Logo from '../../public/logo.webp'
       class="border-t border-moody-blue-800 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-xs text-gray-300"
     >
       <span>
-        © {year} Catalina Herrera. Todos los derechos reservados.
+        © {year}
+        {FOOTER_TEXTS.copyright}
       </span>
     </div>
   </div>

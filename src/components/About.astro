@@ -1,67 +1,73 @@
 ---
 import { Picture } from 'astro:assets'
-import { AboutCollapsible } from './AboutCollapsible.tsx'
-
 import CatalinaJuegos from '../../public/images/Catalina_juegos.webp'
+import { AboutCollapsible } from './AboutCollapsible.tsx'
 ---
 
 <section
-  class="bg-moody-blue-300 flex flex-col items-center justify-center h-full relative"
+  class="bg-moody-blue-50 flex flex-col items-center justify-center h-full relative py-20"
   id="sobre-mi"
 >
-  <div class="absolute inset-0 flex flex-col md:flex-row">
-    <div class="md:w-1/2 bg-moody-blue-300"></div>
-    <div class="md:w-1/2 bg-moody-blue-100"></div>
-  </div>
-
   <div
-    class="max-w-7xl px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 relative z-10 mb-10"
+    class="max-w-7xl px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mx-auto"
   >
-    <div
-      class="bg-moody-blue-300 flex items-center w-full mt-10 md:pr-10"
-      data-aos="zoom-out"
-    >
-      <Picture
-        src={CatalinaJuegos}
-        alt="Foto de Catalina Herrera con piernas cruzadas, con juegos y sonriendo"
-        class="object-cover w-full rounded-lg"
-        loading="lazy"
-        quality={80}
-      />
+    <div class="relative group" data-aos="fade-right">
+      <div
+        class="absolute -inset-4 bg-gradient-to-r from-moody-blue-200 to-orchid-200 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
+      >
+      </div>
+      <div
+        class="relative rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5"
+      >
+        <Picture
+          src={CatalinaJuegos}
+          alt="Foto de Catalina Herrera con piernas cruzadas, con juegos y sonriendo"
+          class="object-cover w-full h-full transform transition duration-500 group-hover:scale-105"
+          loading="lazy"
+          quality={80}
+        />
+      </div>
     </div>
 
-    <article class="h-full w-full bg-moody-blue-100">
-      <div class="py-20 px-10">
-        <h1 class="text-3xl font-bold text-center">Sobre mí</h1>
-        <p class="text-gray-800 text-lg">
-          Me llamo <span class="text-moody-blue-700 font-semibold"
+    <article class="flex flex-col" data-aos="fade-left">
+      <div class="space-y-2">
+        <h2
+          class="text-moody-blue-600 font-medium tracking-wide uppercase text-sm"
+        >
+          Conóceme un poco más
+        </h2>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+          Sobre mí
+        </h1>
+      </div>
+
+      <div class="prose prose-lg text-gray-600 leading-relaxed space-y-4 mt-2">
+        <p>
+          Me llamo <span class="text-moody-blue-700 font-bold"
             >Catalina Herrera</span
           >, y llevo realizando atenciones desde el 2023. Inicialmente empecé
           con trabajos a domicilio, prontamente cambié a trabajos dentro de una
           fundación y, actualmente, me encuentro trabajando en un centro
-          infantil de la comuna de <span
-            class="font-semibold text-moody-blue-700">Maipú</span
+          infantil de la comuna de <span class="font-bold text-moody-blue-700"
+            >Maipú</span
           >.
         </p>
 
-        <p class="text-gray-800 text-lg">
+        <p>
           Cuento con amplia experiencia desde el área <span
-            class="font-semibold text-moody-blue-700"
-          >
-            infanto-juvenil</span
+            class="font-bold text-moody-blue-700">infanto-juvenil</span
           >, con certificaciones atingentes al caso, y los niños con
-          dificultades que más he atendido son con diagnóstico o sospecha de
-          <span class="font-semibold text-moody-blue-700"
+          dificultades que más he atendido son con diagnóstico o sospecha de <span
+            class="font-bold text-moody-blue-700"
             >Trastorno del Espectro Autista</span
-          >, <span class="font-semibold text-moody-blue-700"
+          >, <span class="font-bold text-moody-blue-700"
             >Trastorno de Déficit atencional con Hiperactividad</span
-          >, <span class="font-semibold text-moody-blue-700">
-            Trastornos sensoriales</span
-          >, <span class="font-semibold text-moody-blue-700">
-            Selectividad Alimentaria</span
-          >, <span class="font-semibold text-moody-blue-700">
-            Síndrome de Down</span
-          >, y un muy grande etcétera.
+          >, <span class="font-bold text-moody-blue-700"
+            >Trastornos sensoriales</span
+          >, <span class="font-bold text-moody-blue-700"
+            >Selectividad Alimentaria</span
+          > y <span class="font-bold text-moody-blue-700">Síndrome de Down</span
+          >.
         </p>
         <AboutCollapsible client:visible />
       </div>

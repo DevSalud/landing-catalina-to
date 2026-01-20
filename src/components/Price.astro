@@ -1,53 +1,93 @@
 ---
+import { PRICE_TEXTS } from '@/data/price'
+import { MapPin, ShieldCheck } from 'lucide-react'
 import PriceCard from './ui/PriceCard.astro'
 ---
 
-<section class="bg-white flex flex-col justify-center h-full" id="valor">
+<section
+  class="bg-moody-blue-50 flex flex-col justify-center h-full py-24 relative"
+  id="valor"
+>
+  <!-- Decorative background elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div
+      class="absolute -left-10 top-20 w-64 h-64 bg-orchid-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+    >
+    </div>
+    <div
+      class="absolute -right-10 bottom-20 w-64 h-64 bg-mint-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+    >
+    </div>
+  </div>
+
   <div
-    class="flex flex-col gap-12 py-20 items-center max-w-7xl px-4 md:px-8 mx-auto"
+    class="flex flex-col gap-12 items-center max-w-7xl px-4 md:px-8 mx-auto relative z-10"
   >
-    <div class="max-w-3xl mx-auto">
-      <h1
-        class="text-3xl md:text-4xl font-bold text-center text-moody-blue-800 mb-4"
+    <div class="max-w-3xl mx-auto text-center space-y-4">
+      <h2
+        class="text-moody-blue-600 font-medium tracking-wide uppercase text-sm"
       >
-        Planes de Atención
+        {PRICE_TEXTS.subtitle}
+      </h2>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900">
+        {PRICE_TEXTS.title}
       </h1>
-      <p class="text-center text-gray-600 text-lg">
-        Elige la modalidad que mejor se adapte a tu familia. Atención presencial
-        exclusiva en Maipú, Cerrillos y Padre Hurtado.
+      <p class="text-gray-600 text-lg leading-relaxed">
+        {PRICE_TEXTS.description}
       </p>
     </div>
 
     <div
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full items-start"
     >
-      <PriceCard
-        title="Online Fonasa"
-        badge="Valor Preferencial"
-        price={25000}
-        salePrice={20000}
-        disponibility="Lunes, Miércoles, Viernes y Sábado"
-        hours="45 minutos"
-        payment="Pago por Transferencia"
-      />
+      <div
+        class="transform hover:-translate-y-2 transition-transform duration-300"
+      >
+        <PriceCard
+          title={PRICE_TEXTS.cards.onlineFonasa.title}
+          badge={PRICE_TEXTS.cards.onlineFonasa.badge}
+          price={25000}
+          salePrice={20000}
+          disponibility={PRICE_TEXTS.cards.onlineFonasa.disponibility}
+          hours={PRICE_TEXTS.cards.onlineFonasa.hours}
+          payment={PRICE_TEXTS.cards.onlineFonasa.payment}
+          isRecommended={true}
+          location={PRICE_TEXTS.cards.onlineFonasa.location}
+          locationIcon={ShieldCheck}
+        />
+      </div>
 
-      <PriceCard
-        title="Atención Online"
-        badge="Todo Chile"
-        price={25000}
-        disponibility="Lunes, Miércoles, Viernes y Sábado"
-        hours="45 minutos"
-        payment="Pago por Transferencia"
-      />
+      <div
+        class="transform hover:-translate-y-2 transition-transform duration-300"
+      >
+        <PriceCard
+          title={PRICE_TEXTS.cards.online.title}
+          badge={PRICE_TEXTS.cards.online.badge}
+          price={25000}
+          disponibility={PRICE_TEXTS.cards.online.disponibility}
+          hours={PRICE_TEXTS.cards.online.hours}
+          payment={PRICE_TEXTS.cards.online.payment}
+          ctaText={PRICE_TEXTS.cards.online.ctaText}
+          location={PRICE_TEXTS.cards.online.location}
+          locationIcon={ShieldCheck}
+        />
+      </div>
 
-      <PriceCard
-        title="Presencial Domicilio"
-        badge="Maipú, Cerrillos, P. Hurtado"
-        price={25000}
-        disponibility="Lunes, Miércoles, Viernes y Sábado"
-        hours="45 minutos"
-        payment="Pago por Transferencia"
-      />
+      <div
+        class="transform hover:-translate-y-2 transition-transform duration-300"
+      >
+        <PriceCard
+          title={PRICE_TEXTS.cards.presential.title}
+          badge={PRICE_TEXTS.cards.presential.badge}
+          price={25000}
+          disponibility={PRICE_TEXTS.cards.presential.disponibility}
+          hours={PRICE_TEXTS.cards.presential.hours}
+          payment={PRICE_TEXTS.cards.presential.payment}
+          ctaText={PRICE_TEXTS.cards.presential.ctaText}
+          location={PRICE_TEXTS.cards.presential.location}
+          locationIcon={MapPin}
+        />
+      </div>
     </div>
   </div>
 </section>

@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      
+
       - name: Cache Bun installation
         uses: actions/cache@v4
         id: bun-cache
@@ -64,3 +64,30 @@ jobs:
 
       - name: Run Astro typecheck
         run: bun run typecheck
+
+  test:
+    name: Vitest Tests
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Cache Bun installation
+        uses: actions/cache@v4
+        id: bun-cache
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-1.2.21
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.21"
+
+      - name: Install dependencies
+        run: bun install --no-audit --no-fund
+
+      - name: Run Tests
+        run: bun run test

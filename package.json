@@ -19,7 +19,8 @@
 		"typecheck": "astro check",
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write",
-		"biome:format": "biome format --write"
+		"biome:format": "biome format --write",
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.5",
@@ -53,7 +54,9 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@portabletext/types": "^2.0.15",
-		"tw-animate-css": "^1.2.9"
+		"jsdom": "^27.4.0",
+		"tw-animate-css": "^1.2.9",
+		"vitest": "^4.0.17"
 	},
 	"optionalDependencies": {
 		"@esbuild/linux-x64": "^0.27.1",

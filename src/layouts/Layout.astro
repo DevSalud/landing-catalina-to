@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { LAYOUT_TEXTS } from '@/data/layout'
 import { createPersonSchema, createWebSiteSchema } from '../lib/seoSchemas.ts'
 
 interface LayoutProps {
@@ -38,7 +39,7 @@ const {
 const SITE_URL = (
 	Astro.site ? Astro.site.toString() : 'https://www.cataterapias.cl'
 ).replace(/\/$/, '')
-const siteName = 'Catalina Herrera'
+const siteName = LAYOUT_TEXTS.siteName
 
 function toAbsolute(url: string | undefined, base: string): string | undefined {
 	if (!url) {
@@ -48,11 +49,10 @@ function toAbsolute(url: string | undefined, base: string): string | undefined {
 }
 
 // Valores por defecto (como estaban antes)
-const defaultTitle = 'Terapia Ocupacional en Maipú | Catalina Herrera'
-const defaultDescription =
-	'Terapeuta Ocupacional en Maipú, Santiago. Atención especializada para niños y adolescentes. Valores preferenciales Fonasa. ¡Agenda tu hora!'
+const defaultTitle = LAYOUT_TEXTS.defaultTitle
+const defaultDescription = LAYOUT_TEXTS.defaultDescription
 const defaultImage = '/images/Catalina.webp'
-const defaultImageAlt = 'Foto de Catalina Herrera sonriendo'
+const defaultImageAlt = LAYOUT_TEXTS.defaultImageAlt
 const defaultType = 'website'
 
 // Resolución final

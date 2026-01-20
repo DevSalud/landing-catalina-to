@@ -10,27 +10,29 @@ export const AboutCollapsible = () => {
 	const [open, setOpen] = useState(false)
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
-			<CollapsibleContent className="animate-accordion-down">
-				<p className="text-gray-800 text-lg mb-10">
+			<CollapsibleContent className="animate-accordion-down prose prose-lg text-gray-600 leading-relaxed space-y-4">
+				<p>
 					Mis métodos de intervención se basan principalmente en el{' '}
-					<span className="font-semibold text-moody-blue-700">juego</span>,
-					donde potencio las habilidades del infante/joven con actividades{' '}
-					<span className="font-semibold text-moody-blue-700">
+					<span className="font-bold text-moody-blue-700">juego</span>, donde
+					potencio las habilidades del infante/joven con actividades{' '}
+					<span className="font-bold text-moody-blue-700">
 						lúdicas y entretenidas
 					</span>
 					, fomentando tanto su motivación como el trabajo guiado.
 				</p>
 
-				<p className="text-gray-800 text-lg mb-10">
+				<p>
 					En resumen, ayudo a cada niño con diversas dificultades a que se
 					desenvuelva lo mejor posible en su vida diaria, siempre velando por su
 					bienestar y apoyando no solo a la persona a tratar, sino que también a
 					sus redes, ya sea familia, escuela, entre otros.
 				</p>
 
-				<p className="text-gray-800 text-lg mb-10">
-					Si estás buscando apoyo terapéutico, estaré muy feliz de ayudarte.
-					¡Puedes escribirme para cualquier consulta!
+				<p>
+					Si estás buscando apoyo{' '}
+					<span className="font-bold text-moody-blue-700">terapéutico</span>,
+					estaré muy feliz de ayudarte. ¡Puedes escribirme para cualquier
+					consulta!
 				</p>
 			</CollapsibleContent>
 			<CollapsibleTrigger

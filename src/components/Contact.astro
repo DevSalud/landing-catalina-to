@@ -1,29 +1,51 @@
 ---
+import { CONTACT_TEXTS } from '@/data/contact'
 import Button from './common/Button.astro'
 import WhatsappButton from './common/WhatsappButton.astro'
 ---
 
 <section
-  class="w-full bg-white py-20 max-w-7xl px-4 md:px-8 mx-auto"
+  class="w-full bg-white py-24 mx-auto relative overflow-hidden"
   id="contacto"
 >
-  <div class="w-full flex flex-col gap-6 items-center justify-center">
-    <div class="flex flex-col items-center justify-center">
-      <h1 class="text-3xl font-bold">Contáctame</h1>
-      <p class="text-gray-800 max-w-xl text-center">
-        ¿Tienes alguna pregunta o necesitas ayuda? ¡No dudes en escribirme!, con
-        gusto te ayudaré 😊. También puedes contactarme directamente por
-        WhatsApp para una respuesta más rápida.
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div
+      class="absolute top-0 right-0 w-64 h-64 bg-moody-blue-50 rounded-bl-full opacity-50"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 left-0 w-48 h-48 bg-mint-50 rounded-tr-full opacity-50"
+    >
+    </div>
+  </div>
+
+  <div
+    class="max-w-7xl px-4 md:px-8 mx-auto w-full flex flex-col gap-10 items-center justify-center relative z-10"
+  >
+    <div
+      class="flex flex-col items-center justify-center text-center space-y-4 max-w-2xl"
+    >
+      <h2
+        class="text-moody-blue-600 font-medium tracking-wide uppercase text-sm"
+      >
+        {CONTACT_TEXTS.subtitle}
+      </h2>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900">
+        {CONTACT_TEXTS.title}
+      </h1>
+      <p class="text-gray-600 text-lg leading-relaxed">
+        {CONTACT_TEXTS.description}
       </p>
     </div>
 
     <div
-      class="w-full max-w-xl p-10 rounded-xl bg-moody-blue-50 shadow-lg flex flex-col gap-10"
+      class="w-full max-w-xl p-8 md:p-10 rounded-3xl bg-white shadow-xl shadow-moody-blue-100 border border-moody-blue-50 flex flex-col gap-8 transform transition-all hover:shadow-2xl hover:shadow-moody-blue-200/50"
       data-contact-form
     >
       <WhatsappButton
-        href="https://api.whatsapp.com/send?phone=56992194020"
-        text="Contáctame por WhatsApp"
+        href={CONTACT_TEXTS.whatsapp.link}
+        text={CONTACT_TEXTS.whatsapp.text}
         textClass="text-sm text-center"
       />
 
@@ -32,181 +54,64 @@ import WhatsappButton from './common/WhatsappButton.astro'
         <span
           class="text-gray-800 text-sm absolute -translate-y-1/2 bg-moody-blue-50 px-2"
         >
-          O completa el formulario
+          {CONTACT_TEXTS.form.divider}
         </span>
       </div>
       <form class="flex flex-col gap-5" id="contacto-form">
         <div class="flex flex-col gap-2">
-          <label for="nombre" class="text-gray-800">Nombre</label>
+          <label for="nombre" class="text-gray-800">
+            {CONTACT_TEXTS.form.fields.name.label}
+          </label>
           <input
             type="text"
             id="nombre"
             class="w-full rounded-2xl py-2 px-3 text-gray-800 border border-moody-blue-200 focus:outline-none focus:border-moody-blue-500 focus:border-2"
-            placeholder="Juan Pérez"
+            placeholder={CONTACT_TEXTS.form.fields.name.placeholder}
           />
           <span class="text-red-500 text-sm hidden" id="nombre-error">
-            El nombre es obligatorio
+            {CONTACT_TEXTS.form.fields.name.error}
           </span>
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="email" class="text-gray-800">Email</label>
+          <label for="email" class="text-gray-800">
+            {CONTACT_TEXTS.form.fields.email.label}
+          </label>
           <input
             type="email"
             id="email"
             class="w-full rounded-2xl py-2 px-3 text-gray-800 border border-moody-blue-200 focus:outline-none focus:border-moody-blue-500 focus:border-2"
-            placeholder="juanperez@ejemplo.com"
+            placeholder={CONTACT_TEXTS.form.fields.email.placeholder}
           />
           <span class="text-red-500 text-sm hidden" id="email-error">
-            El email no es válido
+            {CONTACT_TEXTS.form.fields.email.error}
           </span>
         </div>
 
         <div class="flex flex-col gap-2">
-          <label for="mensaje" class="text-gray-800">Mensaje</label>
+          <label for="mensaje" class="text-gray-800">
+            {CONTACT_TEXTS.form.fields.message.label}
+          </label>
           <textarea
             id="mensaje"
             class="w-full rounded-2xl py-2 px-3 text-gray-800 border border-moody-blue-200 focus:outline-none focus:border-moody-blue-500 focus:border-2 resize-none"
             rows="5"
-            placeholder="Escribe aquí tu mensaje"></textarea>
+            placeholder={CONTACT_TEXTS.form.fields.message.placeholder}
+          ></textarea>
           <span class="text-red-500 text-sm hidden" id="mensaje-error">
-            El mensaje es obligatorio
+            {CONTACT_TEXTS.form.fields.message.error}
           </span>
         </div>
 
-        <Button text="Enviar" type="submit" />
+        <Button text={CONTACT_TEXTS.form.button} type="submit" />
       </form>
     </div>
   </div>
 </section>
 
 <script>
-  // Lazy loading del JavaScript del formulario
-  const contactSection = document.querySelector("[data-contact-form]");
-  let scriptLoaded = false;
-
-  // Función para cargar el script del formulario
-  async function loadContactScript() {
-    if (scriptLoaded) return;
-    scriptLoaded = true;
-
-    // Importación dinámica - solo se carga cuando es necesario
-    const { actions } = await import("astro:actions");
-    const { toast } = await import("sonner");
-
-    const EMAIL_REGEX = /^[a-zA-Z0-9._%±-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
-    const form = document.getElementById("contacto-form") as HTMLFormElement;
-    const submitter = document.querySelector(
-      "button[type='submit']"
-    ) as HTMLButtonElement;
-
-    const nombreError = document.getElementById(
-      "nombre-error"
-    ) as HTMLSpanElement;
-    const emailError = document.getElementById(
-      "email-error"
-    ) as HTMLSpanElement;
-    const mensajeError = document.getElementById(
-      "mensaje-error"
-    ) as HTMLSpanElement;
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const nombre = form.nombre.value;
-      const email = form.email.value;
-      const mensaje = form.mensaje.value;
-
-      if (nombre.length === 0) {
-        nombreError.classList.remove("hidden");
-        form.nombre.classList.add("border-red-500");
-      }
-
-      if (!EMAIL_REGEX.test(email)) {
-        emailError.classList.remove("hidden");
-        form.email.classList.add("border-red-500");
-      }
-
-      if (mensaje.length === 0) {
-        mensajeError.classList.remove("hidden");
-        form.mensaje.classList.add("border-red-500");
-      }
-
-      if (
-        nombre.length === 0 ||
-        EMAIL_REGEX.test(email) === false ||
-        mensaje.length === 0
-      ) {
-        return;
-      }
-
-      submitter.disabled = true;
-      submitter.innerHTML = "Enviando...";
-      submitter.classList.add("opacity-70");
-      submitter.classList.add("pointer-events-none");
-      submitter.classList.add("select-none");
-
-      nombreError.classList.add("hidden");
-      emailError.classList.add("hidden");
-      mensajeError.classList.add("hidden");
-      form.nombre.classList.remove("border-red-500");
-      form.email.classList.remove("border-red-500");
-      form.mensaje.classList.remove("border-red-500");
-
-      const formData = new FormData();
-
-      formData.append("nombre", nombre);
-      formData.append("email", email);
-      formData.append("mensaje", mensaje);
-
-      try {
-        const { error } = await actions.send(formData);
-
-        if (error) {
-          throw error;
-        }
-
-        toast.success("Mensaje enviado exitosamente");
-        form.reset();
-      } catch (error) {
-        console.error(error);
-        toast.error(
-          "Ocurrió un error al enviar el mensaje. Por favor, inténtalo de nuevo."
-        );
-      } finally {
-        submitter.disabled = false;
-        submitter.innerHTML = "Enviar";
-        submitter.classList.remove("opacity-70");
-        submitter.classList.remove("pointer-events-none");
-        submitter.classList.remove("select-none");
-      }
-    });
-  }
-
-  // Intersection Observer para detectar cuando el componente es visible
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          loadContactScript();
-          observer.unobserve(entry.target); // Solo cargar una vez
-        }
-      });
-    },
-    {
-      rootMargin: "100px", // Cargar 100px antes de que sea visible
-    }
-  );
-
-  if (contactSection) {
-    observer.observe(contactSection);
-  }
-
-  // También cargar si el usuario hace focus en algún input (fallback)
-  const inputs = document.querySelectorAll(
-    "#contacto-form input, #contacto-form textarea"
-  );
-  inputs.forEach((input) => {
-    input.addEventListener("focus", loadContactScript, { once: true });
-  });
+  import { initContactForm } from '@/lib/contactForm'
+  
+  // Inicializar la lógica del formulario cuando el DOM esté listo
+  initContactForm()
 </script>
