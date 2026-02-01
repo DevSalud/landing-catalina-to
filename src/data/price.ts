@@ -11,6 +11,7 @@ export const PRICE_TEXTS = {
 			hours: '45 minutos',
 			payment: 'Pago por Transferencia',
 			location: 'Videollamada Segura',
+			url: 'https://cal.com/catalina-herrera-ygpr9v/terapia-ocupacional-online-preferencial',
 		},
 		online: {
 			title: 'Atención Online',
@@ -20,6 +21,7 @@ export const PRICE_TEXTS = {
 			payment: 'Pago por Transferencia',
 			ctaText: 'Agendar Online',
 			location: 'Videollamada Segura',
+			url: 'https://cal.com/catalina-herrera-ygpr9v/terapia-ocupacional-online',
 		},
 		presential: {
 			title: 'Presencial Domicilio',
@@ -29,6 +31,7 @@ export const PRICE_TEXTS = {
 			payment: 'Pago por Transferencia',
 			ctaText: 'Agendar Presencial',
 			location: 'Maipú, Cerrillos y Padre Hurtado',
+			url: 'https://cal.com/catalina-herrera-ygpr9v/terapia-ocupacional-domiciliaria',
 		},
 	},
 } as const

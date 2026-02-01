@@ -8,6 +8,7 @@ const {
 	title,
 	isRecommended,
 	ctaText,
+	url,
 	location,
 	locationIcon: LocationIcon,
 } = Astro.props
@@ -152,7 +153,7 @@ const hasDiscount = salePrice && price > salePrice
 
     <footer class="w-full mt-auto">
       <ExternalButton
-        href="https://cal.com/catalina-herrera-ygpr9v"
+        href={url}
         text={ctaText ||
           (isRecommended ? "Agendar con Descuento" : "Agendar ahora")}
         icon={ArrowRight}
