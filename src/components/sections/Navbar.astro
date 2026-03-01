@@ -1,0 +1,62 @@
+---
+import { Picture } from 'astro:assets'
+import Logo from '../../../public/logo.webp'
+import { NAV_LINKS } from '../../data/navLinks'
+import { CALENDAR_URL } from '../../lib/constants'
+import MenuToggle from './MenuToggle.astro'
+import '../../styles/components/navbar.css'
+---
+
+<header
+  id="navbar"
+  class="fixed top-0 z-50 w-full transition-all duration-300 bg-white"
+>
+  <nav class="mx-auto max-w-7xl px-4 md:px-8">
+    <div class="flex justify-between items-center py-4 h-20">
+      <a href="/#" class="flex gap-2 items-center group">
+        <Picture
+          src={Logo}
+          alt="Logo de Catalina"
+          widths={[32, 36, 72, 108]}
+          sizes="(max-width: 640px) 32px, (max-width: 1024px) 36px"
+          width={36}
+          height={27}
+          loading="eager"
+          class="transition-transform duration-200 group-hover:scale-110"
+        />
+        <span class="text-moody-blue-600 text-xl font-bold tracking-tight">
+          Catalina
+        </span>
+      </a>
+
+      <ul class="hidden lg:flex items-center gap-8 font-semibold">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="navbar-link relative text-gray-700 hover:text-moody-blue-700 transition-colors duration-200 py-1"
+                data-astro-prefetch={link.prefetch ?? false}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <a
+        href={CALENDAR_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-moody-blue-600 text-white text-sm font-semibold hover:bg-moody-blue-700 transition-all duration-200 hover:shadow-lg hover:shadow-moody-blue-200 hover:-translate-y-0.5"
+      >
+        Agendar hora
+      </a>
+
+      <MenuToggle />
+    </div>
+  </nav>
+</header>
+
+<script src="../../scripts/navbar.ts"></script>

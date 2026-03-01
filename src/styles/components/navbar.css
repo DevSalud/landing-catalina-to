@@ -1,0 +1,15 @@
+/* Underline animado en links del navbar */
+.navbar-link::after {
+	content: "";
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background: var(--color-moody-blue-600);
+	border-radius: 9999px;
+	transition: width 0.25s ease;
+}
+.navbar-link:hover::after {
+	width: 100%;
+}

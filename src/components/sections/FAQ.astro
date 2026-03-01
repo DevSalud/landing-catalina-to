@@ -1,0 +1,102 @@
+---
+import { createFAQPageSchema } from '../../lib/seoSchemas'
+import '../../styles/components/faq.css'
+
+const faqs = [
+	{
+		question: '¿Cuánto tiempo dura cada sesión de terapia ocupacional?',
+		answer:
+			'Cada sesión terapéutica tiene una duración entre 35 y 45 minutos, dependiendo de las necesidades de cada niño.',
+	},
+	{
+		question: '¿Con qué frecuencia se realizan las sesiones?',
+		answer:
+			'Depende de las necesidades tanto del niño como de la familia. Sin embargo, por lo general se recomienda hacer al menos una sesión semanal para establecer una rutina terapéutica efectiva.',
+	},
+	{
+		question: '¿Desde qué edad puede atender?',
+		answer: 'Puedo atender a bebés, niños y jóvenes de todas las edades.',
+	},
+	{
+		question: '¿Los padres pueden o deben estar presentes en la sesión?',
+		answer:
+			'Por lo general, se pide a los padres esperar en recepción para disminuir distracciones y obtener con mayor facilidad un vínculo terapéutico con el niño. Sin embargo, si los padres presentan inquietudes o necesitan participar de la sesión, pueden ingresar a la sala sin ningún problema.',
+	},
+	{
+		question:
+			'¿Cuánto durará la terapia ocupacional para que mi hijo esté completamente preparado?',
+		answer:
+			'No hay un tiempo determinado, ya que depende de la condición del niño y de sus necesidades específicas. Algunas personas pueden necesitar solamente unas semanas o meses, mientras que otras pueden requerir un tratamiento más largo. Se ajustará el tiempo de acuerdo al progreso de cada niño.',
+	},
+]
+
+// Generamos el schema
+const faqSchema = createFAQPageSchema(faqs)
+const faqSchemaString = JSON.stringify(faqSchema)
+---
+
+<section
+  id="preguntas-frecuentes"
+  class="faq-bg py-20 relative overflow-hidden"
+>
+  <!-- Diagonal Lines Texture -->
+  <div class="absolute inset-0 diagonal-lines z-0"></div>
+  <!-- Decorative Orb -->
+  <div
+    class="absolute top-1/3 left-0 w-96 h-96 bg-moody-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-25 -ml-48"
+  >
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 md:px-8 relative z-10">
+    <div class="text-center mb-12 reveal">
+      <span
+        class="text-sm font-semibold text-moody-blue-500 uppercase tracking-wider"
+        >Resolvemos tus dudas</span
+      >
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
+        Preguntas Frecuentes
+      </h2>
+    </div>
+
+    <div class="space-y-4 reveal" data-delay="1">
+      {
+        faqs.map((faq, _index) => (
+          <details
+            class="group bg-moody-blue-50/50 rounded-2xl border border-moody-blue-100 overflow-hidden"
+            name="faq-accordion"
+          >
+            <summary class="flex justify-between items-center font-medium cursor-pointer list-none px-6 py-5 text-gray-900 hover:text-moody-blue-700 transition-colors">
+              <span class="text-lg pr-4">{faq.question}</span>
+              <span class="transition-transform duration-300 group-open:-rotate-180 flex-shrink-0 bg-white p-2 rounded-full shadow-sm text-moody-blue-600">
+                <svg
+                  fill="none"
+                  class="w-5 h-5"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="px-6 pb-6 animate-fade-in text-gray-700 leading-relaxed">
+              <div class="h-px w-full bg-moody-blue-100/50 mb-5" />
+              {faq.answer}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Inyección del JSON-LD specific para la sección FAQ -->
+  <script is:inline type="application/ld+json" set:html={faqSchemaString} />
+
+  <!-- Script compilado de behavior de FAQ -->
+  <script src="../../scripts/faq.ts"></script>
+</section>

@@ -1,0 +1,98 @@
+---
+import { WHATSAPP_URL } from '../../lib/constants'
+import Button from '../ui/Button.astro'
+import WhatsappButton from '../ui/WhatsappButton.astro'
+---
+
+<section class="contact-bg w-full py-20 relative" id="contacto">
+  <div
+    class="w-full max-w-7xl px-4 md:px-8 mx-auto flex flex-col gap-6 items-center justify-center"
+  >
+    <div class="flex flex-col items-center justify-center reveal">
+      <span
+        class="text-sm font-semibold text-moody-blue-500 uppercase tracking-wider"
+        >Estoy para ayudarte</span
+      >
+      <h2 class="text-3xl font-bold mt-2">Contáctame</h2>
+      <p class="text-gray-800 max-w-xl text-center">
+        ¿Tienes alguna pregunta o necesitas ayuda? ¡No dudes en escribirme!, con
+        gusto te ayudaré 😊. También puedes contactarme directamente por
+        WhatsApp para una respuesta más rápida.
+      </p>
+    </div>
+
+    <div
+      class="w-full max-w-xl p-10 rounded-xl bg-moody-blue-50 shadow-lg flex flex-col gap-10"
+      data-contact-form
+    >
+      <WhatsappButton
+        href={WHATSAPP_URL}
+        text="Contáctame por WhatsApp"
+        textClass="text-sm text-center"
+      />
+
+      <div class="flex relative justify-center">
+        <div class="border-t border-gray-300 w-full"></div>
+        <span
+          class="text-gray-800 text-sm absolute -translate-y-1/2 bg-moody-blue-50 px-2"
+        >
+          O completa el formulario
+        </span>
+      </div>
+      <form class="flex flex-col gap-5" id="contacto-form">
+        <div class="flex flex-col gap-2">
+          <label for="nombre" class="text-gray-800">Nombre</label>
+          <input
+            type="text"
+            id="nombre"
+            class="w-full rounded-2xl py-2 px-3 text-gray-800 border border-moody-blue-200 focus:outline-none focus:border-moody-blue-500 focus:border-2"
+            placeholder="Juan Pérez"
+          />
+          <span class="text-red-500 text-sm hidden" id="nombre-error">
+            El nombre es obligatorio
+          </span>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="email" class="text-gray-800">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="w-full rounded-2xl py-2 px-3 text-gray-800 border border-moody-blue-200 focus:outline-none focus:border-moody-blue-500 focus:border-2"
+            placeholder="juanperez@ejemplo.com"
+          />
+          <span class="text-red-500 text-sm hidden" id="email-error">
+            El email no es válido
+          </span>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="mensaje" class="text-gray-800">Mensaje</label>
+          <textarea
+            id="mensaje"
+            class="w-full rounded-2xl py-2 px-3 text-gray-800 border border-moody-blue-200 focus:outline-none focus:border-moody-blue-500 focus:border-2 resize-none"
+            rows="5"
+            placeholder="Escribe aquí tu mensaje"></textarea>
+          <span class="text-red-500 text-sm hidden" id="mensaje-error">
+            El mensaje es obligatorio
+          </span>
+        </div>
+
+        <Button text="Enviar" type="submit" />
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="../../scripts/contact.ts"></script>
+
+<style>
+  .contact-bg {
+    background: radial-gradient(
+      ellipse at 50% 40%,
+      rgba(255, 255, 255, 1) 20%,
+      rgba(238, 240, 255, 0.5) 60%,
+      rgba(223, 227, 255, 0.4) 100%
+    );
+  }
+</style>

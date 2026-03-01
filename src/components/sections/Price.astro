@@ -1,0 +1,184 @@
+---
+import { CalendarDays, Clock, CreditCard, Info, MapPin } from 'lucide-react'
+import {
+	CALENDAR_URL_DOMICILIO,
+	CALENDAR_URL_FONASA,
+	CALENDAR_URL_PARTICULAR,
+	PAYMENT_METHOD,
+	PRICE_DOMICILIO,
+	PRICE_FONASA,
+	PRICE_PARTICULAR,
+	SCHEDULE,
+	SESSION_DURATION_MIN,
+} from '../../lib/constants'
+import PriceCard from '../ui/PriceCard.astro'
+import '../../styles/components/price.css'
+---
+
+<section class="price-bg py-20 relative overflow-hidden" id="valor">
+  <!-- Noise Texture Overlay -->
+  <div class="absolute inset-0 noise-texture z-0"></div>
+  <!-- Elementos decorativos de fondo -->
+  <div
+    class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-moody-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40"
+  >
+  </div>
+  <div
+    class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40"
+  >
+  </div>
+
+  <div
+    class="flex flex-col gap-12 text-center max-w-7xl px-4 md:px-8 mx-auto relative z-10"
+  >
+    <!-- Header de la sección -->
+    <div class="reveal">
+      <span
+        class="text-sm font-semibold text-moody-blue-500 uppercase tracking-wider"
+        >Inversión en desarrollo</span
+      >
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
+        Valores de Consulta
+      </h2>
+      <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+        Planes diseñados para adaptarse a tus necesidades. Todas las sesiones
+        incluyen pautas de seguimiento para el hogar.
+      </p>
+    </div>
+
+    <!-- Grid de Cards de Precio -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 lg:gap-8 items-stretch justify-center w-full mt-4 reveal-scale"
+    >
+      <PriceCard
+        title="Particular (Centro)"
+        description="Atención presencial en Centro Inclusión SANA"
+        price={String(PRICE_PARTICULAR)}
+        features={[
+          "Evaluación continua del progreso",
+          "Materiales terapéuticos incluidos",
+          "Entornos regulados y seguros",
+        ]}
+        href={CALENDAR_URL_PARTICULAR}
+      />
+
+      <PriceCard
+        title="Beneficiarios Fonasa"
+        description="Valor preferencial en Centro Inclusión SANA"
+        price={String(PRICE_FONASA)}
+        isHighlighted={true}
+        highlightText="Más Elegido"
+        features={[
+          "Evaluación continua del progreso",
+          "Materiales terapéuticos incluidos",
+          "Entornos regulados y seguros",
+        ]}
+        href={CALENDAR_URL_FONASA}
+      />
+
+      <PriceCard
+        title="Particular (Domicilio)"
+        description="Atención domiciliaria exclusiva en Maipú"
+        price={String(PRICE_DOMICILIO)}
+        features={[
+          "Atención en la comodidad del hogar",
+          "El niño se evalúa en su entorno real",
+          "Optimización de tiempos de traslado",
+        ]}
+        href={CALENDAR_URL_DOMICILIO}
+      />
+    </div>
+
+    <!-- Panel de Información Adicional (Horarios y Detalles) -->
+    <div
+      class="mt-8 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-moody-blue-100 max-w-5xl mx-auto w-full text-left"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-8 divide-y md:divide-y-0 md:divide-x divide-moody-blue-100"
+      >
+        <!-- Horarios -->
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-2 mb-2">
+            <CalendarDays className="w-6 h-6 text-moody-blue-600" />
+            <h3 class="text-xl font-bold text-gray-900">
+              Horarios de Atención
+            </h3>
+          </div>
+          <ul class="flex flex-col gap-3">
+            {
+              SCHEDULE.map((slot) => (
+                <li class="flex justify-between items-center text-gray-700 bg-moody-blue-50/50 px-4 py-2 rounded-lg">
+                  <span class="font-semibold">{slot.days}</span>
+                  <span>{slot.hours}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Detalles Generales -->
+        <div class="flex flex-col md:pl-8 pt-6 md:pt-0">
+          <div class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-6 items-start">
+            <!-- Título Principal alineado a la grilla -->
+            <div class="flex items-center justify-center w-8 h-8">
+              <Info className="w-6 h-6 text-moody-blue-600" />
+            </div>
+            <div class="flex items-center h-8">
+              <h3 class="text-xl font-bold text-gray-900">
+                Información General
+              </h3>
+            </div>
+
+            <!-- Item 1: Duración -->
+            <div
+              class="bg-moody-blue-100 p-2 rounded-lg shrink-0 w-8 h-8 flex items-center justify-center"
+            >
+              <Clock className="w-4 h-4 text-moody-blue-700" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-semibold text-gray-900 text-sm">
+                Duración de la sesión
+              </span>
+              <span class="text-gray-600 text-sm">
+                {SESSION_DURATION_MIN} minutos enfocados al 100% en el niño.
+              </span>
+            </div>
+
+            <!-- Item 2: Medios de Pago -->
+            <div
+              class="bg-moody-blue-100 p-2 rounded-lg shrink-0 w-8 h-8 flex items-center justify-center"
+            >
+              <CreditCard className="w-4 h-4 text-moody-blue-700" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-semibold text-gray-900 text-sm">
+                Medios de Pago
+              </span>
+              <span class="text-gray-600 text-sm">
+                {PAYMENT_METHOD}.
+              </span>
+            </div>
+
+            <!-- Item 3: Domicilio -->
+            <div
+              class="bg-green-100 p-2 rounded-lg shrink-0 w-8 h-8 flex items-center justify-center"
+            >
+              <MapPin className="w-4 h-4 text-green-700" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-semibold text-gray-900 text-sm">
+                Atención a Domicilio
+              </span>
+              <span class="text-gray-600 text-sm">
+                Disponible <span class="font-bold underline">únicamente</span> en
+                la comuna de Maipú.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

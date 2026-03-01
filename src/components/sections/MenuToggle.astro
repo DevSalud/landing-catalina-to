@@ -1,0 +1,74 @@
+---
+import { Menu, X } from 'lucide-react'
+import { NAV_LINKS } from '../../data/navLinks'
+import { CALENDAR_URL } from '../../lib/constants'
+import '../../styles/components/menu-toggle.css'
+---
+
+<button
+  class="cursor-pointer flex lg:hidden hover:rounded-full hover:bg-moody-blue-100 p-2 transition-colors"
+  type="button"
+  id="open-menu"
+  aria-label="Abrir menu"
+  aria-controls="mobile-menu"
+  aria-expanded="false"
+>
+  <Menu />
+</button>
+
+<button
+  type="button"
+  id="close-menu"
+  class="hidden z-20 cursor-pointer hover:rounded-full hover:bg-moody-blue-100 p-2 transition-colors"
+  aria-label="Cerrar menu"
+  aria-controls="mobile-menu"
+>
+  <X />
+</button>
+
+<!-- Mobile menu panel -->
+<div
+  class="mobile-menu-panel"
+  id="mobile-menu"
+  aria-hidden="true"
+  aria-labelledby="open-menu"
+>
+  <ul
+    class="flex flex-col items-center gap-4 text-black font-semibold pt-20 px-8"
+  >
+    {
+      NAV_LINKS.map((link, i) => (
+        <li
+          class="mobile-nav-item w-full text-center"
+          style={`--item-index: ${i}`}
+        >
+          <a
+            href={link.href}
+            class="text-xl text-gray-800 hover:text-moody-blue-600 transition-colors duration-200 block py-1"
+            data-astro-prefetch={link.prefetch ?? false}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <!-- CTA mobile -->
+  <div
+    class="mobile-nav-item flex flex-col items-center mt-4 px-8"
+    style={`--item-index: ${NAV_LINKS.length}`}
+  >
+    <div class="border-t border-gray-200 w-full mb-6"></div>
+    <a
+      href={CALENDAR_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="block w-full text-center px-6 py-3 rounded-full bg-moody-blue-600 text-white font-semibold text-base hover:bg-moody-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
+    >
+      Agendar hora
+    </a>
+  </div>
+</div>
+
+<script src="../../scripts/menu-toggle.ts"></script>

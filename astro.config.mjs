@@ -9,7 +9,6 @@ import react from '@astrojs/react'
 import sanity from '@sanity/astro'
 
 // https://astro.build/config
-// biome-ignore lint/style/noDefaultExport: Astro requires default export
 export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],

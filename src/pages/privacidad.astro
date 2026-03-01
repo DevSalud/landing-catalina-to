@@ -1,0 +1,191 @@
+---
+import {
+	Cookie,
+	FileText,
+	Lock,
+	MessageCircle,
+	ShieldCheck,
+	UserCheck,
+	UserCog,
+} from 'lucide-react'
+import Footer from '../components/sections/Footer.astro'
+import Navbar from '../components/sections/Navbar.astro'
+import Layout from '../layouts/Layout.astro'
+import { createBreadcrumbListSchema } from '../lib/seoSchemas.ts'
+
+export const prerender = true
+
+// SEO Constants
+const siteBase = Astro.site
+	? Astro.site.toString().replace(/\/$/, '')
+	: 'https://www.cataterapias.cl'
+const metaTitle = 'Políticas de Privacidad | Catalina Herrera'
+const metaDescription =
+	'Conoce nuestras políticas de privacidad y cómo protegemos tus datos personales y la información de salud de los pacientes en nuestras sesiones de terapia ocupacional.'
+const canonicalUrl = `${siteBase}/privacidad`
+
+// Schema.org
+const schema = [
+	createBreadcrumbListSchema([
+		{ name: 'Inicio', item: `${siteBase}/` },
+		{ name: 'Políticas de Privacidad', item: canonicalUrl },
+	]),
+]
+
+const LAST_UPDATED = 'Febrero 2026'
+---
+
+<Layout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogTitle={metaTitle}
+  ogDescription={metaDescription}
+  ogUrl={canonicalUrl}
+  ogType="website"
+  schema={schema}
+  noindex={true}
+>
+  <Navbar />
+
+  <main class="min-h-screen bg-gradient-to-b from-white to-moody-blue-50/50">
+    <!-- Header Section -->
+    <div class="pt-32 pb-12 px-4 md:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <div
+          class="inline-flex items-center justify-center p-3 bg-moody-blue-100 rounded-full mb-6"
+        >
+          <ShieldCheck className="w-8 h-8 text-moody-blue-600" />
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-moody-blue-700 mb-4">
+          Políticas de Privacidad
+        </h1>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+          Última actualización: {LAST_UPDATED}
+        </p>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <div
+      class="max-w-3xl mx-auto px-4 md:px-8 pb-24 prose prose-moody-blue prose-p:text-gray-600 prose-headings:text-moody-blue-700"
+    >
+      <div
+        class="bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-moody-blue-100"
+      >
+        <p class="lead text-lg mb-8 text-gray-700">
+          En la consulta de <strong>Catalina Herrera</strong> valoramos enormemente
+          tu privacidad y la de tu familia. Al tratarse de servicios de salud y de
+          la atención de menores de edad, tratamos toda la información con la máxima
+          estrictez, en estricto cumplimiento de la Ley N° 19.628 sobre Protección
+          de la Vida Privada de Chile y los más altos estándares de ética profesional
+          relacionada a la Terapia Ocupacional.
+        </p>
+
+        <h2 class="flex items-center gap-3 mt-10 mb-4 text-2xl font-bold">
+          <FileText className="w-6 h-6 text-moody-blue-500 shrink-0" />
+          1. Recopilación de Información
+        </h2>
+        <p>
+          Recopilamos información personal únicamente cuando tú nos la
+          proporcionas voluntariamente. Esto ocurre cuando:
+        </p>
+        <ul class="list-disc pl-5 mb-6 space-y-2">
+          <li>
+            Te pones en contacto a través de nuestro formulario web, WhatsApp o
+            agendas una sesión directamente en la plataforma.
+          </li>
+          <li>Programas o asistes a una sesión de evaluación o tratamiento.</li>
+          <li>
+            Completas cuestionarios clínicos o anamnesis necesarios para el
+            proceso terapéutico de tu hijo/a.
+          </li>
+        </ul>
+
+        <h2 class="flex items-center gap-3 mt-10 mb-4 text-2xl font-bold">
+          <Lock className="w-6 h-6 text-moody-blue-500 shrink-0" />
+          2. Uso de la Información
+        </h2>
+        <p>
+          Los datos clínicos, antecedentes médicos y personales de los pacientes
+          se utilizan de manera exclusiva para:
+        </p>
+        <ul class="list-disc pl-5 mb-6 space-y-2">
+          <li>
+            Diseñar e implementar el plan de intervención terapéutica adecuado.
+          </li>
+          <li>Realizar seguimiento y evaluación de los progresos.</li>
+          <li>
+            Comunicarnos contigo para agendamiento, confirmación de horas y
+            entrega de informes.
+          </li>
+          <li>
+            Emitir las boletas de honorarios correspondientes requeridas por el
+            SII y planes de salud (Fonasa).
+          </li>
+        </ul>
+        <p>
+          <strong
+            >Ningún dato clínico o personal será vendido, alquilado o compartido
+            con terceros</strong
+          > con fines comerciales o de marketing corporativo.
+        </p>
+
+        <h2 class="flex items-center gap-3 mt-10 mb-4 text-2xl font-bold">
+          <UserCheck className="w-6 h-6 text-moody-blue-500 shrink-0" />
+          3. Confidencialidad y Derivaciones
+        </h2>
+        <p>
+          Todo lo conversado y documentado en sesión está estrictamente
+          protegido por el secreto profesional. Solo se compartirá información
+          con otros profesionales (como fonoaudiólogos, neurólogos, psicólogos o
+          profesores)
+          <strong class="text-moody-blue-800"
+            >siempre y cuando contemos con tu consentimiento expreso y previo</strong
+          >, y únicamente cuando sea en beneficio directo del tratamiento
+          integral del paciente.
+        </p>
+
+        <h2 class="flex items-center gap-3 mt-10 mb-4 text-2xl font-bold">
+          <Cookie className="w-6 h-6 text-moody-blue-500 shrink-0" />
+          4. Privacidad Digital y Cookies
+        </h2>
+        <p>
+          Este sitio web está construido con tecnologías modernas (Astro) y
+          <strong>no utiliza cookies de rastreo publicitario</strong>. No
+          recopilamos de forma automatizada tus datos de navegación con fines
+          comerciales, ni utilizamos píxeles invasivos o rastreadores de
+          terceros (como Facebook Pixel o Google Ads) que comprometan tu
+          privacidad al buscar servicios de salud infantil. Tu visita es segura
+          y anónima. En caso de usar cookies en el futuro, serán exclusivamente
+          funcionales (para el rendimiento de la página).
+        </p>
+
+        <h2 class="flex items-center gap-3 mt-10 mb-4 text-2xl font-bold">
+          <UserCog className="w-6 h-6 text-moody-blue-500 shrink-0" />
+          5. Derechos sobre tus Datos
+        </h2>
+        <p>
+          En cualquier momento tienes el pleno derecho de solicitar el acceso,
+          rectificación, actualización o eliminación de tus datos personales o
+          los de tu hijo/a de nuestros registros administrativos. Para ejercer
+          estos derechos, puedes contactarnos a través de nuestros canales
+          oficiales.
+        </p>
+
+        <h2 class="flex items-center gap-3 mt-10 mb-4 text-2xl font-bold">
+          <MessageCircle className="w-6 h-6 text-moody-blue-500 shrink-0" />
+          6. Contacto
+        </h2>
+        <p>
+          Si tienes alguna duda sobre el manejo de tus datos o estas políticas,
+          puedes comunicarte directamente a nuestro canal de atención en
+          WhatsApp o a nuestro correo electrónico disponible en el pie de página
+          de este sitio.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

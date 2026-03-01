@@ -1,0 +1,102 @@
+---
+import AreasCard from '../ui/AreasCard.astro'
+
+import BabyImg from '../../../public/images/areas/baby.webp'
+import FamilyImg from '../../../public/images/areas/family.webp'
+import InspirationImg from '../../../public/images/areas/inspiration.webp'
+// Importar imágenes de áreas
+import IntegrationImg from '../../../public/images/areas/integracion.webp'
+import LifestyleImg from '../../../public/images/areas/lifestyle.webp'
+import PsychomotricityImg from '../../../public/images/areas/psychomotricity.webp'
+import '../../styles/components/areas.css'
+
+const areas = [
+	{
+		title: 'Integración Sensorial',
+		alt: 'Niño realizando actividades de integración sensorial con terapeuta',
+		description:
+			'Ayudo a integrar y organizar las sensaciones del cuerpo mediante el entrenamiento de los sentidos. Ideal para niños con Trastorno de Integración Sensorial, Selectividad Alimentaria, entre otros diagnósticos.',
+		image: IntegrationImg,
+	},
+	{
+		title: 'Estimulación Cognitiva',
+		alt: 'Niña desarrollando habilidades cognitivas con juegos terapéuticos',
+		description:
+			'Contribuyo en potenciar las funciones cerebrales que involucran la atención, memoria, habilidades de planificación.',
+		image: InspirationImg,
+	},
+	{
+		title: 'Actividades de Vida Diaria',
+		alt: 'Niña practicando actividades de la vida diaria',
+		description:
+			'Influyo en habilidades necesarias para realizar actividades vitales para el desempeño ocupacional diario.',
+		image: LifestyleImg,
+	},
+	{
+		title: 'Psicomotricidad',
+		alt: 'Niña jugando en actividades de psicomotricidad',
+		description:
+			'Colaboro en potenciar el desarrollo físico, cognitivo y emocional del niño principalmente mediante actividades lúdicas.',
+		image: PsychomotricityImg,
+	},
+	{
+		title: 'Estimulación Temprana',
+		alt: 'Bebé recibiendo estimulación temprana',
+		description:
+			'Utilizo técnicas para lograr un óptimo desarrollo infantil desde su nacimiento, potenciando el área física, intelectual, emocional y social.',
+		image: BabyImg,
+	},
+	{
+		title: 'Psicoeducación Familiar',
+		alt: 'Familia recibiendo orientación psicoeducativa',
+		description:
+			'Entrego conocimientos a padres, niños, colegios, cuidadores y cualquier entidad vital para el desarrollo del niño respecto a diagnóstico, tips de manejo, entre otros.',
+		image: FamilyImg,
+	},
+]
+---
+
+<section
+  class="areas-bg relative flex flex-col justify-center overflow-hidden"
+  id="areas"
+>
+  <!-- Dot Pattern Overlay -->
+  <div class="absolute inset-0 dot-pattern z-0"></div>
+  <!-- Decorative Orbs -->
+  <div
+    class="absolute top-10 left-0 w-96 h-96 bg-moody-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 -ml-48"
+  >
+  </div>
+  <div
+    class="absolute bottom-10 right-0 w-80 h-80 bg-lavender-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 -mr-40"
+  >
+  </div>
+
+  <div
+    class="max-w-7xl px-4 md:px-8 flex flex-col mt-20 gap-10 mx-auto w-full mb-20 relative z-10"
+  >
+    <!-- Encabezado de sección -->
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <span
+        class="text-sm font-semibold text-moody-blue-500 uppercase tracking-wider"
+      >
+        Áreas de Experiencia
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4">
+        Áreas de Intervención
+      </h2>
+      <p class="text-gray-600 md:text-lg leading-relaxed !m-0">
+        Ofrezco una variedad de servicios terapéuticos adaptados a las
+        necesidades específicas de cada niño
+      </p>
+    </div>
+
+    <!-- Grid de cards -->
+    <div
+      class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 reveal"
+      data-delay="1"
+    >
+      {areas.map((area) => <AreasCard {...area} />)}
+    </div>
+  </div>
+</section>
