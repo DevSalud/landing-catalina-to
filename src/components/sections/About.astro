@@ -30,9 +30,11 @@ import '../../styles/components/about.css'
         alt="Catalina Herrera, terapeuta ocupacional infantil en Maipú, rodeada de juegos terapéuticos"
         class="object-cover w-full rounded-2xl shadow-xl shadow-moody-blue-200/30"
         loading="lazy"
+        decoding="async"
         quality={80}
-        widths={[400, 600, 800]}
-        sizes="(max-width: 768px) 100vw, 50vw"
+        formats={["avif", "webp"]}
+        widths={[320, 480, 600]}
+        sizes="(max-width: 768px) 100vw, 600px"
       />
       <!-- Badge de impacto sobre la imagen -->
       <div

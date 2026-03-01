@@ -162,13 +162,14 @@ const yearsOfExperience = new Date().getFullYear() - PROFESSIONAL_SINCE_YEAR
           src={CatalinaImage}
           alt="Foto de Catalina Herrera sonriendo"
           class="relative rounded-[50%] lg:w-80 lg:h-[26rem] w-44 h-56 object-cover object-[center_15%] shadow-2xl shadow-moody-blue-200"
-          quality={75}
+          quality={80}
           loading={"eager"}
           fetchpriority={"high"}
-          widths={[192, 384, 640, 960]}
-          sizes="(max-width: 640px) 192px, (max-width: 1024px) 384px, 640px"
-          width={960}
-          height={960}
+          formats={["avif", "webp"]}
+          widths={[200, 320, 480]}
+          sizes="(max-width: 1024px) 200px, 320px"
+          width={320}
+          height={320}
         />
       </div>
     </div>

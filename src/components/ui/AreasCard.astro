@@ -21,12 +21,13 @@ const { title, alt, description, image } = Astro.props
       alt={alt}
       class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       style="transform: translateZ(0);"
-      loading="eager"
-      decoding="sync"
-      widths={[320, 480, 640]}
-      sizes="(max-width: 640px) 320px, (max-width: 1024px) 480px, 640px"
-      width={640}
-      height={360}
+      loading="lazy"
+      decoding="async"
+      formats={["avif", "webp"]}
+      widths={[320, 400]}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+      width={400}
+      height={225}
     />
     <!-- Overlay gradiente sutil -->
     <div
