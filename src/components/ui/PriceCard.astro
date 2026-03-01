@@ -1,89 +1,76 @@
 ---
-const { price, salePrice, disponibility, hours, payment, duration } =
-	Astro.props
-import { ArrowRight, CalendarDays, Clock10Icon, DollarSign } from 'lucide-react'
-import ExternalButton from '../common/ExternalButton.astro'
+import { ArrowRight, Check } from 'lucide-react'
+import ExternalButton from './ExternalButton.astro'
 
-const formattedToClp = (value: number) => {
-	return new Intl.NumberFormat('es-CL', {
-		style: 'currency',
-		currency: 'CLP',
-		minimumFractionDigits: 0,
-	})
-		.format(value)
-		.replace('CLP', '')
-		.trim()
+interface Props {
+	title: string
+	price: string
+	description: string
+	features: string[]
+	isHighlighted?: boolean
+	highlightText?: string
+	buttonVariant?: 'primary' | 'secondary' | 'whatsapp'
+	href: string
 }
 
-const formattedPrice = formattedToClp(price)
-const formattedSalePrice = formattedToClp(salePrice)
+const {
+	title,
+	price,
+	description,
+	features,
+	isHighlighted = false,
+	highlightText = 'Más Elegido',
+	href,
+} = Astro.props
 
-const totalDiscount = price - salePrice
-const formattedTotalDiscount = formattedToClp(totalDiscount)
+// Formateamos el precio para asegurarnos que tenga el separador de miles
+const formattedPrice = new Intl.NumberFormat('es-CL', {
+	style: 'decimal',
+	minimumFractionDigits: 0,
+}).format(Number(price))
 ---
 
 <article
-  class="py-10 lg:w-lg xl:w-xl md:w-md px-10 flex flex-col items-center rounded-xl bg-white border-2 border-moody-blue-100 hover:border-moody-blue-500"
+  class={`relative flex flex-col p-6 sm:p-8 rounded-2xl bg-white border-2 transition-all duration-300 hover:-translate-y-1 h-full ${
+    isHighlighted
+      ? "border-moody-blue-500 shadow-xl shadow-moody-blue-500/20 md:scale-105 z-10"
+      : "border-moody-blue-100 hover:border-moody-blue-300"
+  }`}
 >
-  <header class="flex flex-col gap-10 w-full">
-    <h2 class="text-4xl font-bold text-moody-blue-700 text-center">
-      {formattedPrice}
-      <span class="text-black font-normal text-lg">por sesión</span>
-    </h2>
-    <div
-      class="border-2 border-green-300 rounded-lg w-full relative px-5 bg-green-50"
-    >
-      <div
-        class="bg-green-700 rounded-lg w-fit px-2 absolute -top-3 h-6 flex items-center justify-center"
-      >
-        <p class="text-white text-xs font-bold">DESCUENTO FONASA</p>
+  {
+    isHighlighted && (
+      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-moody-blue-600 text-white text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow-md">
+        {highlightText}
       </div>
-      <p class="text-center flex flex-col">
-        <span class="text-gray-500 line-through font-bold text-sm"
-          >{formattedPrice}</span
-        >
-        <span class="text-3xl font-extrabold text-green-700">
-          {formattedSalePrice}
-        </span>
-      </p>
-      <p class="text-sm text-center text-green-700">
-        Ahorra {formattedTotalDiscount} siendo usuario de Fonasa
-      </p>
+    )
+  }
+
+  <header class="mb-6 flex flex-col items-center text-center">
+    <h3 class="text-xl font-bold text-gray-900 mb-2">{title}</h3>
+    <p class="text-sm text-gray-500 mb-6 min-h-[40px]">{description}</p>
+    <div class="flex items-baseline gap-1 text-moody-blue-700">
+      <span class="text-xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight"
+        >{formattedPrice}</span
+      >
     </div>
+    <span class="text-sm text-gray-500 mt-2">por sesión</span>
   </header>
-  <div>
-    <p class="flex gap-2 items-center md:justify-left">
-      <span class="text-moody-blue-700">
-        <CalendarDays />
-      </span>
-      {disponibility}
-    </p>
 
-    <p class="flex gap-2 items-center md:justify-left">
-      <span class="text-moody-blue-700">
-        <Clock10Icon />
-      </span>
-      {hours}
-    </p>
+  <ul class="flex flex-col gap-4 mb-8 flex-1 w-full max-w-[240px] mx-auto">
+    {
+      features.map((feature) => (
+        <li class="flex items-start gap-3">
+          <Check className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+          <span class="text-gray-700 text-sm leading-tight text-left">
+            {feature}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
 
-    <p class="flex gap-2 items-center justify-left">
-      <span class="text-moody-blue-700">
-        <DollarSign />
-      </span>
-      {payment}
-    </p>
-  </div>
-  <footer class="flex flex-col md:justify-center items-center">
-    <ExternalButton
-      href="https://cal.com/catalina-herrera-ygpr9v"
-      text="Agendar consulta"
-      icon={ArrowRight}
-    />
-    <p class="text-sm text-gray-800">
-      *La duración de cada sesión es de <span
-        class="text-moody-blue-500 font-semibold"
-        >{duration} minutos
-      </span>
-    </p>
+  <footer class="mt-auto flex justify-center w-full">
+    <ExternalButton href={href} text="Agendar ahora" icon={ArrowRight} />
   </footer>
 </article>

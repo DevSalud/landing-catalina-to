@@ -42,11 +42,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				// biome-ignore lint/style/useNamingConvention: Authorization header is required
 				Authorization: `Bearer ${authHeader}`,
 			},
 			body: JSON.stringify({
-				// biome-ignore lint/style/useNamingConvention: API expects event_id
 				event_id: id,
 				action,
 			}),

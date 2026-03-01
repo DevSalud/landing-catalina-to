@@ -1,5 +1,13 @@
 ---
 import '../styles/global.css'
+import FloatingWhatsapp from '../components/ui/FloatingWhatsapp.astro'
+import {
+	DEFAULT_DESCRIPTION,
+	DEFAULT_OG_IMAGE,
+	DEFAULT_OG_IMAGE_ALT,
+	DEFAULT_TITLE,
+	SITE_NAME,
+} from '../lib/constants'
 import { createPersonSchema, createWebSiteSchema } from '../lib/seoSchemas.ts'
 
 interface LayoutProps {
@@ -38,7 +46,7 @@ const {
 const SITE_URL = (
 	Astro.site ? Astro.site.toString() : 'https://www.cataterapias.cl'
 ).replace(/\/$/, '')
-const siteName = 'Catalina Herrera'
+const siteName = SITE_NAME
 
 function toAbsolute(url: string | undefined, base: string): string | undefined {
 	if (!url) {
@@ -47,12 +55,11 @@ function toAbsolute(url: string | undefined, base: string): string | undefined {
 	return url.startsWith('http') ? url : `${base}${url}`
 }
 
-// Valores por defecto (como estaban antes)
-const defaultTitle = 'Terapia Ocupacional en Maipú | Catalina Herrera'
-const defaultDescription =
-	'Terapeuta Ocupacional en Maipú, Santiago. Atención especializada para niños y adolescentes. Valores preferenciales Fonasa. ¡Agenda tu hora!'
-const defaultImage = '/images/Catalina.webp'
-const defaultImageAlt = 'Foto de Catalina Herrera sonriendo'
+// Valores por defecto desde constants.ts
+const defaultTitle = DEFAULT_TITLE
+const defaultDescription = DEFAULT_DESCRIPTION
+const defaultImage = DEFAULT_OG_IMAGE
+const defaultImageAlt = DEFAULT_OG_IMAGE_ALT
 const defaultType = 'website'
 
 // Resolución final
@@ -107,7 +114,9 @@ const schemaJson = JSON.stringify(schemaFinal)
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#ffffff" />
 
-    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/fonts/quicksand-v36-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/quicksand-v36-latin-700.woff2" as="font" type="font/woff2" crossorigin>
 
     <link rel="dns-prefetch" href="https://api.whatsapp.com">
 
@@ -158,6 +167,27 @@ const schemaJson = JSON.stringify(schemaFinal)
   </head>
   <body>
     <slot />
+    <FloatingWhatsapp />
+
+    <!-- Scroll Reveal Observer -->
+    <script is:inline>
+      (function () {
+        const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        if (!els.length) return;
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      })();
+    </script>
   </body>
 </html>
 

@@ -1,0 +1,21 @@
+---
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js'
+
+interface ExternalButtonProps {
+	href: string
+	text: string
+	icon?: AstroComponentFactory
+}
+
+const { href, text, icon: Icon } = Astro.props as ExternalButtonProps
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-moody-blue-600 text-white font-semibold text-lg shadow-lg shadow-moody-blue-300/40 hover:bg-moody-blue-700 hover:shadow-xl hover:shadow-moody-blue-300/50 hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
+>
+  {text}
+  {Icon && <Icon />}
+</a>

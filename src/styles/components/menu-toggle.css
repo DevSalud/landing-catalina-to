@@ -1,0 +1,49 @@
+/* Panel base: invisible but in the DOM for transitions */
+.mobile-menu-panel {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+	background: rgba(255, 255, 255, 0.97);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+
+	/* Close transition — panel waits for items to fade out first */
+	opacity: 0;
+	transform: translateY(-8px);
+	pointer-events: none;
+	visibility: hidden;
+	transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, transform 0.3s
+		cubic-bezier(0.22, 1, 0.36, 1) 0.1s, visibility 0s 0.4s;
+}
+
+/* Open state */
+.mobile-menu-panel.is-open {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+	visibility: visible;
+	transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s
+		cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0s;
+}
+
+/* Nav items — close state (reverse stagger: last item fades first) */
+.mobile-nav-item {
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity 0.3s ease, transform 0.3s ease;
+	transition-delay: calc(0.03s * (var(--item-count, 8) - var(--item-index)));
+}
+
+/* Nav items — open state (forward stagger) */
+.mobile-menu-panel.is-open .mobile-nav-item {
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 0.3s ease, transform 0.3s ease;
+	transition-delay: calc(0.05s * var(--item-index) + 0.1s);
+}

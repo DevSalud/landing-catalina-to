@@ -1,0 +1,20 @@
+---
+import Whatsapp from '../icons/Whatsapp.astro'
+
+interface WhatsappButtonProps {
+	href: string
+	text: string
+}
+
+const { href, text } = Astro.props as WhatsappButtonProps
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-green-800 text-white font-semibold text-lg shadow-lg shadow-green-300/40 hover:bg-green-700 hover:shadow-xl hover:shadow-green-300/50 hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
+>
+  <Whatsapp />
+  {text}
+</a>

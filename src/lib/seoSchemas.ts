@@ -1,3 +1,25 @@
+import {
+	ADDRESS_CITY,
+	ADDRESS_COUNTRY,
+	ADDRESS_POSTAL_CODE,
+	ADDRESS_REGION,
+	ADDRESS_STREET,
+	CALENDAR_URL,
+	CENTER_NAME,
+	CENTER_SCHEMA_ID,
+	CENTER_URL,
+	EMAIL,
+	GEO_LAT,
+	GEO_LNG,
+	PHONE_RAW,
+	PRICE_FONASA,
+	PRICE_PARTICULAR,
+	PROFESSIONAL_NAME,
+	PROFESSIONAL_TITLE,
+	SITE_ALTERNATE_NAMES,
+	WHATSAPP_URL,
+} from './constants'
+
 export function createPersonSchema(
 	siteBase: string,
 	options?: { includeOfferCatalog?: boolean },
@@ -5,36 +27,32 @@ export function createPersonSchema(
 	const base = {
 		'@type': 'Person',
 		'@id': `${siteBase}/#catalina`,
-		name: 'Catalina Herrera',
-		alternateName: ['Cataterapias', 'Catalina TO'],
-		jobTitle: 'Terapeuta Ocupacional',
+		name: PROFESSIONAL_NAME,
+		alternateName: SITE_ALTERNATE_NAMES,
+		jobTitle: PROFESSIONAL_TITLE,
 		image: `${siteBase}/images/Catalina.webp`,
-		description:
-			'Terapeuta Ocupacional especializada en niños y adolescentes en Maipú, Santiago.',
-		telephone: '+56992194020',
-		email: 'catalina.herrera.to@gmail.com',
+		description: `${PROFESSIONAL_TITLE} especializada en niños y adolescentes en ${ADDRESS_CITY}, Santiago.`,
+		telephone: `+${PHONE_RAW}`,
+		email: EMAIL,
 		url: siteBase,
-		sameAs: [
-			'https://api.whatsapp.com/send?phone=56992194020',
-			'https://cal.com/catalina-herrera-ygpr9v',
-		],
+		sameAs: [WHATSAPP_URL, CALENDAR_URL],
 		worksFor: {
 			'@type': 'LocalBusiness',
-			'@id': 'https://centroinclusionsana.site.agendapro.com/#centro',
-			name: 'Centro Inclusión Sana',
-			url: 'https://centroinclusionsana.site.agendapro.com/cl/sucursal/340116',
+			'@id': CENTER_SCHEMA_ID,
+			name: CENTER_NAME,
+			url: CENTER_URL,
 			address: {
 				'@type': 'PostalAddress',
-				streetAddress: 'Av. Los Pajaritos 666',
-				addressLocality: 'Maipú',
-				postalCode: '9252853',
-				addressRegion: 'RM',
-				addressCountry: 'CL',
+				streetAddress: ADDRESS_STREET,
+				addressLocality: ADDRESS_CITY,
+				postalCode: ADDRESS_POSTAL_CODE,
+				addressRegion: ADDRESS_REGION,
+				addressCountry: ADDRESS_COUNTRY,
 			},
 			geo: {
 				'@type': 'GeoCoordinates',
-				latitude: -33.5211062,
-				longitude: -70.7624316,
+				latitude: GEO_LAT,
+				longitude: GEO_LNG,
 			},
 		},
 		knowsAbout: [
@@ -51,7 +69,7 @@ export function createPersonSchema(
 				'@type': 'Offer',
 				name: 'Sesión terapéutica particular',
 				priceCurrency: 'CLP',
-				price: '25000',
+				price: String(PRICE_PARTICULAR),
 				availability: 'https://schema.org/InStock',
 				seller: {
 					'@type': 'Person',
@@ -60,14 +78,14 @@ export function createPersonSchema(
 				itemOffered: {
 					'@type': 'Service',
 					name: 'Sesión Terapéutica Particular',
-					areaServed: 'Maipú, Santiago de Chile',
+					areaServed: `${ADDRESS_CITY}, Santiago de Chile`,
 				},
 			},
 			{
 				'@type': 'Offer',
 				name: 'Sesión terapéutica con descuento Fonasa',
 				priceCurrency: 'CLP',
-				price: '20000',
+				price: String(PRICE_FONASA),
 				availability: 'https://schema.org/InStock',
 				seller: {
 					'@type': 'Person',
@@ -76,30 +94,21 @@ export function createPersonSchema(
 				itemOffered: {
 					'@type': 'Service',
 					name: 'Sesión Terapéutica Fonasa',
-					areaServed: 'Maipú, Santiago de Chile',
+					areaServed: `${ADDRESS_CITY}, Santiago de Chile`,
 				},
 			},
 		]
-		return [
-			{
-				...base,
-				makesOffer,
-			},
-		]
+		return [{ ...base, makesOffer }]
 	}
-	return [
-		{
-			...base,
-		},
-	]
+	return [{ ...base }]
 }
 
 export function createWebSiteSchema(siteBase: string) {
 	return {
 		'@type': 'WebSite',
 		'@id': `${siteBase}/#website`,
-		name: 'Catalina Herrera',
-		alternateName: ['Cataterapias', 'Catalina TO'],
+		name: PROFESSIONAL_NAME,
+		alternateName: SITE_ALTERNATE_NAMES,
 		url: siteBase,
 	}
 }
@@ -176,11 +185,27 @@ export function createBlogPostingSchema(params: {
 		},
 		publisher: {
 			'@type': 'LocalBusiness',
-			'@id': 'https://centroinclusionsana.site.agendapro.com/#centro',
-			name: 'Centro Inclusión Sana',
-			url: 'https://centroinclusionsana.site.agendapro.com/cl/sucursal/340116',
+			'@id': CENTER_SCHEMA_ID,
+			name: CENTER_NAME,
+			url: CENTER_URL,
 		},
 		articleSection,
 		keywords,
+	}
+}
+
+export function createFAQPageSchema(
+	faqs: Array<{ question: string; answer: string }>,
+) {
+	return {
+		'@type': 'FAQPage',
+		mainEntity: faqs.map((faq) => ({
+			'@type': 'Question',
+			name: faq.question,
+			acceptedAnswer: {
+				'@type': 'Answer',
+				text: faq.answer,
+			},
+		})),
 	}
 }

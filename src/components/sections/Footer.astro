@@ -1,0 +1,191 @@
+---
+const year = new Date().getFullYear()
+import { Picture } from 'astro:assets'
+import { Building2, Mail, MapPin, Phone } from 'lucide-react'
+import Logo from '../../../public/logo.webp'
+import {
+	ADDRESS_CITY,
+	ADDRESS_REGION,
+	ADDRESS_STREET,
+	CALENDAR_URL,
+	CENTER_NAME,
+	EMAIL,
+	PHONE_DISPLAY,
+	WHATSAPP_URL,
+} from '../../lib/constants'
+---
+
+<footer class="bg-moody-blue-950 text-gray-200">
+  <div class="max-w-7xl px-4 md:px-8 mx-auto pt-16 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <!-- Columna 1: Identidad -->
+      <div class="flex flex-col gap-4">
+        <div class="flex gap-3 items-center">
+          <Picture
+            src={Logo}
+            alt="Logo de Catalina"
+            widths={[40, 80]}
+            sizes="40px"
+            width={40}
+            height={30}
+            loading="lazy"
+            class="object-contain"
+          />
+          <h2 class="text-xl font-bold text-white">Catalina Herrera</h2>
+        </div>
+        <p class="text-sm leading-relaxed text-gray-300">
+          Terapia Ocupacional dedicada al desarrollo integral de niños y
+          adolescentes, en un ambiente acogedor y profesional.
+        </p>
+        <div class="flex flex-col gap-3 text-sm mt-2">
+          <div class="flex gap-2 items-center text-white font-medium">
+            <Building2 className="w-4 h-4 text-mint-400" />
+            <span>{CENTER_NAME}</span>
+          </div>
+          <div class="flex gap-2 items-start text-gray-300">
+            <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-mint-400" />
+            <div class="flex flex-col">
+              <span>{ADDRESS_STREET}</span>
+              <span>{ADDRESS_CITY}, {ADDRESS_REGION}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 2: Navegación -->
+      <div class="flex flex-col gap-4">
+        <h3 class="text-white font-bold text-lg">Navegación</h3>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="/"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Inicio</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#sobre-mi"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Sobre Mí</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#areas"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Áreas de Intervención</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#valor"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Valores</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#donde"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Ubicación</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#preguntas-frecuentes"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Preguntas Frecuentes</a
+            >
+          </li>
+          <li>
+            <a
+              href="/#contacto"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Contacto</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Pacientes -->
+      <div class="flex flex-col gap-4">
+        <h3 class="text-white font-bold text-lg">Pacientes</h3>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="/blog"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Blog y Artículos</a
+            >
+          </li>
+          <li>
+            <a
+              href="/normativas"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block"
+              >Normativas de Atención</a
+            >
+          </li>
+          <li>
+            <a
+              href={CALENDAR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white hover:translate-x-1 transition-all inline-block items-center gap-2"
+            >
+              Agendar Hora
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Contacto -->
+      <div class="flex flex-col gap-4">
+        <h3 class="text-white font-bold text-lg">Contacto</h3>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href={`mailto:${EMAIL}`}
+              class="hover:text-white transition-colors break-words flex items-center gap-2 group"
+            >
+              <Mail
+                className="w-4 h-4 text-mint-400 group-hover:text-white transition-colors"
+              />
+              {EMAIL}
+            </a>
+          </li>
+          <li>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors flex items-center gap-2 group"
+            >
+              <Phone
+                className="w-4 h-4 text-mint-400 group-hover:text-white transition-colors"
+              />
+              {PHONE_DISPLAY}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Barra inferior -->
+    <div
+      class="border-t border-moody-blue-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-300"
+    >
+      <span>
+        © {year} Catalina Herrera. Todos los derechos reservados.
+      </span>
+      <div class="flex gap-4">
+        <a
+          href="/privacidad"
+          class="hover:text-white hover:underline transition-colors"
+        >
+          Políticas de Privacidad
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
