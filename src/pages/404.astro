@@ -1,0 +1,106 @@
+---
+import { Picture } from 'astro:assets'
+import { ArrowRight, Home } from 'lucide-react'
+
+import Footer from '../components/sections/Footer.astro'
+import Navbar from '../components/sections/Navbar.astro'
+import Layout from '../layouts/Layout.astro'
+
+import ErrorIllustration from '../../public/images/404.webp'
+
+export const prerender = true
+
+const metaTitle = 'Página no encontrada | Catalina Herrera'
+const metaDescription =
+	'La página que buscas no existe o ha sido movida. Vuelve al inicio para conocer nuestros servicios de terapia ocupacional.'
+---
+
+<Layout title={metaTitle} description={metaDescription}>
+  <Navbar />
+
+  <main
+    class="flex-grow pt-24 md:pt-32 pb-16 flex items-center justify-center min-h-[70vh] px-4"
+  >
+    <div
+      class="max-w-4xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+    >
+      <!-- Contenido de Texto -->
+      <div
+        class="flex flex-col gap-6 order-2 md:order-1 text-center md:text-left"
+      >
+        <div>
+          <span
+            class="text-moody-blue-600 font-bold tracking-widest uppercase text-sm"
+            >Error 404</span
+          >
+          <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-moody-blue-950 mt-2 leading-tight"
+          >
+            ¡Ups!<br />
+            <span class="text-moody-blue-500">Página no<br />encontrada</span>
+          </h1>
+        </div>
+
+        <p class="text-gray-600 text-lg max-w-md mx-auto md:mx-0">
+          Parece que el enlace que seguiste está roto o la página fue movida. No
+          te preocupes, podemos volver al inicio.
+        </p>
+
+        <div
+          class="flex flex-col sm:flex-row gap-4 mt-8 justify-center md:justify-start"
+        >
+          <a
+            href="/"
+            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-moody-blue-600 text-white font-semibold text-lg shadow-lg shadow-moody-blue-300/40 hover:bg-moody-blue-700 hover:shadow-xl hover:shadow-moody-blue-300/50 hover:-translate-y-0.5 transition-all duration-200 w-full sm:w-auto"
+          >
+            Volver al inicio
+            <Home className="w-5 h-5" />
+          </a>
+
+          <a
+            href="/#contacto"
+            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white text-moody-blue-700 border-2 border-moody-blue-200 font-semibold text-lg hover:bg-moody-blue-50 hover:border-moody-blue-300 hover:-translate-y-0.5 transition-all duration-200 w-full sm:w-auto"
+          >
+            Contáctame
+            <ArrowRight className="w-5 h-5" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Ilustración/Imagen -->
+      <div class="order-1 md:order-2 flex justify-center relative">
+        <!-- Decoración de fondo -->
+        <div
+          class="absolute inset-0 bg-gradient-to-tr from-mint-200 to-moody-blue-200 rounded-full blur-3xl opacity-40 scale-110"
+        >
+        </div>
+
+        <div
+          class="relative w-64 h-64 md:w-80 md:h-80 rounded-[2rem] overflow-hidden border-4 border-white shadow-xl rotate-3 hover:rotate-0 transition-transform duration-500"
+        >
+          <Picture
+            src={ErrorIllustration}
+            alt="Niño jugando — Página no encontrada"
+            class="w-full h-full object-cover"
+            quality={80}
+            formats={["avif", "webp"]}
+            widths={[320, 480]}
+            sizes="(max-width: 768px) 320px, 480px"
+          />
+          <!-- Overlay tint -->
+          <div class="absolute inset-0 bg-moody-blue-900/10 mix-blend-multiply">
+          </div>
+        </div>
+
+        <!-- Elemento flotante decorativo -->
+        <div
+          class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg rotate-[-10deg] animate-pulse"
+        >
+          <span class="text-3xl">🔍</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
