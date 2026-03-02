@@ -2,7 +2,7 @@
 import { ArrowRight, Check } from 'lucide-react'
 import ExternalButton from './ExternalButton.astro'
 
-interface Props {
+interface Props extends astroHTML.JSX.HTMLAttributes {
 	title: string
 	price: string
 	description: string
@@ -21,6 +21,7 @@ const {
 	isHighlighted = false,
 	highlightText = 'Más Elegido',
 	href,
+	...rest
 } = Astro.props
 
 // Formateamos el precio para asegurarnos que tenga el separador de miles
@@ -71,6 +72,11 @@ const formattedPrice = new Intl.NumberFormat('es-CL', {
   </ul>
 
   <footer class="mt-auto flex justify-center w-full">
-    <ExternalButton href={href} text="Agendar ahora" icon={ArrowRight} />
+    <ExternalButton
+      href={href}
+      text="Agendar ahora"
+      icon={ArrowRight}
+      {...rest as any}
+    />
   </footer>
 </article>

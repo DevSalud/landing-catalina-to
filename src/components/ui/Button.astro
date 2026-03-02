@@ -1,15 +1,16 @@
 ---
-interface ButtonProps {
+interface Props extends astroHTML.JSX.ButtonHTMLAttributes {
 	text: string
-	type: 'button' | 'submit' | 'reset'
+	type?: 'button' | 'submit' | 'reset'
 }
 
-const { text, type } = Astro.props as ButtonProps
+const { text, type = 'button', ...rest } = Astro.props
 ---
 
 <div class="flex justify-center items-center gap-5">
   <button
     type={type}
+    {...rest}
     class="bg-moody-blue-700 border-1 border-solid text-white px-6 py-3 rounded-full w-96 cursor-pointer hover:bg-white hover:text-moody-blue-700 hover:scale-105 transition-all"
   >
     <span class="font-semibold flex gap-2 items-center justify-center">
