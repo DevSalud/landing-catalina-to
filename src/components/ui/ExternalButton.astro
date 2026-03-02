@@ -1,17 +1,18 @@
 ---
-import type { AstroComponentFactory } from 'astro/runtime/server/index.js'
+import type { LucideIcon } from 'lucide-react'
 
-interface ExternalButtonProps {
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
 	href: string
 	text: string
-	icon?: AstroComponentFactory
+	icon?: LucideIcon
 }
 
-const { href, text, icon: Icon } = Astro.props as ExternalButtonProps
+const { href, text, icon: Icon, ...rest } = Astro.props
 ---
 
 <a
   href={href}
+  {...rest}
   target="_blank"
   rel="noopener noreferrer"
   class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-moody-blue-600 text-white font-semibold text-lg shadow-lg shadow-moody-blue-300/40 hover:bg-moody-blue-700 hover:shadow-xl hover:shadow-moody-blue-300/50 hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
