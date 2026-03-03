@@ -29,7 +29,7 @@ import WhatsappButton from '../ui/WhatsappButton.astro'
         href={WHATSAPP_URL}
         text="Contáctame por WhatsApp"
         textClass="text-sm text-center"
-        data-tracker="contact-whatsapp"
+        data-umami-event="contact-whatsapp"
       />
 
       <div class="flex relative justify-center">
@@ -82,7 +82,7 @@ import WhatsappButton from '../ui/WhatsappButton.astro'
         <Button
           text="Enviar"
           type="submit"
-          data-tracker="contact-form-submit"
+          data-umami-event="contact-form-submit"
         />
       </form>
     </div>
