@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css'
-import { Toaster } from 'sonner'
 import Navbar from '../components/sections/Navbar.astro'
 import Layout from '../layouts/Layout.astro'
 
@@ -17,7 +16,6 @@ import Price from '../components/sections/Price.astro'
 
 <Layout>
   <Navbar />
-  <Toaster richColors position="bottom-right" client:idle />
 
   <main class="mt-20">
     <Hero />
