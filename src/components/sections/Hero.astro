@@ -10,7 +10,7 @@ import {
 } from 'lucide-react'
 import {
 	ADDRESS_CITY,
-	CALENDAR_URL,
+	CALENDAR_NAMESPACE,
 	PROFESSIONAL_SINCE_YEAR,
 	WHATSAPP_URL,
 } from '../../lib/constants'
@@ -79,7 +79,8 @@ const yearsOfExperience = new Date().getFullYear() - PROFESSIONAL_SINCE_YEAR
           style="--delay: 400ms"
         >
           <ExternalButton
-            href={CALENDAR_URL}
+            data-cal-link={CALENDAR_NAMESPACE}
+            data-cal-namespace={CALENDAR_NAMESPACE}
             text="Agenda tu primera sesión"
             icon={ArrowRight}
             data-umami-event="hero-agendar"
