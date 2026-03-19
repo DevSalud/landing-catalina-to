@@ -16,13 +16,14 @@ export const EMAIL = 'catalina.herrera.to@gmail.com'
 
 // --- URLs externas ---
 export const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=${PHONE_RAW}`
-export const CALENDAR_URL = 'https://cal.com/catalina-herrera-ygpr9v'
-export const CALENDAR_URL_PARTICULAR =
-	'https://cal.com/catalina-herrera-ygpr9v/terapia-ocupacional'
-export const CALENDAR_URL_FONASA =
-	'https://cal.com/catalina-herrera-ygpr9v/terapia-ocupacional-preferencial'
-export const CALENDAR_URL_DOMICILIO =
-	'https://cal.com/catalina-herrera-ygpr9v/terapia-ocupacional-domiciliaria'
+export const CALENDAR_NAMESPACE = 'catalina-herrera-ygpr9v'
+export const CALENDAR_URL = `https://cal.com/${CALENDAR_NAMESPACE}`
+export const CALENDAR_LINK_PARTICULAR = `${CALENDAR_NAMESPACE}/terapia-ocupacional`
+export const CALENDAR_URL_PARTICULAR = `https://cal.com/${CALENDAR_LINK_PARTICULAR}`
+export const CALENDAR_LINK_FONASA = `${CALENDAR_NAMESPACE}/terapia-ocupacional-preferencial`
+export const CALENDAR_URL_FONASA = `https://cal.com/${CALENDAR_LINK_FONASA}`
+export const CALENDAR_LINK_DOMICILIO = `${CALENDAR_NAMESPACE}/terapia-ocupacional-domiciliaria`
+export const CALENDAR_URL_DOMICILIO = `https://cal.com/${CALENDAR_LINK_DOMICILIO}`
 
 // --- Centro de atención ---
 export const CENTER_NAME = 'Centro Inclusión SANA'

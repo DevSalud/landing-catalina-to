@@ -1,9 +1,10 @@
 ---
 import { CalendarDays, Clock, CreditCard, Info, MapPin } from 'lucide-react'
 import {
-	CALENDAR_URL_DOMICILIO,
-	CALENDAR_URL_FONASA,
-	CALENDAR_URL_PARTICULAR,
+	CALENDAR_LINK_DOMICILIO,
+	CALENDAR_LINK_FONASA,
+	CALENDAR_LINK_PARTICULAR,
+	CALENDAR_NAMESPACE,
 	PAYMENT_METHOD,
 	PRICE_DOMICILIO,
 	PRICE_FONASA,
@@ -59,7 +60,8 @@ import '../../styles/components/price.css'
           "Materiales terapéuticos incluidos",
           "Entornos regulados y seguros",
         ]}
-        href={CALENDAR_URL_PARTICULAR}
+        data-cal-link={CALENDAR_LINK_PARTICULAR}
+        data-cal-namespace={CALENDAR_NAMESPACE}
         data-umami-event="pricing-particular"
       />
 
@@ -74,7 +76,8 @@ import '../../styles/components/price.css'
           "Materiales terapéuticos incluidos",
           "Entornos regulados y seguros",
         ]}
-        href={CALENDAR_URL_FONASA}
+        data-cal-link={CALENDAR_LINK_FONASA}
+        data-cal-namespace={CALENDAR_NAMESPACE}
         data-umami-event="pricing-fonasa"
       />
 
@@ -87,7 +90,8 @@ import '../../styles/components/price.css'
           "El niño se evalúa en su entorno real",
           "Optimización de tiempos de traslado",
         ]}
-        href={CALENDAR_URL_DOMICILIO}
+        data-cal-link={CALENDAR_LINK_DOMICILIO}
+        data-cal-namespace={CALENDAR_NAMESPACE}
         data-umami-event="pricing-domicilio"
       />
     </div>

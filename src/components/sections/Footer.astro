@@ -7,7 +7,7 @@ import {
 	ADDRESS_CITY,
 	ADDRESS_REGION,
 	ADDRESS_STREET,
-	CALENDAR_URL,
+	CALENDAR_NAMESPACE,
 	CENTER_NAME,
 	EMAIL,
 	PHONE_DISPLAY,
@@ -128,9 +128,9 @@ import {
           </li>
           <li>
             <a
-              href={CALENDAR_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="javascript:void(0);"
+              data-cal-link={CALENDAR_NAMESPACE}
+              data-cal-namespace={CALENDAR_NAMESPACE}
               data-umami-event="footer-agendar"
               class="hover:text-white hover:translate-x-1 transition-all inline-block items-center gap-2"
             >
