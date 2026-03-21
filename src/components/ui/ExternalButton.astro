@@ -7,24 +7,18 @@ interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
 	icon?: LucideIcon
 }
 
-const {
-	href = 'javascript:void(0);',
-	text,
-	icon: Icon,
-	target,
-	rel,
-	...rest
-} = Astro.props
+const { href, text, icon: Icon, target, rel, ...rest } = Astro.props
 
 const isCalLink = !!rest['data-cal-link']
 const finalTarget = target ?? (isCalLink ? '_self' : '_blank')
 const finalRel = rel ?? (isCalLink ? undefined : 'noopener noreferrer')
-const finalHref = isCalLink ? 'javascript:void(0);' : href
+const finalHref = isCalLink ? `https://cal.com/${rest['data-cal-link']}` : href
 ---
 
 <a
   href={finalHref}
   {...rest}
+  onclick={isCalLink ? "event.preventDefault();" : undefined}
   target={finalTarget}
   {...(finalRel ? { rel: finalRel } : {})}
   class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-moody-blue-600 text-white font-semibold text-lg shadow-lg shadow-moody-blue-300/40 hover:bg-moody-blue-700 hover:shadow-xl hover:shadow-moody-blue-300/50 hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
