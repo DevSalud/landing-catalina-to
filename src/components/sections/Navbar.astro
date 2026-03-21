@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets'
 import Logo from '../../../public/logo.webp'
 import { NAV_LINKS } from '../../data/navLinks'
-import { CALENDAR_NAMESPACE } from '../../lib/constants'
+import { CALENDAR_NAMESPACE, CALENDAR_URL } from '../../lib/constants'
 import MenuToggle from './MenuToggle.astro'
 import '../../styles/components/navbar.css'
 ---
@@ -46,7 +46,8 @@ import '../../styles/components/navbar.css'
       </ul>
 
       <a
-        href="javascript:void(0);"
+        href={CALENDAR_URL}
+        onclick="event.preventDefault();"
         data-cal-link={CALENDAR_NAMESPACE}
         data-cal-namespace={CALENDAR_NAMESPACE}
         

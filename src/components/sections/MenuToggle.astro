@@ -1,7 +1,7 @@
 ---
 import { Menu, X } from 'lucide-react'
 import { NAV_LINKS } from '../../data/navLinks'
-import { CALENDAR_NAMESPACE } from '../../lib/constants'
+import { CALENDAR_NAMESPACE, CALENDAR_URL } from '../../lib/constants'
 import '../../styles/components/menu-toggle.css'
 ---
 
@@ -61,7 +61,8 @@ import '../../styles/components/menu-toggle.css'
   >
     <div class="border-t border-gray-200 w-full mb-6"></div>
     <a
-      href="javascript:void(0);"
+      href={CALENDAR_URL}
+      onclick="event.preventDefault();"
       data-cal-link={CALENDAR_NAMESPACE}
       data-cal-namespace={CALENDAR_NAMESPACE}
       
