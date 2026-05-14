@@ -4,8 +4,8 @@ import { structureTool } from 'sanity/structure'
 import { schemaTypes } from './src/sanity/schemas/index.ts'
 
 export default defineConfig({
-	name: 'cataterapias-studio',
-	title: 'Cataterapias Blog',
+	name: 'cataterapia-studio',
+	title: 'Cataterapia Blog',
 
 	projectId: '4tqm6mvt',
 	dataset: 'production',

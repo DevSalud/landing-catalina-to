@@ -229,7 +229,7 @@ const metaDescription = (currentPost?.excerpt || plainBody)
 	.slice(0, 160)
 const siteBase = Astro.site
 	? Astro.site.toString().replace(/\/$/, '')
-	: 'https://www.cataterapias.cl'
+	: 'https://www.cataterapia.cl'
 const imageUrlRaw = currentPost?.mainImage
 	? urlFor(currentPost.mainImage).width(1200).url()
 	: '/images/Catalina.webp'

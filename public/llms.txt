@@ -38,4 +38,4 @@ Se centra en una evaluación individualizada de cada niño, diseñando un plan t
 - [Enviar Mensaje WhatsApp](https://api.whatsapp.com/send?phone=56992194020)
 - Teléfono de contacto: +56 9 9219 4020
 - Correo: catalina.herrera.to@gmail.com
-- Sitio Oficial: https://www.cataterapias.cl
+- Sitio Oficial: https://www.cataterapia.cl

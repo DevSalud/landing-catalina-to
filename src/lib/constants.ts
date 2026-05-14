@@ -51,9 +51,9 @@ export const MAPS_EMBED_QUERY =
 	'General+Ord%C3%B3%C3%B1ez+155+Maip%C3%BA+Santiago'
 
 // --- Sitio web ---
-export const SITE_URL = 'https://www.cataterapias.cl'
+export const SITE_URL = 'https://www.cataterapia.cl'
 export const SITE_NAME = 'Catalina Herrera'
-export const SITE_ALTERNATE_NAMES = ['Cataterapias', 'Catalina TO'] as const
+export const SITE_ALTERNATE_NAMES = ['Cataterapia', 'Catalina TO'] as const
 
 // --- Precios (en CLP) ---
 export const PRICE_PARTICULAR = 25_000

@@ -25,7 +25,7 @@ export const server = {
 			const mensaje = form.get('mensaje')
 
 			const { data, error } = await resend.emails.send({
-				from: 'Catalina Terapeuta <cataterapias@cataterapias.cl>',
+				from: 'Catalina Terapeuta <cataterapia@cataterapia.cl>',
 				to: ['catalina.herrera.to@gmail.com'],
 				subject: `Tienes un nuevo mensaje de ${nombre}`,
 				html: `<p>De: ${nombre} (${email})</p>
