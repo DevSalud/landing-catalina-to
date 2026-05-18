@@ -1,112 +1,112 @@
 ---
-import { toPlainText } from "astro-portabletext";
-import { BlogFilterIsland } from "../components/blog/BlogFilterIsland.tsx";
-import Footer from "../components/sections/Footer.astro";
-import Navbar from "../components/sections/Navbar.astro";
-import Layout from "../layouts/Layout.astro";
-import { CATEGORIES_QUERY, POSTS_QUERY } from "../lib/queries.ts";
-import { client } from "../lib/sanity.ts";
-import { urlFor } from "../lib/sanity.ts";
+import { toPlainText } from 'astro-portabletext'
+import { BlogFilterIsland } from '../components/blog/BlogFilterIsland.tsx'
+import Footer from '../components/sections/Footer.astro'
+import Navbar from '../components/sections/Navbar.astro'
+import Layout from '../layouts/Layout.astro'
+import { CATEGORIES_QUERY, POSTS_QUERY } from '../lib/queries.ts'
+import { client } from '../lib/sanity.ts'
+import { urlFor } from '../lib/sanity.ts'
 import {
-  createBlogSchema,
-  createBreadcrumbListSchema,
-  createPersonSchema,
-} from "../lib/seoSchemas.ts";
+	createBlogSchema,
+	createBreadcrumbListSchema,
+	createPersonSchema,
+} from '../lib/seoSchemas.ts'
 
 // Tipos mínimos para Portable Text
-type PortableTextSpan = { _type: "span"; text: string; marks?: string[] };
+type PortableTextSpan = { _type: 'span'; text: string; marks?: string[] }
 type PortableTextBlock = {
-  _type: "block";
-  style?: string;
-  children?: PortableTextSpan[];
-  markDefs?: Record<string, unknown>[];
-};
-type PortableTextNode = PortableTextBlock | Record<string, unknown>;
+	_type: 'block'
+	style?: string
+	children?: PortableTextSpan[]
+	markDefs?: Record<string, unknown>[]
+}
+type PortableTextNode = PortableTextBlock | Record<string, unknown>
 
 function isBlockNode(node: PortableTextNode): node is PortableTextBlock {
-  return (
-    typeof node === "object" &&
-    node !== null &&
-    "_type" in node &&
-    (node as { _type?: string })._type === "block"
-  );
+	return (
+		typeof node === 'object' &&
+		node !== null &&
+		'_type' in node &&
+		(node as { _type?: string })._type === 'block'
+	)
 }
 
 // Definir tipos para los datos de Sanity
 interface SanityPost {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  body?: PortableTextNode[];
-  excerpt?: string;
-  publishedAt?: string;
-  mainImage?: Parameters<typeof urlFor>[0];
-  author?: {
-    name: string;
-    image?: Parameters<typeof urlFor>[0];
-  };
-  categories?: Array<{
-    title: string;
-    slug: { current: string };
-  }>;
+	_id: string
+	title: string
+	slug: { current: string }
+	body?: PortableTextNode[]
+	excerpt?: string
+	publishedAt?: string
+	mainImage?: Parameters<typeof urlFor>[0]
+	author?: {
+		name: string
+		image?: Parameters<typeof urlFor>[0]
+	}
+	categories?: Array<{
+		title: string
+		slug: { current: string }
+	}>
 }
 
 interface SanityCategory {
-  _id: string;
-  title: string;
-  description?: string;
+	_id: string
+	title: string
+	description?: string
 }
 
 // Obtener posts y categorías desde Sanity
-const posts: SanityPost[] = await client.fetch(POSTS_QUERY);
-const categories: SanityCategory[] = await client.fetch(CATEGORIES_QUERY);
+const posts: SanityPost[] = await client.fetch(POSTS_QUERY)
+const categories: SanityCategory[] = await client.fetch(CATEGORIES_QUERY)
 
 // Separador de frases (primer punto)
-const SENTENCE_SPLIT_RE = /(?<=[.!?])\s+/;
+const SENTENCE_SPLIT_RE = /(?<=[.!?])\s+/
 
 function firstSentenceFromBody(p: SanityPost): string {
-  const source = p?.body ?? p?.excerpt ?? "";
-  let text = "";
-  try {
-    if (Array.isArray(source)) {
-      const blocks: PortableTextBlock[] = (source as PortableTextNode[]).filter(
-        isBlockNode,
-      );
-      text = toPlainText(blocks);
-    } else {
-      text = String(source ?? "");
-    }
-  } catch {
-    text = String(p?.excerpt ?? "");
-  }
-  const [first] = text.trim().split(SENTENCE_SPLIT_RE);
-  return (first || "").trim();
+	const source = p?.body ?? p?.excerpt ?? ''
+	let text = ''
+	try {
+		if (Array.isArray(source)) {
+			const blocks: PortableTextBlock[] = (source as PortableTextNode[]).filter(
+				isBlockNode,
+			)
+			text = toPlainText(blocks)
+		} else {
+			text = String(source ?? '')
+		}
+	} catch {
+		text = String(p?.excerpt ?? '')
+	}
+	const [first] = text.trim().split(SENTENCE_SPLIT_RE)
+	return (first || '').trim()
 }
 // SEO específico para la grilla del blog
 const siteBase = Astro.site
-  ? Astro.site.toString().replace(/\/$/, "")
-  : "https://cataterapia.cl";
-const metaTitle = "Blog de Terapia Ocupacional | Cataterapia";
+	? Astro.site.toString().replace(/\/$/, '')
+	: 'https://cataterapia.cl'
+const metaTitle = 'Blog de Terapia Ocupacional | Cataterapia'
 const metaDescription =
-  "Artículos y recursos sobre Terapia Ocupacional infantil y adolescente en Maipú. Consejos prácticos, actividades y guías para familias.";
-const canonicalUrl = `${siteBase}/blog`;
-const defaultImage = "/images/Catalina.webp";
-const defaultImageAlt = "Foto de Catalina Herrera sonriendo";
-const ogImage = defaultImage.startsWith("http")
-  ? defaultImage
-  : `${siteBase}${defaultImage}`;
+	'Artículos y recursos sobre Terapia Ocupacional infantil y adolescente en Maipú. Consejos prácticos, actividades y guías para familias.'
+const canonicalUrl = `${siteBase}/blog`
+const defaultImage = '/images/Catalina.webp'
+const defaultImageAlt = 'Foto de Catalina Herrera sonriendo'
+const ogImage = defaultImage.startsWith('http')
+	? defaultImage
+	: `${siteBase}${defaultImage}`
 
-const ogImageAlt = defaultImageAlt;
+const ogImageAlt = defaultImageAlt
 
 // Schema array: Person + BreadcrumbList + Blog
 const schema = [
-  createPersonSchema(siteBase, { includeOfferCatalog: true }),
-  createBreadcrumbListSchema([
-    { name: "Inicio", item: `${siteBase}/` },
-    { name: "Blog", item: canonicalUrl },
-  ]),
-  createBlogSchema({ canonicalUrl, description: metaDescription }),
-];
+	createPersonSchema(siteBase, { includeOfferCatalog: true }),
+	createBreadcrumbListSchema([
+		{ name: 'Inicio', item: `${siteBase}/` },
+		{ name: 'Blog', item: canonicalUrl },
+	]),
+	createBlogSchema({ canonicalUrl, description: metaDescription }),
+]
 ---
 
 <Layout

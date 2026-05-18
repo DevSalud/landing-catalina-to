@@ -1,204 +1,204 @@
 ---
-import { PortableText, toPlainText } from "astro-portabletext";
+import { PortableText, toPlainText } from 'astro-portabletext'
 import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  MessageCircle,
-  Tag,
-  User,
-} from "lucide-react";
-import Footer from "../../components/sections/Footer.astro";
-import Navbar from "../../components/sections/Navbar.astro";
-import Layout from "../../layouts/Layout.astro";
-import "../../styles/components/blog.css";
-import { POSTS_QUERY, POST_QUERY } from "../../lib/queries.ts";
-import { client } from "../../lib/sanity.ts";
-import { urlFor } from "../../lib/sanity.ts";
+	ArrowLeft,
+	Calendar,
+	Clock,
+	MessageCircle,
+	Tag,
+	User,
+} from 'lucide-react'
+import Footer from '../../components/sections/Footer.astro'
+import Navbar from '../../components/sections/Navbar.astro'
+import Layout from '../../layouts/Layout.astro'
+import '../../styles/components/blog.css'
+import { POSTS_QUERY, POST_QUERY } from '../../lib/queries.ts'
+import { client } from '../../lib/sanity.ts'
+import { urlFor } from '../../lib/sanity.ts'
 import {
-  createBlogPostingSchema,
-  createBreadcrumbListSchema,
-  createPersonSchema,
-} from "../../lib/seoSchemas.ts";
+	createBlogPostingSchema,
+	createBreadcrumbListSchema,
+	createPersonSchema,
+} from '../../lib/seoSchemas.ts'
 
 // Tipos de Portable Text desde '@portabletext/types'
 import type {
-  PortableTextBlock as ptBlock,
-  PortableTextMarkDefinition as ptMarkDef,
-  PortableTextSpan as ptSpan,
-  TypedObject as ptTypedObject,
-} from "@portabletext/types";
+	PortableTextBlock as ptBlock,
+	PortableTextMarkDefinition as ptMarkDef,
+	PortableTextSpan as ptSpan,
+	TypedObject as ptTypedObject,
+} from '@portabletext/types'
 
 // Usamos la variante genérica completa para mayor compatibilidad con astro-portabletext
-type PortableTextBlock = ptBlock<ptMarkDef, ptSpan, string, string>;
-type PortableTextNode = PortableTextBlock | ptTypedObject;
+type PortableTextBlock = ptBlock<ptMarkDef, ptSpan, string, string>
+type PortableTextNode = PortableTextBlock | ptTypedObject
 
 function isBlockNode(node: PortableTextNode): node is PortableTextBlock {
-  return (
-    typeof node === "object" &&
-    node !== null &&
-    "_type" in node &&
-    (node as { _type?: string })._type === "block"
-  );
+	return (
+		typeof node === 'object' &&
+		node !== null &&
+		'_type' in node &&
+		(node as { _type?: string })._type === 'block'
+	)
 }
 
 interface SanityAuthor {
-  name: string;
-  image?: Parameters<typeof urlFor>[0];
-  bio?: PortableTextNode[];
+	name: string
+	image?: Parameters<typeof urlFor>[0]
+	bio?: PortableTextNode[]
 }
 
 interface SanityPost {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  body?: PortableTextNode[];
-  excerpt?: string;
-  publishedAt?: string;
-  mainImage?: Parameters<typeof urlFor>[0];
-  author?: SanityAuthor;
-  categories?: Array<{
-    title: string;
-    slug: { current: string };
-  }>;
+	_id: string
+	title: string
+	slug: { current: string }
+	body?: PortableTextNode[]
+	excerpt?: string
+	publishedAt?: string
+	mainImage?: Parameters<typeof urlFor>[0]
+	author?: SanityAuthor
+	categories?: Array<{
+		title: string
+		slug: { current: string }
+	}>
 }
 
 export async function getStaticPaths() {
-  const posts: SanityPost[] = await client.fetch(POSTS_QUERY);
+	const posts: SanityPost[] = await client.fetch(POSTS_QUERY)
 
-  return posts.map((post) => ({
-    params: { slug: post.slug.current },
-    props: { post },
-  }));
+	return posts.map((post) => ({
+		params: { slug: post.slug.current },
+		props: { post },
+	}))
 }
 
 // Obtener el post completo con el contenido del body
-const { slug } = Astro.params;
-const fullPost = await client.fetch(POST_QUERY, { slug });
+const { slug } = Astro.params
+const fullPost = await client.fetch(POST_QUERY, { slug })
 
 interface Props {
-  post: SanityPost;
+	post: SanityPost
 }
 
-const { post }: Props = Astro.props;
+const { post }: Props = Astro.props
 
 // Usar el post completo obtenido con POST_QUERY
-const currentPost = fullPost || post;
+const currentPost = fullPost || post
 
 // Variantes de color para etiquetas y enlaces según categoría
-type ColorVariant = "lavender" | "orchid" | "mint" | "coral" | "sunshine";
+type ColorVariant = 'lavender' | 'orchid' | 'mint' | 'coral' | 'sunshine'
 
 function colorForCategory(title?: string): ColorVariant {
-  const t = (title || "").toLowerCase();
-  if (t.includes("sensor") || t.includes("sensori")) {
-    return "mint";
-  }
-  if (t.includes("psico") || t.includes("motric")) {
-    return "sunshine";
-  }
-  if (t.includes("famil")) {
-    return "coral";
-  }
-  if (t.includes("juego") || t.includes("lúd")) {
-    return "sunshine";
-  }
-  if (t.includes("infantil") || t.includes("niñ") || t.includes("desarrollo")) {
-    return "orchid";
-  }
-  return "lavender";
+	const t = (title || '').toLowerCase()
+	if (t.includes('sensor') || t.includes('sensori')) {
+		return 'mint'
+	}
+	if (t.includes('psico') || t.includes('motric')) {
+		return 'sunshine'
+	}
+	if (t.includes('famil')) {
+		return 'coral'
+	}
+	if (t.includes('juego') || t.includes('lúd')) {
+		return 'sunshine'
+	}
+	if (t.includes('infantil') || t.includes('niñ') || t.includes('desarrollo')) {
+		return 'orchid'
+	}
+	return 'lavender'
 }
 
 function chipClassesFor(variant: ColorVariant): string {
-  switch (variant) {
-    case "orchid":
-      return "inline-flex items-center gap-1 bg-orchid-100 text-orchid-700 px-4 py-2 rounded-full text-sm font-medium";
-    case "mint":
-      return "inline-flex items-center gap-1 bg-mint-100 text-mint-700 px-4 py-2 rounded-full text-sm font-medium";
-    case "coral":
-      return "inline-flex items-center gap-1 bg-coral-100 text-coral-700 px-4 py-2 rounded-full text-sm font-medium";
-    case "sunshine":
-      return "inline-flex items-center gap-1 bg-sunshine-100 text-sunshine-700 px-4 py-2 rounded-full text-sm font-medium";
-    default:
-      return "inline-flex items-center gap-1 bg-lavender-100 text-lavender-700 px-4 py-2 rounded-full text-sm font-medium";
-  }
+	switch (variant) {
+		case 'orchid':
+			return 'inline-flex items-center gap-1 bg-orchid-100 text-orchid-700 px-4 py-2 rounded-full text-sm font-medium'
+		case 'mint':
+			return 'inline-flex items-center gap-1 bg-mint-100 text-mint-700 px-4 py-2 rounded-full text-sm font-medium'
+		case 'coral':
+			return 'inline-flex items-center gap-1 bg-coral-100 text-coral-700 px-4 py-2 rounded-full text-sm font-medium'
+		case 'sunshine':
+			return 'inline-flex items-center gap-1 bg-sunshine-100 text-sunshine-700 px-4 py-2 rounded-full text-sm font-medium'
+		default:
+			return 'inline-flex items-center gap-1 bg-lavender-100 text-lavender-700 px-4 py-2 rounded-full text-sm font-medium'
+	}
 }
 
 function linkClassesFor(variant: ColorVariant): string {
-  switch (variant) {
-    case "orchid":
-      return "inline-flex items-center gap-2 text-orchid-600 hover:text-orchid-700 font-semibold transition-colors text-sm";
-    case "mint":
-      return "inline-flex items-center gap-2 text-mint-600 hover:text-mint-700 font-semibold transition-colors text-sm";
-    case "coral":
-      return "inline-flex items-center gap-2 text-coral-600 hover:text-coral-700 font-semibold transition-colors text-sm";
-    case "sunshine":
-      return "inline-flex items-center gap-2 text-sunshine-600 hover:text-sunshine-700 font-semibold transition-colors text-sm";
-    default:
-      return "inline-flex items-center gap-2 text-moody-blue-600 hover:text-moody-blue-700 font-semibold transition-colors text-sm";
-  }
+	switch (variant) {
+		case 'orchid':
+			return 'inline-flex items-center gap-2 text-orchid-600 hover:text-orchid-700 font-semibold transition-colors text-sm'
+		case 'mint':
+			return 'inline-flex items-center gap-2 text-mint-600 hover:text-mint-700 font-semibold transition-colors text-sm'
+		case 'coral':
+			return 'inline-flex items-center gap-2 text-coral-600 hover:text-coral-700 font-semibold transition-colors text-sm'
+		case 'sunshine':
+			return 'inline-flex items-center gap-2 text-sunshine-600 hover:text-sunshine-700 font-semibold transition-colors text-sm'
+		default:
+			return 'inline-flex items-center gap-2 text-moody-blue-600 hover:text-moody-blue-700 font-semibold transition-colors text-sm'
+	}
 }
 
 // Normalizar estilos de Portable Text para compatibilidad con el mapeo por defecto
 function normalizePortableText(
-  value: PortableTextNode[] | undefined,
+	value: PortableTextNode[] | undefined,
 ): Array<PortableTextBlock | ptTypedObject> {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-  return value.map((node) => {
-    if (isBlockNode(node)) {
-      const style = node.style === "quote" ? "blockquote" : node.style;
-      return { ...node, style } as PortableTextBlock;
-    }
-    return node as ptTypedObject;
-  });
+	if (!Array.isArray(value)) {
+		return []
+	}
+	return value.map((node) => {
+		if (isBlockNode(node)) {
+			const style = node.style === 'quote' ? 'blockquote' : node.style
+			return { ...node, style } as PortableTextBlock
+		}
+		return node as ptTypedObject
+	})
 }
 
 // Mapeo Portable Text -> HTML/clases para el contenido del artículo
-import { portableComponents } from "../../components/blog/portableTextComponents.tsx";
+import { portableComponents } from '../../components/blog/portableTextComponents.tsx'
 
 // Calcular tiempo de lectura estándar basado en palabras
 function calculateReadingTimeFromPost(post: SanityPost, wpm = 180) {
-  const source = post?.body ?? post?.excerpt ?? "";
-  let text = "";
-  try {
-    if (Array.isArray(source)) {
-      const blocks: PortableTextBlock[] = (source as PortableTextNode[]).filter(
-        isBlockNode,
-      );
-      text = toPlainText(blocks);
-    } else {
-      text = String(source ?? "");
-    }
-  } catch {
-    text = String(source ?? "");
-  }
-  const words = text.trim().split(" ").filter(Boolean).length;
-  if (!words) {
-    return null;
-  }
-  const minutes = Math.max(1, Math.ceil(words / wpm));
-  return `${minutes} min de lectura`;
+	const source = post?.body ?? post?.excerpt ?? ''
+	let text = ''
+	try {
+		if (Array.isArray(source)) {
+			const blocks: PortableTextBlock[] = (source as PortableTextNode[]).filter(
+				isBlockNode,
+			)
+			text = toPlainText(blocks)
+		} else {
+			text = String(source ?? '')
+		}
+	} catch {
+		text = String(source ?? '')
+	}
+	const words = text.trim().split(' ').filter(Boolean).length
+	if (!words) {
+		return null
+	}
+	const minutes = Math.max(1, Math.ceil(words / wpm))
+	return `${minutes} min de lectura`
 }
 
 // Verificar que el post existe
 if (!currentPost) {
-  return Astro.redirect("/blog");
+	return Astro.redirect('/blog')
 }
 
 // Función para formatear fecha
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+	return new Date(dateString).toLocaleDateString('es-ES', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	})
 }
 
 // Obtener posts relacionados (misma categoría) - solo si el post tiene slug
 const relatedPosts: SanityPost[] = currentPost?.slug?.current
-  ? await client.fetch(
-      `
+	? await client.fetch(
+			`
   *[_type == "post" && defined(slug.current) && slug.current != $currentSlug && count(categories[@._ref in *[_type == "post" && slug.current == $currentSlug][0].categories[]._ref]) > 0] | order(publishedAt desc)[0...3] {
     _id,
     title,
@@ -209,62 +209,62 @@ const relatedPosts: SanityPost[] = currentPost?.slug?.current
     categories[]->{title}
   }
 `,
-      { currentSlug: currentPost.slug.current },
-    )
-  : [];
+			{ currentSlug: currentPost.slug.current },
+		)
+	: []
 
 // SEO dinámico para el post
-const metaTitle = `${currentPost?.title || "Post"} - Blog Catalina Herrera TO`;
+const metaTitle = `${currentPost?.title || 'Post'} - Blog Catalina Herrera TO`
 const plainBody = Array.isArray(currentPost?.body)
-  ? toPlainText(
-      (currentPost.body as PortableTextNode[]).filter(
-        isBlockNode,
-      ) as PortableTextBlock[],
-    )
-  : String(currentPost?.excerpt ?? "");
+	? toPlainText(
+			(currentPost.body as PortableTextNode[]).filter(
+				isBlockNode,
+			) as PortableTextBlock[],
+		)
+	: String(currentPost?.excerpt ?? '')
 const metaDescription = (currentPost?.excerpt || plainBody)
-  .toString()
-  .trim()
-  .replace(/\s+/g, " ")
-  .slice(0, 160);
+	.toString()
+	.trim()
+	.replace(/\s+/g, ' ')
+	.slice(0, 160)
 const siteBase = Astro.site
-  ? Astro.site.toString().replace(/\/$/, "")
-  : "https://cataterapia.cl";
+	? Astro.site.toString().replace(/\/$/, '')
+	: 'https://cataterapia.cl'
 const imageUrlRaw = currentPost?.mainImage
-  ? urlFor(currentPost.mainImage).width(1200).url()
-  : "/images/Catalina.webp";
-const imageUrl = imageUrlRaw?.startsWith("http")
-  ? imageUrlRaw
-  : `${siteBase}${imageUrlRaw}`;
-const canonicalUrl = `${siteBase}/blog/${currentPost?.slug?.current ?? ""}`;
+	? urlFor(currentPost.mainImage).width(1200).url()
+	: '/images/Catalina.webp'
+const imageUrl = imageUrlRaw?.startsWith('http')
+	? imageUrlRaw
+	: `${siteBase}${imageUrlRaw}`
+const canonicalUrl = `${siteBase}/blog/${currentPost?.slug?.current ?? ''}`
 
 // Schema array: Person + BreadcrumbList + BlogPosting
 const articleKeywords = (currentPost?.categories ?? []).map(
-  (c: { title: string }) => c.title,
-);
+	(c: { title: string }) => c.title,
+)
 
 const schema = [
-  createPersonSchema(siteBase),
-  createBreadcrumbListSchema([
-    { name: "Inicio", item: `${siteBase}/` },
-    { name: "Blog", item: `${siteBase}/blog` },
-    { name: currentPost?.title ?? "Artículo", item: canonicalUrl },
-  ]),
-  createBlogPostingSchema({
-    siteBase,
-    canonicalUrl,
-    headline: currentPost?.title ?? "Artículo del blog",
-    description: metaDescription,
-    image: imageUrl,
-    authorName: currentPost?.author?.name ?? "Catalina Herrera",
-    datePublished: currentPost?.publishedAt
-      ? new Date(currentPost.publishedAt).toISOString()
-      : undefined,
-    articleSection: articleKeywords[0] ?? undefined,
-    keywords:
-      articleKeywords.length > 0 ? articleKeywords.join(", ") : undefined,
-  }),
-];
+	createPersonSchema(siteBase),
+	createBreadcrumbListSchema([
+		{ name: 'Inicio', item: `${siteBase}/` },
+		{ name: 'Blog', item: `${siteBase}/blog` },
+		{ name: currentPost?.title ?? 'Artículo', item: canonicalUrl },
+	]),
+	createBlogPostingSchema({
+		siteBase,
+		canonicalUrl,
+		headline: currentPost?.title ?? 'Artículo del blog',
+		description: metaDescription,
+		image: imageUrl,
+		authorName: currentPost?.author?.name ?? 'Catalina Herrera',
+		datePublished: currentPost?.publishedAt
+			? new Date(currentPost.publishedAt).toISOString()
+			: undefined,
+		articleSection: articleKeywords[0] ?? undefined,
+		keywords:
+			articleKeywords.length > 0 ? articleKeywords.join(', ') : undefined,
+	}),
+]
 ---
 
 <Layout

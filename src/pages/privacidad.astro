@@ -1,38 +1,38 @@
 ---
 import {
-  Cookie,
-  FileText,
-  Lock,
-  MessageCircle,
-  ShieldCheck,
-  UserCheck,
-  UserCog,
-} from "lucide-react";
-import Footer from "../components/sections/Footer.astro";
-import Navbar from "../components/sections/Navbar.astro";
-import Layout from "../layouts/Layout.astro";
-import { createBreadcrumbListSchema } from "../lib/seoSchemas.ts";
+	Cookie,
+	FileText,
+	Lock,
+	MessageCircle,
+	ShieldCheck,
+	UserCheck,
+	UserCog,
+} from 'lucide-react'
+import Footer from '../components/sections/Footer.astro'
+import Navbar from '../components/sections/Navbar.astro'
+import Layout from '../layouts/Layout.astro'
+import { createBreadcrumbListSchema } from '../lib/seoSchemas.ts'
 
-export const prerender = true;
+export const prerender = true
 
 // SEO Constants
 const siteBase = Astro.site
-  ? Astro.site.toString().replace(/\/$/, "")
-  : "https://cataterapia.cl";
-const metaTitle = "Políticas de Privacidad | Catalina Herrera";
+	? Astro.site.toString().replace(/\/$/, '')
+	: 'https://cataterapia.cl'
+const metaTitle = 'Políticas de Privacidad | Catalina Herrera'
 const metaDescription =
-  "Conoce nuestras políticas de privacidad y cómo protegemos tus datos personales y la información de salud de los pacientes en nuestras sesiones de terapia ocupacional.";
-const canonicalUrl = `${siteBase}/privacidad`;
+	'Conoce nuestras políticas de privacidad y cómo protegemos tus datos personales y la información de salud de los pacientes en nuestras sesiones de terapia ocupacional.'
+const canonicalUrl = `${siteBase}/privacidad`
 
 // Schema.org
 const schema = [
-  createBreadcrumbListSchema([
-    { name: "Inicio", item: `${siteBase}/` },
-    { name: "Políticas de Privacidad", item: canonicalUrl },
-  ]),
-];
+	createBreadcrumbListSchema([
+		{ name: 'Inicio', item: `${siteBase}/` },
+		{ name: 'Políticas de Privacidad', item: canonicalUrl },
+	]),
+]
 
-const LAST_UPDATED = "Febrero 2026";
+const LAST_UPDATED = 'Febrero 2026'
 ---
 
 <Layout
