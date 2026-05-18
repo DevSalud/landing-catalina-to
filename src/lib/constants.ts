@@ -51,7 +51,7 @@ export const MAPS_EMBED_QUERY =
 	'General+Ord%C3%B3%C3%B1ez+155+Maip%C3%BA+Santiago'
 
 // --- Sitio web ---
-export const SITE_URL = 'https://www.cataterapia.cl'
+export const SITE_URL = 'https://cataterapia.cl'
 export const SITE_NAME = 'Catalina Herrera'
 export const SITE_ALTERNATE_NAMES = ['Cataterapia', 'Catalina TO'] as const
 

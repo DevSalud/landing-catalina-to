@@ -1,38 +1,38 @@
 ---
 import {
-	Cookie,
-	FileText,
-	Lock,
-	MessageCircle,
-	ShieldCheck,
-	UserCheck,
-	UserCog,
-} from 'lucide-react'
-import Footer from '../components/sections/Footer.astro'
-import Navbar from '../components/sections/Navbar.astro'
-import Layout from '../layouts/Layout.astro'
-import { createBreadcrumbListSchema } from '../lib/seoSchemas.ts'
+  Cookie,
+  FileText,
+  Lock,
+  MessageCircle,
+  ShieldCheck,
+  UserCheck,
+  UserCog,
+} from "lucide-react";
+import Footer from "../components/sections/Footer.astro";
+import Navbar from "../components/sections/Navbar.astro";
+import Layout from "../layouts/Layout.astro";
+import { createBreadcrumbListSchema } from "../lib/seoSchemas.ts";
 
-export const prerender = true
+export const prerender = true;
 
 // SEO Constants
 const siteBase = Astro.site
-	? Astro.site.toString().replace(/\/$/, '')
-	: 'https://www.cataterapia.cl'
-const metaTitle = 'Políticas de Privacidad | Catalina Herrera'
+  ? Astro.site.toString().replace(/\/$/, "")
+  : "https://cataterapia.cl";
+const metaTitle = "Políticas de Privacidad | Catalina Herrera";
 const metaDescription =
-	'Conoce nuestras políticas de privacidad y cómo protegemos tus datos personales y la información de salud de los pacientes en nuestras sesiones de terapia ocupacional.'
-const canonicalUrl = `${siteBase}/privacidad`
+  "Conoce nuestras políticas de privacidad y cómo protegemos tus datos personales y la información de salud de los pacientes en nuestras sesiones de terapia ocupacional.";
+const canonicalUrl = `${siteBase}/privacidad`;
 
 // Schema.org
 const schema = [
-	createBreadcrumbListSchema([
-		{ name: 'Inicio', item: `${siteBase}/` },
-		{ name: 'Políticas de Privacidad', item: canonicalUrl },
-	]),
-]
+  createBreadcrumbListSchema([
+    { name: "Inicio", item: `${siteBase}/` },
+    { name: "Políticas de Privacidad", item: canonicalUrl },
+  ]),
+];
 
-const LAST_UPDATED = 'Febrero 2026'
+const LAST_UPDATED = "Febrero 2026";
 ---
 
 <Layout
@@ -152,14 +152,24 @@ const LAST_UPDATED = 'Febrero 2026'
         </h2>
         <p>
           Este sitio web está construido con tecnologías modernas y
-          <strong>no utiliza cookies de rastreo publicitario o comportamental invasivas</strong>
+          <strong
+            >no utiliza cookies de rastreo publicitario o comportamental
+            invasivas</strong
+          >
           (como Google Analytics, Meta Pixel, etc.).
           <br /><br />
-          Para comprender cómo interactúan los usuarios con nuestra web, mejorar la 
-          experiencia de usuario (UX) y optimizar el rendimiento, utilizamos <strong>Umami Analytics</strong>. 
-          Umami es una herramienta de código abierto y respetuosa con la privacidad que 
-          <strong>no recopila datos personales, no rastrea tu dirección IP de forma persistente y no inyecta cookies en tu navegador</strong>. 
-          Toda la información analítica sobre tu visita es 100% anónima y agregada, cumpliendo con la GDPR internacional y la legislación chilena de protección de datos. Tu visita a nuestro sitio de Terapia Ocupacional es segura y privada.
+          Para comprender cómo interactúan los usuarios con nuestra web, mejorar
+          la experiencia de usuario (UX) y optimizar el rendimiento, utilizamos <strong
+            >Umami Analytics</strong
+          >. Umami es una herramienta de código abierto y respetuosa con la
+          privacidad que
+          <strong
+            >no recopila datos personales, no rastrea tu dirección IP de forma
+            persistente y no inyecta cookies en tu navegador</strong
+          >. Toda la información analítica sobre tu visita es 100% anónima y
+          agregada, cumpliendo con la GDPR internacional y la legislación
+          chilena de protección de datos. Tu visita a nuestro sitio de Terapia
+          Ocupacional es segura y privada.
         </p>
 
         <h2 class="flex items-center gap-3 mt-10 mb-4 text-2xl font-bold">

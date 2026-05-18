@@ -46,12 +46,12 @@ Ejemplo real en `Layout.astro`:
 Ejemplo (resumen):
 ```json
 [
-  { "@context": "https://schema.org", "@type": "Person", "@id": "https://www.cataterapia.cl/#catalina" },
+  { "@context": "https://schema.org", "@type": "Person", "@id": "https://cataterapia.cl/#catalina" },
   { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.cataterapia.cl/" },
-    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.cataterapia.cl/blog" }
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://cataterapia.cl/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://cataterapia.cl/blog" }
   ]},
-  { "@context": "https://schema.org", "@type": "Blog", "name": "Blog de Terapia Ocupacional", "url": "https://www.cataterapia.cl/blog" }
+  { "@context": "https://schema.org", "@type": "Blog", "name": "Blog de Terapia Ocupacional", "url": "https://cataterapia.cl/blog" }
 ]
 ```
 
@@ -62,21 +62,21 @@ Ejemplo (resumen):
 Ejemplo (resumen):
 ```json
 [
-  { "@context": "https://schema.org", "@type": "Person", "@id": "https://www.cataterapia.cl/#catalina" },
+  { "@context": "https://schema.org", "@type": "Person", "@id": "https://cataterapia.cl/#catalina" },
   { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.cataterapia.cl/" },
-    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.cataterapia.cl/blog" },
-    { "@type": "ListItem", "position": 3, "name": "Título del artículo", "item": "https://www.cataterapia.cl/blog/slug" }
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://cataterapia.cl/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://cataterapia.cl/blog" },
+    { "@type": "ListItem", "position": 3, "name": "Título del artículo", "item": "https://cataterapia.cl/blog/slug" }
   ]},
-  { "@context": "https://schema.org", "@type": "BlogPosting", "headline": "Título", "mainEntityOfPage": { "@id": "https://www.cataterapia.cl/blog/slug" } }
+  { "@context": "https://schema.org", "@type": "BlogPosting", "headline": "Título", "mainEntityOfPage": { "@id": "https://cataterapia.cl/blog/slug" } }
 ]
 ```
 
 Nota: En el código actual del slug, el breadcrumb usa 2 niveles (Inicio → Artículo). Se recomienda añadir el nivel intermedio “Blog” para completar los 3 niveles.
 
 ## Configuración de sitio y sitemap
-- `astro.config.mjs` define `site: "https://www.cataterapia.cl"`, utilizado para canonicals y IDs (`@id`).
-- `@astrojs/sitemap` genera el sitemap; la referencia en `robots.txt` es `Sitemap: https://www.cataterapia.cl/sitemap-index.xml`.
+- `astro.config.mjs` define `site: "https://cataterapia.cl"`, utilizado para canonicals y IDs (`@id`).
+- `@astrojs/sitemap` genera el sitemap; la referencia en `robots.txt` es `Sitemap: https://cataterapia.cl/sitemap-index.xml`.
 
 ## Buenas prácticas
 - Evita backticks y espacios extra en URLs y `@context` en los esquemas. Usa siempre strings limpios.

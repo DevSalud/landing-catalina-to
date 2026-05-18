@@ -48,7 +48,7 @@ export default defineConfig({
 
 	prefetch: true,
 
-	site: 'https://www.cataterapia.cl',
+	site: 'https://cataterapia.cl',
 
 	trailingSlash: 'never',
 
@@ -61,7 +61,7 @@ export default defineConfig({
 			studioBasePath: '/admin',
 		}),
 		sitemap({
-			filter: (page) => page !== 'https://www.cataterapia.cl/procesar_cita',
+			filter: (page) => page !== 'https://cataterapia.cl/procesar_cita',
 		}),
 	],
 })

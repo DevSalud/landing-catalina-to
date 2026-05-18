@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /procesar_cita
 
-Sitemap: https://www.cataterapia.cl/sitemap-index.xml
+Sitemap: https://cataterapia.cl/sitemap-index.xml
