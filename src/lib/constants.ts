@@ -73,3 +73,10 @@ export const DEFAULT_DESCRIPTION =
 	'Terapeuta Ocupacional en Maipú, Santiago. Atención especializada para niños y adolescentes. Valores preferenciales Fonasa. ¡Agenda tu hora!'
 export const DEFAULT_OG_IMAGE = '/images/Catalina.webp'
 export const DEFAULT_OG_IMAGE_ALT = 'Foto de Catalina Herrera sonriendo'
+
+// --- Datos Bancarios para Transferencia ---
+export const BANK_NAME = 'Banco de Chile'
+export const BANK_ACCOUNT_TYPE = 'Cuenta Vista'
+export const BANK_ACCOUNT_NUMBER = '00-013-90223-40'
+export const BANK_RUT = '20.237.564-2'
+export const BANK_RECEIPT_EMAIL = EMAIL
