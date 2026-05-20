@@ -26,29 +26,26 @@ export const CALENDAR_LINK_DOMICILIO = `${CALENDAR_NAMESPACE}/terapia-ocupaciona
 export const CALENDAR_URL_DOMICILIO = `https://cal.com/${CALENDAR_LINK_DOMICILIO}`
 
 // --- Centro de atención ---
-export const CENTER_NAME = 'Centro Inclusión SANA'
-export const CENTER_URL =
-	'https://centroinclusionsana.site.agendapro.com/cl/sucursal/340116'
-export const CENTER_SCHEMA_ID =
-	'https://centroinclusionsana.site.agendapro.com/#centro'
+export const CENTER_NAME = 'Consulta Particular'
+export const CENTER_URL = 'https://cataterapia.cl'
+export const CENTER_SCHEMA_ID = 'https://cataterapia.cl/#consulta'
 
 // --- Dirección ---
-export const ADDRESS_STREET = 'Gral. Ordóñez 155, Of. 1609'
+export const ADDRESS_STREET = 'Av. Alcalde José Luis Infante Larraín #1685'
 export const ADDRESS_CITY = 'Maipú'
 export const ADDRESS_REGION = 'Santiago'
 export const ADDRESS_FULL = `${ADDRESS_STREET}, ${ADDRESS_CITY}, ${ADDRESS_REGION}`
-export const ADDRESS_POSTAL_CODE = '9252853'
+export const ADDRESS_POSTAL_CODE = '9281356'
 export const ADDRESS_COUNTRY = 'CL'
 
-// Coordenadas del nuevo centro (General Ordóñez 155, Maipú)
-// TODO: Verificar coordenadas exactas de la nueva dirección
-export const GEO_LAT = -33.507814
-export const GEO_LNG = -70.7582636
+// Coordenadas de la consulta (Av. Alcalde José Luis Infante Larraín #1685, Maipú)
+export const GEO_LAT = -33.5625783
+export const GEO_LNG = -70.7803404
 
 // --- Google Maps ---
-// Query para el embed del mapa (actualizar cuando se confirmen coordenadas)
+// Query para el embed del mapa
 export const MAPS_EMBED_QUERY =
-	'General+Ord%C3%B3%C3%B1ez+155+Maip%C3%BA+Santiago'
+	'Av.+Alcalde+Jos%C3%A9+Luis+Infante+Larra%C3%ADn+1685+Maip%C3%BA+Santiago'
 
 // --- Sitio web ---
 export const SITE_URL = 'https://cataterapia.cl'
@@ -56,19 +53,19 @@ export const SITE_NAME = 'Catalina Herrera'
 export const SITE_ALTERNATE_NAMES = ['Cataterapia', 'Catalina TO'] as const
 
 // --- Precios (en CLP) ---
-export const PRICE_PARTICULAR = 25_000
-export const PRICE_FONASA = 20_000
-export const PRICE_DOMICILIO = 35_000
+export const PRICE_PARTICULAR = 30_000
+export const PRICE_FONASA = 26_000
+export const PRICE_DOMICILIO = 40_000
 
 // --- Horarios y atención ---
-export const SESSION_DURATION_MIN = 45 // 45 minutos
+export const SESSION_DURATION_MIN = '35-45' // 35-45 minutos
 export const SCHEDULE = [
-	{ days: 'Lunes', hours: '09:00 a 13:00' },
-	{ days: 'Viernes', hours: '09:00 a 19:00' },
-	{ days: 'Sábados', hours: '09:00 a 12:00' },
+	{ days: 'Lunes', hours: '15:00 a 20:00' },
+	{ days: 'Martes', hours: '10:00 a 20:00' },
+	{ days: 'Miércoles', hours: '10:00 a 20:00' },
 ]
-export const AVAILABILITY_DAYS = 'Lunes, Viernes y Sábado'
-export const PAYMENT_METHOD = 'Transferencia bancaria'
+export const AVAILABILITY_DAYS = 'Lunes, Martes y Miércoles'
+export const PAYMENT_METHOD = 'Transferencia bancaria y/o efectivo'
 
 // --- SEO defaults ---
 export const DEFAULT_TITLE = `Terapia Ocupacional en Maipú | ${PROFESSIONAL_NAME}`

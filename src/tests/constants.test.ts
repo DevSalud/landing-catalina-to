@@ -20,7 +20,7 @@ describe('Constantes de Negocio', () => {
 		expect(CALENDAR_URL).toMatch(HTTP_REGEX)
 
 		// Verificar maps
-		expect(MAPS_EMBED_QUERY).toContain('General+Ord')
+		expect(MAPS_EMBED_QUERY).toContain('Alcalde')
 	})
 
 	it('Los precios deben ser números mayores a 0', () => {

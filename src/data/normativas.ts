@@ -2,7 +2,8 @@ export const NORMATIVAS = [
 	{
 		title: 'Citas agendadas',
 		items: [
-			'Las citas deben ser confirmadas al menos 24 horas antes de la sesión programada. Se enviará un recordatorio por mensaje o correo electrónico, del cual debe aceptar o rechazar. Si el paciente no confirma su cita dentro del plazo, se considerará no confirmada y podría ser reasignada a otro paciente.',
+			'Para confirmar la cita agendada, se debe realizar un abono de $10.000 (el cual será descontado del valor total de la sesión) en un plazo máximo de 4 horas tras realizar la reserva. Si no se realiza el abono dentro de este período, la cita podría ser cancelada y liberada para otro paciente.',
+			'Al momento de agendar tu hora en la plataforma, recibirás un correo electrónico con las instrucciones detalladas de pago para realizar la transferencia del abono.',
 			'Si el paciente necesita reprogramar o cancelar una cita, debe hacerlo con al menos 4 horas de antelación para evitar la penalización o la pérdida de la sesión. En caso de cancelación tardía, se considerará como sesión realizada exceptuando casos de emergencias médicas o situaciones de fuerza mayor.',
 		],
 	},
@@ -22,11 +23,12 @@ export const NORMATIVAS = [
 		],
 	},
 	{
-		title: 'Proceso de pago',
+		title: 'Proceso de pago y certificados',
 		items: [
-			'Los valores acordados por sesión son de $25000 servicio particular, y $20000 en caso de presentar convenio con Fonasa. Cada sesión tiene una duración de entre 35 y 45 minutos, siendo las primeras 4 sesiones de evaluación y retroalimentación.',
-			'La entrega de informe de cualquier tipo tiene un valor de $20000, que es externo al valor por sesión.',
-			'Actualmente se acepta principalmente pago por transferencia, se hará entrega de los datos al momento de realizar la primera sesión.',
+			'Los valores acordados por sesión son de $30.000 servicio particular, y $26.000 preferencial para beneficiarios de Fonasa (presentando el certificado de afiliación en la primera sesión). Cada sesión tiene una duración de entre 35 y 45 minutos, siendo las primeras 4 sesiones de evaluación y retroalimentación.',
+			'La entrega del primer informe es gratuito. Los siguientes tienen un valor de $15.000.',
+			'Todo certificado es gratuito.',
+			'Actualmente se acepta principalmente pago por transferencia y efectivo.',
 		],
 	},
 ]
