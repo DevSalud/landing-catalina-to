@@ -8,10 +8,6 @@ import {
 	MapPin,
 } from 'lucide-react'
 import {
-	CALENDAR_LINK_DOMICILIO,
-	CALENDAR_LINK_FONASA,
-	CALENDAR_LINK_PARTICULAR,
-	CALENDAR_NAMESPACE,
 	PAYMENT_METHOD,
 	PRICE_DOMICILIO,
 	PRICE_FONASA,
@@ -67,8 +63,7 @@ import '../../styles/components/price.css'
           "Materiales terapéuticos incluidos",
           "Entornos regulados y seguros",
         ]}
-        data-cal-link={CALENDAR_LINK_PARTICULAR}
-        data-cal-namespace={CALENDAR_NAMESPACE}
+        href="/agendar?servicio=particular"
         data-umami-event="pricing-particular"
       />
 
@@ -83,8 +78,7 @@ import '../../styles/components/price.css'
           "Materiales terapéuticos incluidos",
           "Entornos regulados y seguros",
         ]}
-        data-cal-link={CALENDAR_LINK_FONASA}
-        data-cal-namespace={CALENDAR_NAMESPACE}
+        href="/agendar?servicio=fonasa"
         data-umami-event="pricing-fonasa"
       />
 
@@ -97,8 +91,7 @@ import '../../styles/components/price.css'
           "El niño se evalúa en su entorno real",
           "Optimización de tiempos de traslado",
         ]}
-        data-cal-link={CALENDAR_LINK_DOMICILIO}
-        data-cal-namespace={CALENDAR_NAMESPACE}
+        href="/agendar?servicio=domicilio"
         data-umami-event="pricing-domicilio"
       />
     </div>
@@ -202,7 +195,8 @@ import '../../styles/components/price.css'
                 Descuento Fonasa
               </span>
               <span class="text-gray-600 text-sm">
-                Para acceder al arancel rebajado, debes presentar tu certificado de afiliación en la primera sesión.
+                Para acceder al arancel rebajado, debes presentar tu certificado
+                de afiliación en la primera sesión.
               </span>
             </div>
           </div>

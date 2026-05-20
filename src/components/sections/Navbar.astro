@@ -2,7 +2,6 @@
 import { Picture } from 'astro:assets'
 import Logo from '../../../public/logo.webp'
 import { NAV_LINKS } from '../../data/navLinks'
-import { CALENDAR_NAMESPACE, CALENDAR_URL } from '../../lib/constants'
 import MenuToggle from './MenuToggle.astro'
 import '../../styles/components/navbar.css'
 ---
@@ -46,11 +45,7 @@ import '../../styles/components/navbar.css'
       </ul>
 
       <a
-        href={CALENDAR_URL}
-        onclick="return false;"
-        data-cal-link={CALENDAR_NAMESPACE}
-        data-cal-namespace={CALENDAR_NAMESPACE}
-        
+        href="/agendar"
         data-umami-event="navbar-agendar"
         class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-moody-blue-600 text-white text-sm font-semibold hover:bg-moody-blue-700 transition-all duration-200 hover:shadow-lg hover:shadow-moody-blue-200 hover:-translate-y-0.5"
       >

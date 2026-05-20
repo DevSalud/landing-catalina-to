@@ -7,8 +7,6 @@ import {
 	ADDRESS_CITY,
 	ADDRESS_REGION,
 	ADDRESS_STREET,
-	CALENDAR_NAMESPACE,
-	CALENDAR_URL,
 	CENTER_NAME,
 	EMAIL,
 	PHONE_DISPLAY,
@@ -129,10 +127,7 @@ import {
           </li>
           <li>
             <a
-              href={CALENDAR_URL}
-              onclick="return false;"
-              data-cal-link={CALENDAR_NAMESPACE}
-              data-cal-namespace={CALENDAR_NAMESPACE}
+              href="/agendar"
               data-umami-event="footer-agendar"
               class="hover:text-white hover:translate-x-1 transition-all inline-block items-center gap-2"
             >
@@ -176,19 +171,10 @@ import {
     </div>
 
     <!-- Barra inferior -->
-    <div
-      class="border-t border-moody-blue-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-300"
-    >
-      <span>
-        © {year} Catalina Herrera. Todos los derechos reservados.
-      </span>
+    <div class="pt-8 border-t border-moody-blue-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+      <p>&copy; {year} Catalina Herrera. Todos los derechos reservados.</p>
       <div class="flex gap-4">
-        <a
-          href="/privacidad"
-          class="hover:text-white hover:underline transition-colors"
-        >
-          Políticas de Privacidad
-        </a>
+        <a href="/privacidad" class="hover:text-white transition-colors">Políticas de Privacidad</a>
       </div>
     </div>
   </div>
