@@ -1,5 +1,12 @@
 ---
-import { CalendarDays, Clock, CreditCard, Info, MapPin } from 'lucide-react'
+import {
+	CalendarDays,
+	Clock,
+	CreditCard,
+	FileText,
+	Info,
+	MapPin,
+} from 'lucide-react'
 import {
 	CALENDAR_LINK_DOMICILIO,
 	CALENDAR_LINK_FONASA,
@@ -52,8 +59,8 @@ import '../../styles/components/price.css'
       class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 lg:gap-8 items-stretch justify-center w-full mt-4 reveal-scale"
     >
       <PriceCard
-        title="Particular (Centro)"
-        description="Atención presencial en Centro Inclusión SANA"
+        title="Particular (Consulta)"
+        description="Atención presencial en consulta particular"
         price={String(PRICE_PARTICULAR)}
         features={[
           "Evaluación continua del progreso",
@@ -67,7 +74,7 @@ import '../../styles/components/price.css'
 
       <PriceCard
         title="Beneficiarios Fonasa"
-        description="Valor preferencial en Centro Inclusión SANA"
+        description="Valor preferencial presentando certificado de afiliación en la primera sesión"
         price={String(PRICE_FONASA)}
         isHighlighted={true}
         highlightText="Más Elegido"
@@ -181,6 +188,21 @@ import '../../styles/components/price.css'
               <span class="text-gray-600 text-sm">
                 Disponible <span class="font-bold underline">únicamente</span> en
                 la comuna de Maipú.
+              </span>
+            </div>
+
+            <!-- Item 4: Fonasa -->
+            <div
+              class="bg-moody-blue-100 p-2 rounded-lg shrink-0 w-8 h-8 flex items-center justify-center"
+            >
+              <FileText className="w-4 h-4 text-moody-blue-700" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-semibold text-gray-900 text-sm">
+                Descuento Fonasa
+              </span>
+              <span class="text-gray-600 text-sm">
+                Para acceder al arancel rebajado, debes presentar tu certificado de afiliación en la primera sesión.
               </span>
             </div>
           </div>
