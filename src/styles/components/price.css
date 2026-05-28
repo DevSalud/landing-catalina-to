@@ -11,3 +11,13 @@
 	opacity: 0.03;
 	mix-blend-mode: multiply;
 }
+
+/* Optimización para evitar desenfoque (blurriness) en tarjetas con escala o animación */
+.price-card {
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	transform-style: preserve-3d;
+	will-change: transform;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
