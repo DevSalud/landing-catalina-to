@@ -2,8 +2,7 @@ export const NORMATIVAS = [
 	{
 		title: 'Citas agendadas',
 		items: [
-			'Para confirmar la cita agendada, se debe realizar un abono de $10.000 (el cual será descontado del valor total de la sesión) en un plazo máximo de 4 horas tras realizar la reserva. Si no se realiza el abono dentro de este período, la cita podría ser cancelada y liberada para otro paciente.',
-			'Al momento de agendar tu hora en la plataforma, recibirás un correo electrónico con las instrucciones detalladas de pago para realizar la transferencia del abono.',
+			'Para confirmar la cita agendada, se debe realizar un abono de $10.000 (el cual será descontado del valor total de la sesión) hasta el mediodía del día anterior a la sesión. Si no se realiza el abono dentro de este plazo, la cita podría ser cancelada y liberada para otro paciente.',
 			'Si el paciente necesita reprogramar o cancelar una cita, debe hacerlo con al menos 4 horas de antelación para evitar la penalización o la pérdida de la sesión. En caso de cancelación tardía, se considerará como sesión realizada exceptuando casos de emergencias médicas o situaciones de fuerza mayor.',
 		],
 	},
