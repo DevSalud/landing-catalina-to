@@ -1,24 +1,14 @@
-// Lazy loading del JavaScript del formulario
-const contactSection = document.querySelector('[data-contact-form]')
-let scriptLoaded = false
+import { actions } from 'astro:actions'
+import { showToast } from '../lib/toast'
+
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
-// Función para cargar el script del formulario
-async function loadContactScript() {
-	if (scriptLoaded) {
-		return
-	}
-	scriptLoaded = true
+const form = document.getElementById('contacto-form') as HTMLFormElement
+const submitter = document.querySelector(
+	"button[type='submit']",
+) as HTMLButtonElement
 
-	// Importación dinámica - solo se carga cuando es necesario
-	const { actions } = await import('astro:actions')
-	const { toast } = await import('sonner')
-
-	const form = document.getElementById('contacto-form') as HTMLFormElement
-	const submitter = document.querySelector(
-		"button[type='submit']",
-	) as HTMLButtonElement
-
+if (form && submitter) {
 	const nombreError = document.getElementById('nombre-error') as HTMLSpanElement
 	const emailError = document.getElementById('email-error') as HTMLSpanElement
 	const mensajeError = document.getElementById(
@@ -32,26 +22,36 @@ async function loadContactScript() {
 		const email = form.email.value
 		const mensaje = form.mensaje.value
 
-		if (nombre.length === 0) {
+		let hasError = false
+
+		if (nombre.trim().length === 0) {
 			nombreError.classList.remove('hidden')
 			form.nombre.classList.add('border-red-500')
+			hasError = true
+		} else {
+			nombreError.classList.add('hidden')
+			form.nombre.classList.remove('border-red-500')
 		}
 
-		if (!emailRegex.test(email)) {
+		if (emailRegex.test(email)) {
+			emailError.classList.add('hidden')
+			form.email.classList.remove('border-red-500')
+		} else {
 			emailError.classList.remove('hidden')
 			form.email.classList.add('border-red-500')
+			hasError = true
 		}
 
-		if (mensaje.length === 0) {
+		if (mensaje.trim().length === 0) {
 			mensajeError.classList.remove('hidden')
 			form.mensaje.classList.add('border-red-500')
+			hasError = true
+		} else {
+			mensajeError.classList.add('hidden')
+			form.mensaje.classList.remove('border-red-500')
 		}
 
-		if (
-			nombre.length === 0 ||
-			emailRegex.test(email) === false ||
-			mensaje.length === 0
-		) {
+		if (hasError) {
 			return
 		}
 
@@ -61,15 +61,7 @@ async function loadContactScript() {
 		submitter.classList.add('pointer-events-none')
 		submitter.classList.add('select-none')
 
-		nombreError.classList.add('hidden')
-		emailError.classList.add('hidden')
-		mensajeError.classList.add('hidden')
-		form.nombre.classList.remove('border-red-500')
-		form.email.classList.remove('border-red-500')
-		form.mensaje.classList.remove('border-red-500')
-
 		const formData = new FormData()
-
 		formData.append('nombre', nombre)
 		formData.append('email', email)
 		formData.append('mensaje', mensaje)
@@ -81,13 +73,14 @@ async function loadContactScript() {
 				throw error
 			}
 
-			toast.success('Mensaje enviado exitosamente')
+			showToast('Mensaje enviado exitosamente', 'success')
 			form.reset()
 		} catch (error) {
 			// biome-ignore lint/suspicious/noConsole: We need to see the action error
 			console.error(error)
-			toast.error(
+			showToast(
 				'Ocurrió un error al enviar el mensaje. Por favor, inténtalo de nuevo.',
+				'error',
 			)
 		} finally {
 			submitter.disabled = false
@@ -97,31 +90,4 @@ async function loadContactScript() {
 			submitter.classList.remove('select-none')
 		}
 	})
-}
-
-// Intersection Observer para detectar cuando el componente es visible
-const observer = new IntersectionObserver(
-	(entries) => {
-		for (const entry of entries) {
-			if (entry.isIntersecting) {
-				loadContactScript()
-				observer.unobserve(entry.target) // Solo cargar una vez
-			}
-		}
-	},
-	{
-		rootMargin: '100px', // Cargar 100px antes de que sea visible
-	},
-)
-
-if (contactSection) {
-	observer.observe(contactSection)
-}
-
-// También cargar si el usuario hace focus en algún input (fallback)
-const inputs = document.querySelectorAll(
-	'#contacto-form input, #contacto-form textarea',
-)
-for (const input of inputs) {
-	input.addEventListener('focus', loadContactScript, { once: true })
 }
